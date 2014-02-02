@@ -32,7 +32,7 @@ On identifie donc deux parties au projet :
  * La partie capteur
  * La partie serveur
 
-Et on déduis donc l'architecture suivante :
+Et on déduis donc l'architecture de la Figure 1.
 
 ![Diagramme fonctionnel](DiagrammeFonctionnel.jpg)
 
@@ -44,7 +44,8 @@ Les caractéristiques souhaitées pour les capteurs sont :
    (Pression, température, lumière, présence, ouverture de porte...)
  * Contacter le seuveur via le WiFi pour actualiser la base.
  * Éventuellement, être reconfigurable à distance.
- 
+ * Éventuellement être capable de gérer sa consomation d'énergie.
+ * Agir en temps que datalogger si le réseau n'est pas accessible.
 
 ### Spécifications du serveur
 Les caractéristiques souhaitées pour le serveur sont :
