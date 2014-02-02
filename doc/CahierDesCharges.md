@@ -43,7 +43,8 @@ Les caractéristiques souhaitées pour les capteurs sont :
  * Être capable de mesurer l'environnement dans lequel évolue le capteur
    (Pression, température, lumière, présence, ouverture de porte...)
  * Contacter le seuveur via le WiFi pour actualiser la base.
- * Être reconfigur
+ * Éventuellement, être reconfigurable à distance.
+ 
 
 ### Spécifications du serveur
 Les caractéristiques souhaitées pour le serveur sont :
