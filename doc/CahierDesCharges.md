@@ -58,3 +58,41 @@ Les caractéristiques souhaitées pour le serveur sont :
  * Présenter sous format compréhensibles les données au client (web ou appli)
  * Vérifier l'état des capteurs et notifier un responsable en cas d'anomalie
    (déconnexion du réseau, valeur anormale d'un capteur...)
+
+## Propositions de solutions technologiques
+### Les capteurs
+Nous proposons de réaliser une carte basée sur un ATmega328 dans lequel
+on pourra flasher du code Arduino. Pour gérer le WiFi, nous proposons
+une solution utilisant le board CC3000 d'Adafruit 
+[lien ici](http://www.adafruit.com/products/1469).
+L'avantage de cette solution est que la carte est optimisée pour les
+breadboards et peut du coup facilement être clipsée sur la carte.
+Elle possède également l'avantage d'être fournie avec la bibliothèque
+Arduino qui va bien (et qui est bien open source) de manière à
+pouvoir être pilotée depuis un Arduino ou dans notre cas un AVR tout
+simple. Enfin, le dernier avantage est qu'Adafruit travaille en mode
+*Open Hardware* ce qui signifie que les plans de la carte sont
+disponibles en ligne, ce qui nous permettrait d'intégrer la carte WiFi au
+sein de notre projet facilement dans un second temps.
+
+Dans un premier temps, on se concentrera sur la mise en place
+d'un prototype fonctionnel a base d'un simple capteur de température. On
+étendra ensuite les capacités de la chose à des capteurs peut être
+plus complexes style I2C ou SPI.
+
+### Le serveur
+On propose une solution à base d'une machine sous Linux (Raspberry Pi
+pour une version plus compacte
+ou un vrai serveur pour une version destinée à administrer des
+réseaux de capteurs de taille plus importante.
+
+Le SGBD utilisé serait **MySQL** ou **SQLite**.
+
+La partie web du serveur destinée à présenter à l'utilisateur une vue
+des données serait développée en PHP/HTML5/CSS3.
+La partie serveur qui recevra les flots de communication des capteurs
+serait programmée en Python. Cette partie servira
+à recueillir les données des capteurs et à les formater pour les insérer
+dans la base. Éventuellement des opérations
+pourront être effectuées sur ces données, exemple transformer un entier
+8 bits en une température entre 20° et 30°.
