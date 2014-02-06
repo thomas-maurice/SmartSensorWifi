@@ -25,15 +25,16 @@ FREQU=16000000L
 LFUSE=0x94
 HFUSE=0xd9
 # AVRDUDE configuration
-TERM=/dev/ttyACM0
+TERM=/dev/ttyUSB1
 # Programmer type
 #ISP_DEVICE_NAME=usbasp
-ISP_DEVICE_NAME=stk500v1 -b 115200 -F -v -P $(TERM)
+#ISP_DEVICE_NAME=stk500v1 -b 115200 -F -v -P $(TERM)
+ISP_DEVICE_NAME=stk500v1 -v -v -b 57600 -F -v -P $(TERM)
 # Microcontroller type
 MC_TYPE=atmega328p
 # Compiler flags
 OPTFLAGS=-O3 -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions
-FLAGS=$(OPTFLAGS) -std=c99 -I$(INCLUDEDIR) -Wno-write-strings -ffunction-sections -mmcu=$(DEVICE) -DF_CPU=$(FREQU)
+FLAGS=$(OPTFLAGS) -std=gnu99 -I$(INCLUDEDIR) -Wno-write-strings -ffunction-sections -mmcu=$(DEVICE) -DF_CPU=$(FREQU)
 # Liner flags
 LDFLAGS=-mmcu=$(DEVICE) #-Wl,-gc-sections
 #  File extension (ex "c" for C code)
