@@ -25,7 +25,7 @@ FREQU=16000000L
 LFUSE=0x94
 HFUSE=0xd9
 # AVRDUDE configuration
-TERM=/dev/ttyUSB1
+TERM=/dev/ttyUSB0
 # Programmer type
 #ISP_DEVICE_NAME=usbasp
 #ISP_DEVICE_NAME=stk500v1 -b 115200 -F -v -P $(TERM)
