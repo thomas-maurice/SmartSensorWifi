@@ -36,6 +36,13 @@
 #include <serial.h>
 #include <adc.h>
 
+/**
+ * USART RX Interrupt
+ * ------------------
+ * This will handle all the serial communication
+ * recieved by the board. For now this  is  used
+ * to handle the HTTP requests sent to the board
+ */
 ISR(USART_RX_vect) {
 	char recv = UDR0;
 	if(recv != '\n') {
