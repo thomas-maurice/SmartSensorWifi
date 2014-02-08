@@ -193,7 +193,13 @@ class MainWindow:
 						self.textBuffer.insert(self.textBuffer.get_end_iter(), "\n")
 						self.hexcount = 0
 			else:
-				self.textBuffer.insert(self.textBuffer.get_end_iter(), s)
+				for c in s:
+					if self.isCharPrintable(c) == True or c == '\n':
+						self.textBuffer.insert(self.textBuffer.get_end_iter(), c)
+					elif c == '\r':
+						pass
+					else:
+						self.textBuffer.insert(self.textBuffer.get_end_iter(), '.')
 		return True
 	
 	def isCharPrintable(self, c):
