@@ -16,53 +16,22 @@
  *	with this program; if not, write to the Free Software Foundation, Inc.,
  *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 /**
- * \file main.c
+ * \file macros.h
  * \author Thomas Maurice
  * 
- * \brief Main file of the Smart Sensor Wifi project
+ * \brief Miscellaneaous macros
  * \version 0.1
  * 
- * This file demonstrates a simple HTTP serial server.
- * Optimized for an atmega8.
  */
+ 
+#ifndef MACROS_HEADER_
+#define MACROS_HEADER_
 
-#include <avr/io.h>
-#include <avr/interrupt.h> 	
-#include <avr/sfr_defs.h>
-#include <util/delay.h>
-#include <stdlib.h>
-#include <string.h>
+/** Sets a bit */
+#define sbi(port, bit) port |= (1<<(bit))
+/** Clears a bit */
+#define cbi(port, bit) port &= ~(1<<(bit))
 
-#include <adc.h>
-#include <macros.h>
-#include <web.h>
-#include <serial.h>
-#include <eep.h>
-
-// Json : '{"key":"value","key2":"value2"}'
-
-/**
- * \brief Main function of the program
- */
-int main(void)
-{
-	// Peripherals inits
-	serial_init();
-	adc_init();
-	
-	// Register inits
-	sbi(DDRB,PB5); // To blink the LED
-	
-	// Varialble inits
-	request_index = 0;
-	
-	sei();
-	
-	for(;;){
-		_delay_ms(1000);
-	}
-
-	return 0;
-}
+#endif

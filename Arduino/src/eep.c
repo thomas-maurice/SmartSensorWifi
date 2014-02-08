@@ -16,53 +16,25 @@
  *	with this program; if not, write to the Free Software Foundation, Inc.,
  *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
- 
+
 /**
- * \file main.c
+ * \file eep.c
  * \author Thomas Maurice
  * 
- * \brief Main file of the Smart Sensor Wifi project
+ * \brief EEPROM management 
  * \version 0.1
  * 
- * This file demonstrates a simple HTTP serial server.
- * Optimized for an atmega8.
  */
 
-#include <avr/io.h>
-#include <avr/interrupt.h> 	
-#include <avr/sfr_defs.h>
-#include <util/delay.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <adc.h>
-#include <macros.h>
-#include <web.h>
-#include <serial.h>
 #include <eep.h>
 
-// Json : '{"key":"value","key2":"value2"}'
+void eep_update_data(uint16_t addr, char* data, uint8_t len) {
+	eeprom_update_word((uint16_t*)addr, len);
+	eeprom_update_block(data, (void*)(addr+1), len);
+}
 
-/**
- * \brief Main function of the program
- */
-int main(void)
-{
-	// Peripherals inits
-	serial_init();
-	adc_init();
-	
-	// Register inits
-	sbi(DDRB,PB5); // To blink the LED
-	
-	// Varialble inits
-	request_index = 0;
-	
-	sei();
-	
-	for(;;){
-		_delay_ms(1000);
-	}
-
-	return 0;
+uint8_t eep_read_data(uint16_t addr, char* data) {
+	uint8_t l = eeprom_read_word((uint16_t*)addr);
+	eeprom_read_block((void*)data, (void*)(addr+1), l);
+	return l;
 }

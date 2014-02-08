@@ -27,6 +27,7 @@
  */
 
 #include <web.h>
+#include <macros.h>
 
 void web_send_page(char* title, char* body) {
 	char *status = "HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\n\n";
@@ -44,6 +45,7 @@ void web_send_page(char* title, char* body) {
 }
 
 void web_parse_request(char* req, int size) {
+	sbi(PORTB,PB5);
 	char getstr[3];
 	char getstr2[3];
 	//send_serial_string(req, size);
@@ -70,4 +72,5 @@ void web_parse_request(char* req, int size) {
 	} else {
 		// Not a GET request, or garbage, ignoring
 	}
+	cbi(PORTB,PB5);
 }
