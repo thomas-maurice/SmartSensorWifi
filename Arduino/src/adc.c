@@ -28,11 +28,24 @@
 
 #include <adc.h>
 
+/**
+ * Initializes the ADC.
+ */
 void adc_init() {
 	ADMUX=(1<<REFS0)|(1<<ADLAR);
 	ADCSRA=(1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
 }
 
+/**
+ * Gets a sample of the ADC on channel channel. The conversion will be
+ * converted from 10 to 8 bits. So you'll lose the 2 LSB.
+ * 
+ * @todo Implement a 10 bit version, just in case.
+ * 
+ * @param channel [in] The channel you want to sample
+ * 
+ * @return The value of the channel
+ */
 uint8_t adc_get_sample(uint8_t channel) {
 	ADMUX=(ADMUX&0xF0)|channel;
 	ADCSRA|=(1<<ADSC);
@@ -40,6 +53,13 @@ uint8_t adc_get_sample(uint8_t channel) {
 	return ADCH; // High part of the conversion. 2 LSB omitted
 }
 
+/**
+ * Converts an integer value from the ADC to a string and stores it into
+ * the string str.
+ * 
+ * \param [in] channel, the channel to convert
+ * \param [out] str The final string. Must be of length 4, the \0 will be added by the function
+ */
 void adc_to_char(int channel, char* str) {
 	int c = adc_get_sample(channel);
 	str[0] = (c/100)+48;
@@ -48,6 +68,11 @@ void adc_to_char(int channel, char* str) {
 	str[3] = '\0';
 }
 
+/**
+ * Sends the conversion of the ADC channel channel to the serial port.
+ * 
+ * \param [in] The channel to get a dample from.
+ */
 void adc_print_conv(int channel) {
 	char s[4];
 	adc_to_char(0, s);

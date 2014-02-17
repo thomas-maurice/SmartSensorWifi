@@ -45,6 +45,9 @@
 
 /**
  * \brief Main function of the program
+ * 
+ * Will just perform the initializations of the chip, since
+ * the whole thing is interrupt-driven.
  */
 int main(void)
 {
@@ -58,7 +61,7 @@ int main(void)
 	// Varialble inits
 	request_index = 0;
 	
-	sei();
+	sei(); // Global interruption enable
 	
 	for(;;){
 		_delay_ms(1000);

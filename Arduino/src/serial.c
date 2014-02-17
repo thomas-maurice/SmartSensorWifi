@@ -28,6 +28,9 @@
 
 #include <serial.h>
 
+/**
+ * Initializes the serial port.  This will initalize it at 8N1 9600 bauds.
+ */
 void serial_init(void)
 {
 	// ATMEGA8
@@ -44,13 +47,23 @@ void serial_init(void)
 }
 
 /**
- * \brief Sends a byte through the serial link
+ * Sends a byte through the serial link.
+ * This is a blocking function.
+ * 
+ * \param [in] c The char to send
  */
 void serial_send(unsigned char c) {
 	while(!(UCSR0A&(1<<UDRE0)));
 	UDR0=c;
 }
 
+/**
+ * Sends n bytes of a char* buffer to the serial link.
+ * This is a blocking function.
+ * 
+ * \param [in] s The string to send
+ * \param [in] size the number of bytes to send
+ */
 void serial_send_string(const char* s, int size) {
 	for(uint8_t i = 0; i < size; i++)
 		serial_send(s[i]);

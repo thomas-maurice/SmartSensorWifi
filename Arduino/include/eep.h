@@ -42,9 +42,10 @@
 /*
  * Each block will be this format :
  *  * one byte length
- *  * 49  bytes of data
+ *  * Between 1 and EEP_MAX_DATA_LENGTH bytes of data
  * 
- * So keys/essids/usernames up to 0x49 chars long can be stored
+ * So keys/essids/usernames up to EEP_MAX_DATA_LENGTH chars
+ * long can be stored.
  * 
  * To store and read a string to memory, just do the following :
  * 
@@ -57,16 +58,18 @@
  *	}
  * ~~~~~~~
  */
-#define EEP_ESSID    0x000 //!< Address of the ESSID block
-#define EEP_PASSWORD 0x050 //!< Address of the PASSWORD block
-#define EEP_USERNAME 0x0A0 //!< Address of the USERNAME block
 
-#define DATA_LENGTH 0x49
+#define EEP_MAX_DATA_LENGTH 0x40 //!< Maximum value is 0xFF !
+#define EEP_ESSID    (0x000) //!< Address of the ESSID block
+#define EEP_PASSWORD (EEP_ESSID+1+EEP_MAX_DATA_LENGTH) //!< Address of the PASSWORD block
+#define EEP_USERNAME (EEP_PASSWORD+1+EEP_MAX_DATA_LENGTH) //!< Address of the USERNAME block
 
 #include <avr/eeprom.h>
 #include <avr/io.h>
 
+/** Updates a sector in EEPROM */
 void eep_update_data(uint16_t addr, char* data, uint8_t len);
+/** Reads a sector in EEPROM */
 uint8_t eep_read_data(uint16_t addr, char* data); 
 
 #endif

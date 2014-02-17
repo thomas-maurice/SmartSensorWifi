@@ -66,6 +66,47 @@ void web_parse_request(char* req, int size) {
 			char t[4];
 			adc_to_char(0, t);
 			web_send_page("Temperature", t);
+		} else if(strcmp(page, "/lum")==0) {
+			char t[4];
+			adc_to_char(1, t);
+			web_send_page("Luminosité", t);
+			
+		// ------------ GET/SET THE ESSID
+		} else if(strcmp(page, "/d/essid")==0) {
+			char val[EEP_MAX_DATA_LENGTH+1];
+			uint8_t l = eep_read_data(EEP_ESSID, val);
+			val[l] = '\0'; // To have a valid string
+			web_send_page("ESSID", val);
+		} else if(strncmp(page, "/s/essid", 8)==0) {
+			char nvalue[EEP_MAX_DATA_LENGTH];
+			strcpy(nvalue, page+9);
+			eep_update_data(EEP_ESSID, nvalue, strlen(nvalue));
+			web_send_page("New ESSID", nvalue);
+			
+		// ------------ GET/SET THE USERNAME
+		} else if(strcmp(page, "/d/user")==0) {
+			char val[EEP_MAX_DATA_LENGTH+1];
+			uint8_t l = eep_read_data(EEP_USERNAME, val);
+			val[l] = '\0'; // To have a valid string
+			web_send_page("Username", val);
+		} else if(strncmp(page, "/s/user", 7)==0) {
+			char nvalue[EEP_MAX_DATA_LENGTH];
+			strcpy(nvalue, page+8);
+			eep_update_data(EEP_USERNAME, nvalue, strlen(nvalue));
+			web_send_page("New username", nvalue);
+			
+		// ------------ GET/SET THE Password
+		} else if(strcmp(page, "/d/pwd")==0) {
+			char val[EEP_MAX_DATA_LENGTH+1];
+			uint8_t l = eep_read_data(EEP_PASSWORD, val);
+			val[l] = '\0'; // To have a valid string
+			web_send_page("Password", val);
+		} else if(strncmp(page, "/s/pwd", 6)==0) {
+			char nvalue[EEP_MAX_DATA_LENGTH];
+			strcpy(nvalue, page+7);
+			eep_update_data(EEP_PASSWORD, nvalue, strlen(nvalue));
+			web_send_page("New password", nvalue);
+			
 		} else {
 			web_send_page("Error", "Not a valid page");
 		}

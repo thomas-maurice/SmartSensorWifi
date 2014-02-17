@@ -35,8 +35,9 @@
 #include <avr/pgmspace.h>
 #include <serial.h>
 #include <adc.h>
+#include <eep.h>
 
-#define MAX_REQUEST_LENGTH 24 //!< Maximum lenght of a request
+#define MAX_REQUEST_LENGTH 0x40 //!< Maximum lenght of a request
 char request[MAX_REQUEST_LENGTH+1]; //!< Request
 int request_index; //!< Current position we are in the request
 
