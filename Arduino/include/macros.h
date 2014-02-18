@@ -33,5 +33,7 @@
 #define sbi(port, bit) port |= (1<<(bit))
 /** Clears a bit */
 #define cbi(port, bit) port &= ~(1<<(bit))
+/** Gets a bit */
+#define gbi(port, bit) ((port&(1<<bit))>>bit)
 
 #endif

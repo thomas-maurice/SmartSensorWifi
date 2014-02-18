@@ -33,7 +33,7 @@ ISP_DEVICE_NAME=stk500v1 -b 115200 -F -v -P $(TERM)
 # Microcontroller type
 MC_TYPE=atmega328p
 # Compiler flags
-OPTFLAGS=-O3 -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions
+OPTFLAGS=-Os -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions
 FLAGS=$(OPTFLAGS) -std=gnu99 -I$(INCLUDEDIR) -Wno-write-strings -ffunction-sections -mmcu=$(DEVICE) -DF_CPU=$(FREQU)
 # Liner flags
 LDFLAGS=-mmcu=$(DEVICE) #-Wl,-gc-sections
@@ -57,7 +57,7 @@ all: $(ROM) $(EEPROM) size
 rebuild: nuke all
 
 size: $(BIN)
-	avr-size --format=avr --mcu=$(DEVICE) $(BIN)
+	avr-size --format=avr --mcu=$(DEVICE) $(BIN) | egrep "(Full|^Device)"
 
 erase:
 	avrdude -p $(MC_TYPE) -c $(ISP_DEVICE_NAME) -e

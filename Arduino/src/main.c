@@ -40,6 +40,7 @@
 #include <web.h>
 #include <serial.h>
 #include <eep.h>
+#include <ds1302.h>
 
 // Json : '{"key":"value","key2":"value2"}'
 
@@ -65,6 +66,13 @@ int main(void)
 	
 	for(;;){
 		_delay_ms(1000);
+		uint8_t r = ds1302_read_register(0x00, DS1302_CLOCK_BYTE);
+		//ds1302_write_byte(0x00, 0x07);
+		serial_send(((r>>4)&0x7)+'0');
+		serial_send((r&0x0f)+'0');
+		serial_send('\n');
+		//ds1302_write_register(0x00, 0x19, DS1302_CLOCK_BYTE);
+
 	}
 
 	return 0;
