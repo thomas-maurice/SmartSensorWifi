@@ -71,8 +71,6 @@ int main(void)
 		serial_send(((r>>4)&0x7)+'0');
 		serial_send((r&0x0f)+'0');
 		serial_send('\n');
-		//ds1302_write_register(0x00, 0x19, DS1302_CLOCK_BYTE);
-
 	}
 
 	return 0;

@@ -18,7 +18,7 @@
  */
 
 /**
- * \file ds1302.c
+ * \file ds1302.h
  * \author Thomas Maurice
  * 
  * \brief Implements an interface to the DS1302 RTC chip

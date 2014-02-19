@@ -18,7 +18,7 @@
  */
 
 /**
- * \file web.c
+ * \file ds1302.c
  * \author Thomas Maurice
  * 
  * \brief Implements an interface to the DS1302 RTC chip
@@ -27,9 +27,6 @@
  */
 
 #include <ds1302.h>
-#include <stdio.h>
-#include <string.h>
-#include <serial.h>
 
 void ds1302_init_transfert() {
 	// Set CE low and as an output
@@ -53,7 +50,7 @@ void ds1302_end_transfert() {
 	_delay_us(4);
 }
 
-char hexBytes[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+//char hexBytes[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
 void ds1302_shift_byte(uint8_t byte) {
 	for(uint8_t i = 0; i < 8; i++) {
@@ -97,16 +94,9 @@ uint8_t ds1302_read_register(uint8_t addr, uint8_t target) {
 	cbi(DS1302_IO_DDR, DS1302_IO_PIN);
 	cbi(DS1302_IO_PORT, DS1302_IO_PIN);
 	
-	//serial_send('\n');
-	
 	for(uint8_t i = 0; i < 8; i++) {
-		//cbi(DS1302_IO_PORT, DS1302_IO_PIN); // Remove the pull up
 		res |= (gbi(DS1302_IO_RD_PORT, DS1302_IO_PIN)<<i);
-		/*if(((PINB&(1<<PB0))>>PB0)==1)
-			serial_send('1');
-		else
-			serial_send('0');*/
-		//serial_send(gbi(PINB, DS1302_IO_PIN)+'0');
+		
 		_delay_us(1);
 		sbi(DS1302_CLK_PORT, DS1302_CLK_PIN);
 		_delay_us(1);
