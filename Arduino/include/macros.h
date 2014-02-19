@@ -29,11 +29,17 @@
 #ifndef MACROS_HEADER_
 #define MACROS_HEADER_
 
+#ifndef sbi
 /** Sets a bit */
 #define sbi(port, bit) port |= (1<<(bit))
+#endif
+#ifndef cbi
 /** Clears a bit */
 #define cbi(port, bit) port &= ~(1<<(bit))
+#endif
+#ifndef gbi
 /** Gets a bit */
 #define gbi(port, bit) ((port&(1<<bit))>>bit)
+#endif
 
 #endif

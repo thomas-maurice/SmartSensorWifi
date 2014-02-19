@@ -50,6 +50,23 @@
 #define DS1302_CLK_DDR    DDRB  //!< Clock data direction register
 
 /*
+ * Macros
+ */
+ 
+#ifndef sbi
+/** Sets a bit */
+#define sbi(port, bit) port |= (1<<(bit))
+#endif
+#ifndef cbi
+/** Clears a bit */
+#define cbi(port, bit) port &= ~(1<<(bit))
+#endif
+#ifndef gbi
+/** Gets a bit */
+#define gbi(port, bit) ((port&(1<<bit))>>bit)
+#endif
+
+/*
  * Basic I/O operations
  * 
  * A command/address byte has the following format :
@@ -70,10 +87,10 @@
 #define DS1302_RAM_BYTE   0x40
 #define DS1302_CLOCK_BYTE 0x00
 
-void ds1302_init_transfert();
-void ds1302_end_transfert();
-void ds1302_shift_byte(uint8_t byte);
-void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target);
-uint8_t ds1302_read_register(uint8_t addr, uint8_t target);
+void ds1302_init_transfert(); //!< Initializes a data transfert
+void ds1302_end_transfert(); //!< Ends a data transfert 
+void ds1302_shift_byte(uint8_t byte); //!< Shifts a byte to the IO line
+void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target); //!< Writes to a register
+uint8_t ds1302_read_register(uint8_t addr, uint8_t target); //!< Reads from a register
 
 #endif
