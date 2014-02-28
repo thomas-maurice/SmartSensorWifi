@@ -342,11 +342,10 @@ UsedLibrary="/home/thomas/eagle-6.5.0/lbr/xilinx-xcv.lbr"
 UsedLibrary="/home/thomas/eagle-6.5.0/lbr/zetex.lbr"
 UsedLibrary="/home/thomas/eagle-6.5.0/lbr/zilog.lbr"
 UsedLibrary="/home/thomas/eagle-6.5.0/lbr/Adafruit-Eagle-Library/adafruit.lbr"
-UsedLibrary="/home/thomas/SmartSensorWifi/PCB/SmartSensorWifi.lbr"
 
 [Win_1]
 Type="Board Editor"
-Loc="0 0 599 399"
+Loc="0 26 599 425"
 State=1
 Number=3
 File="SmartSensorWifi.brd"
@@ -392,7 +391,7 @@ Layer=16
 
 [Win_2]
 Type="Library Editor"
-Loc="363 154 1044 863"
+Loc="363 58 1728 767"
 State=1
 Number=1
 File="/home/thomas/SmartSensorWifi/PCB/SmartSensorWifi.lbr"
@@ -435,7 +434,6 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=94
-Device="WIZFI210"
 
 [Win_3]
 Type="Control Panel"
