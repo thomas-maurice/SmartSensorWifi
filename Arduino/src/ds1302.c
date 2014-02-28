@@ -105,7 +105,7 @@ void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target) {
  * 
  * \param [in] addr The address to read
  * \param [in] target The target. Is either the clock register or the RAM register.
- * This value has either DS1302_CLOCK_BYTE or DS1302_RAM_BYTE value.
+ * This value has either DS1302_CLOCK or DS1302_RAM value.
  * 
  * \return The value read
  */

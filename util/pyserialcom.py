@@ -43,7 +43,7 @@ import threading
 import string
 
 class MainWindow:
-	def __init__(self, port, baudrate=9600):
+	def __init__(self, port=None, baudrate=9600):
 		"""
 			Initialization of the software's main window
 		"""
@@ -52,6 +52,14 @@ class MainWindow:
 		self.init_mode()
 		self.init_sendBar()
 		self.init_textview()
+		
+		if port == None:
+			dirList=os.listdir("/dev/")
+			for fname in dirList:
+				if fname.find("ttyACM") != -1 or fname.find("ttyUSB") != -1:
+					port = "/dev/" + fname
+					print "Autodetected", port, "as a serial port" 
+					break
 		
 		self.serialport = serial.Serial(port)
 		self.serialport.timeout = 0
@@ -234,8 +242,7 @@ class MainWindow:
 
 if __name__ == "__main__":
 	if len(sys.argv) == 1:
-		print sys.argv[0] + " <port> <baudrate=9600>"
-		exit()
+		w = MainWindow()
 	if len(sys.argv) == 2:
 		w = MainWindow(sys.argv[1])
 	elif len(sys.argv) == 3:
