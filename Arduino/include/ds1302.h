@@ -84,13 +84,24 @@
  */
 #define DS1302_READ_BYTE  0x1
 #define DS1302_WRITE_BYTE 0x0
-#define DS1302_RAM_BYTE   0x40
-#define DS1302_CLOCK_BYTE 0x00
+#define DS1302_RAM        0x40
+#define DS1302_CLOCK      0x00
+
+#define DS1302_SECONDS 0x00
+#define DS1302_MINUTES 0x01
+#define DS1302_HOURES  0x02
+#define DS1302_DATE    0x03
+#define DS1302_MONTH   0x04
+#define DS1302_YEAR    0x06
+#define DS1302_WP      0x07
 
 void ds1302_init_transfert(); //!< Initializes a data transfert
 void ds1302_end_transfert(); //!< Ends a data transfert 
 void ds1302_shift_byte(uint8_t byte); //!< Shifts a byte to the IO line
 void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target); //!< Writes to a register
 uint8_t ds1302_read_register(uint8_t addr, uint8_t target); //!< Reads from a register
+void get_time_string(char* time_string); //!< Creates a time string with the format "DD/MM/YY HH:MM:SS"
+void ds1302_clear_write_protect(); //!< Clears the WP byte. This will  enable the write to the chip.
+void ds1302_clear_clock_halt(); //!< This clears the Clock Halt bit, this will allow the clock to start
 
 #endif

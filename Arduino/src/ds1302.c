@@ -83,7 +83,7 @@ void ds1302_shift_byte(uint8_t byte) {
  * \param [in] addr The address to write
  * \param [in] value The value to write
  * \param [in] target The target. Is either the clock register or the RAM register.
- * This value has either DS1302_CLOCK_BYTE or DS1302_RAM_BYTE value.
+ * This value has either DS1302_CLOCK or DS1302_RAM value.
  */
 void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target) {
 	ds1302_init_transfert();
@@ -112,7 +112,7 @@ void ds1302_write_register(uint8_t addr, uint8_t value, uint8_t target) {
 uint8_t ds1302_read_register(uint8_t addr, uint8_t target) {
 	ds1302_init_transfert();
 	uint8_t cmd = 0x0;
-	cmd |= 0x80 | DS1302_CLOCK_BYTE | DS1302_READ_BYTE; // We want to read from the clock
+	cmd |= 0x80 | target | DS1302_READ_BYTE; // We want to read from the clock
 	cmd |= ((addr) << 1); // Let's put the address
 	uint8_t res = 0x0;
 	
@@ -143,4 +143,52 @@ uint8_t ds1302_read_register(uint8_t addr, uint8_t target) {
 	ds1302_end_transfert();
 	
 	return res;
+}
+
+/**
+ * Creates a timestring for the current date following the format :
+ * DD/MM/YY HH:MM:SS so it is 18 chars long, including the null terminator.
+ * 
+ * \param [in|out] time_string the pointer on the memory zone needed.
+ */
+void get_time_string(char* time_string) {
+	uint8_t result = 0;
+	result = ds1302_read_register(DS1302_SECONDS, DS1302_CLOCK);
+	time_string[16] = (result & 0x0F) + '0';
+	time_string[15] = ((result>>4) & 0x0F) + '0';
+	time_string[14] = ':';
+	result = ds1302_read_register(DS1302_MINUTES, DS1302_CLOCK);
+	time_string[13] = (result & 0x0F) + '0';
+	time_string[12] = ((result>>4) & 0x0F) + '0';
+	time_string[11] = ':';
+	result = ds1302_read_register(DS1302_HOURES, DS1302_CLOCK);
+	time_string[10] = (result & 0x0F) + '0';
+	time_string[9] = ((result>>4) & 0x0F) + '0';
+	time_string[8] = ' ';
+	result = ds1302_read_register(DS1302_YEAR, DS1302_CLOCK);
+	time_string[7] = (result & 0x0F) + '0';
+	time_string[6] = ((result>>4) & 0x0F) + '0';
+	time_string[5] = '/';
+	result = ds1302_read_register(DS1302_MONTH, DS1302_CLOCK);
+	time_string[4] = (result & 0x0F) + '0';
+	time_string[3] = ((result>>4) & 0x0F) + '0';
+	time_string[2] = '/';
+	result = ds1302_read_register(DS1302_DATE, DS1302_CLOCK);
+	time_string[1] = (result & 0x0F) + '0';
+	time_string[0] = ((result>>4) & 0x0F) + '0';
+}
+
+/**
+ * Clears the CH bit. This will allow the clock to start.
+ */
+void ds1302_clear_clock_halt() {
+	uint8_t r = ds1302_read_register(DS1302_SECONDS, DS1302_CLOCK);
+	ds1302_write_register(DS1302_SECONDS, r & 0x7F, DS1302_CLOCK);
+}
+
+/**
+ * Clears the WP bit, this will enables you to write to the chip.
+ */
+void ds1302_clear_write_protect() {
+	ds1302_write_register(DS1302_WP, 0x0, DS1302_CLOCK);
 }
