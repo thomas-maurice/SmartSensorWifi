@@ -31,8 +31,7 @@
 /**
  * Initializes the serial port.  This will initalize it at 8N1 9600 bauds.
  */
-void serial_init(void)
-{
+void serial_init(void) {
 	// ATMEGA8
 	/*UBRRH = (BAUDRATE>>8);
 	UBRRL = BAUDRATE;
