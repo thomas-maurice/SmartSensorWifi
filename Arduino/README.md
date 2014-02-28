@@ -28,6 +28,14 @@ The project uses the following hardware :
 * A photoresistor and temperature sensor.
 * A WizFi210 WiFi chip.
 
+# Getting the code's doc
+
+This is easy. The documentation for the source code is located in the
+code itself with **Doxygen** comments. This means that you have to install *doxygen*
+on your computer and run `doxygen Doxyfile` in the Arduino folder. This will
+generate a pretty HTML documentation in the `doxygen/html` folder. Feel free
+to navigate it.
+
 # Compiling
 
 To compile the project you just need AVR-gcc installed. Just go in the
