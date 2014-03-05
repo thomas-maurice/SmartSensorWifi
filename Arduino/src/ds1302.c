@@ -161,7 +161,7 @@ void get_time_string(char* time_string) {
 	time_string[13] = (result & 0x0F) + '0';
 	time_string[12] = ((result>>4) & 0x0F) + '0';
 	time_string[11] = ':';
-	result = ds1302_read_register(DS1302_HOURES, DS1302_CLOCK);
+	result = ds1302_read_register(DS1302_HOURS, DS1302_CLOCK);
 	time_string[10] = (result & 0x0F) + '0';
 	time_string[9] = ((result>>4) & 0x0F) + '0';
 	time_string[8] = ' ';
@@ -184,6 +184,33 @@ void get_time_string(char* time_string) {
 void ds1302_clear_clock_halt() {
 	uint8_t r = ds1302_read_register(DS1302_SECONDS, DS1302_CLOCK);
 	ds1302_write_register(DS1302_SECONDS, r & 0x7F, DS1302_CLOCK);
+}
+
+/**
+ * Sets the time to the chip
+ * 
+ * \param [hrs] Hours
+ * \param [mins] Minutes
+ * \param [secs] Seconds
+ */
+void ds1302_set_time(uint8_t hrs, uint8_t mins, uint8_t secs) {
+	ds1302_write_register(DS1302_SECONDS, dec_to_bcd(secs), DS1302_CLOCK);
+	ds1302_write_register(DS1302_MINUTES, dec_to_bcd(mins), DS1302_CLOCK);
+	ds1302_write_register(DS1302_HOURS, dec_to_bcd(hrs), DS1302_CLOCK);
+}
+
+
+/**
+ * Sets the time to the chip
+ * 
+ * \param [day] Day
+ * \param [month] Month
+ * \param [year] Year
+ */
+void ds1302_set_date(uint8_t day, uint8_t month, uint16_t year) {
+	ds1302_write_register(DS1302_DATE, dec_to_bcd(day), DS1302_CLOCK);
+	ds1302_write_register(DS1302_MONTH, dec_to_bcd(month), DS1302_CLOCK);
+	ds1302_write_register(DS1302_YEAR, dec_to_bcd(year%100), DS1302_CLOCK);
 }
 
 /**

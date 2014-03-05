@@ -105,6 +105,8 @@ int main(void)
 	
 	sbi(DDRB, PB3);
 	
+	ds1302_set_date(5, 3, 2014);
+	
 	for(;;){
 		_delay_ms(1000);
 		sbi(PORTB, PB3);

@@ -65,6 +65,10 @@
 /** Gets a bit */
 #define gbi(port, bit) ((port&(1<<bit))>>bit)
 #endif
+/** Converts a decimal value to a BCD one */
+#define dec_to_bcd(val) (((val)/10)*16+((val)%10))
+/** Converts a BCD value to a dedimal one */
+#define bcd_to_dec(val) ((((val)&0xF0)>>4)*10+((val)&0x0F))
 
 /*
  * Basic I/O operations
@@ -89,7 +93,7 @@
 
 #define DS1302_SECONDS 0x00
 #define DS1302_MINUTES 0x01
-#define DS1302_HOURES  0x02
+#define DS1302_HOURS   0x02
 #define DS1302_DATE    0x03
 #define DS1302_MONTH   0x04
 #define DS1302_YEAR    0x06
@@ -103,5 +107,7 @@ uint8_t ds1302_read_register(uint8_t addr, uint8_t target); //!< Reads from a re
 void get_time_string(char* time_string); //!< Creates a time string with the format "DD/MM/YY HH:MM:SS"
 void ds1302_clear_write_protect(); //!< Clears the WP byte. This will  enable the write to the chip.
 void ds1302_clear_clock_halt(); //!< This clears the Clock Halt bit, this will allow the clock to start
+void ds1302_set_date(uint8_t day, uint8_t month, uint16_t year); //!< Changes the date
+void ds1302_set_time(uint8_t hrs, uint8_t mins, uint8_t secs); //!< Changes the time
 
 #endif
