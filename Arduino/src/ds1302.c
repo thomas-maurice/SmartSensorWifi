@@ -187,7 +187,8 @@ void ds1302_clear_clock_halt() {
 }
 
 /**
- * Sets the time to the chip
+ * Sets the time to the chip. The value are provided in natural binary,
+ * the function will convert it to BCD.
  * 
  * \param [hrs] Hours
  * \param [mins] Minutes
@@ -199,9 +200,9 @@ void ds1302_set_time(uint8_t hrs, uint8_t mins, uint8_t secs) {
 	ds1302_write_register(DS1302_HOURS, dec_to_bcd(hrs), DS1302_CLOCK);
 }
 
-
 /**
- * Sets the time to the chip
+ * Sets the time to the chip. The value are provided in natural binary,
+ * the function will convert it to BCD.
  * 
  * \param [day] Day
  * \param [month] Month
@@ -211,6 +212,32 @@ void ds1302_set_date(uint8_t day, uint8_t month, uint16_t year) {
 	ds1302_write_register(DS1302_DATE, dec_to_bcd(day), DS1302_CLOCK);
 	ds1302_write_register(DS1302_MONTH, dec_to_bcd(month), DS1302_CLOCK);
 	ds1302_write_register(DS1302_YEAR, dec_to_bcd(year%100), DS1302_CLOCK);
+}
+
+/**
+ * Gets the time from the chip. This is in natural binary, no BCD.
+ * 
+ * \param [day] Day
+ * \param [month] Month
+ * \param [year] Year
+ */
+void ds1302_get_date(uint8_t* day, uint8_t* month, uint8_t* year) {
+	*day = bcd_to_dec(ds1302_read_register(DS1302_DATE, DS1302_CLOCK));
+	*month = bcd_to_dec(ds1302_read_register(DS1302_MONTH, DS1302_CLOCK));
+	*year = bcd_to_dec(ds1302_read_register(DS1302_YEAR, DS1302_CLOCK));
+}
+
+/**
+ * Gets the time from the chip. This is in natural binary, no BCD.
+ * 
+ * \param [hrs] Hours
+ * \param [mins] Minutes
+ * \param [secs] Seconds
+ */
+void ds1302_get_time(uint8_t* hrs, uint8_t* mins, uint8_t* secs) {
+	*secs = bcd_to_dec(ds1302_read_register(DS1302_SECONDS, DS1302_CLOCK));
+	*mins = bcd_to_dec(ds1302_read_register(DS1302_MINUTES, DS1302_CLOCK));
+	*hrs = bcd_to_dec(ds1302_read_register(DS1302_HOURS, DS1302_CLOCK));
 }
 
 /**

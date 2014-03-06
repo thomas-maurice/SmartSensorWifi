@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -113,43 +113,43 @@
 <wire x1="10" y1="-13.5" x2="10" y2="14.25" width="0.127" layer="21"/>
 </package>
 <package name="WIZFI210STACKABLE">
-<pad name="P$1" x="-13.97" y="7.62" drill="0.8" shape="octagon"/>
-<pad name="P$2" x="-13.97" y="5.08" drill="0.8" shape="octagon"/>
-<pad name="P$3" x="-13.97" y="2.54" drill="0.8" shape="octagon"/>
-<pad name="P$4" x="-13.97" y="0" drill="0.8" shape="octagon"/>
-<pad name="P$5" x="-13.97" y="-2.54" drill="0.8" shape="octagon"/>
-<pad name="P$6" x="-13.97" y="-5.08" drill="0.8" shape="octagon"/>
-<pad name="P$7" x="-13.97" y="-7.62" drill="0.8" shape="octagon"/>
-<pad name="P$8" x="-13.97" y="-10.16" drill="0.8" shape="octagon"/>
-<pad name="P$9" x="-13.97" y="-13.97" drill="0.8" shape="octagon"/>
-<pad name="P$10" x="-13.97" y="-16.51" drill="0.8" shape="octagon"/>
-<pad name="P$11" x="-13.97" y="-19.05" drill="0.8" shape="octagon"/>
-<pad name="P$12" x="-13.97" y="-21.59" drill="0.8" shape="octagon"/>
-<pad name="P$13" x="-13.97" y="-24.13" drill="0.8" shape="octagon"/>
-<pad name="P$14" x="-13.97" y="-26.67" drill="0.8" shape="octagon"/>
-<pad name="P$15" x="-13.97" y="-29.21" drill="0.8" shape="octagon"/>
-<pad name="P$16" x="-13.97" y="-31.75" drill="0.8" shape="octagon"/>
-<pad name="P$17" x="31.75" y="7.62" drill="0.8" shape="octagon"/>
-<pad name="P$18" x="31.75" y="5.08" drill="0.8" shape="octagon"/>
-<pad name="P$19" x="31.75" y="2.54" drill="0.8" shape="octagon"/>
-<pad name="P$20" x="31.75" y="0" drill="0.8" shape="octagon"/>
-<pad name="P$21" x="31.75" y="-2.54" drill="0.8" shape="octagon"/>
-<pad name="P$22" x="31.75" y="-5.08" drill="0.8" shape="octagon"/>
-<pad name="P$23" x="31.75" y="-7.62" drill="0.8" shape="octagon"/>
-<pad name="P$24" x="31.75" y="-10.16" drill="0.8" shape="octagon"/>
-<pad name="P$25" x="31.75" y="-13.97" drill="0.8" shape="octagon"/>
-<pad name="P$26" x="31.75" y="-16.51" drill="0.8" shape="octagon"/>
-<pad name="P$27" x="31.75" y="-19.05" drill="0.8" shape="octagon"/>
-<pad name="P$28" x="31.75" y="-21.59" drill="0.8" shape="octagon"/>
-<pad name="P$29" x="31.75" y="-24.13" drill="0.8" shape="octagon"/>
-<pad name="P$30" x="31.75" y="-26.67" drill="0.8" shape="octagon"/>
-<pad name="P$31" x="31.75" y="-29.21" drill="0.8" shape="octagon"/>
-<pad name="P$32" x="31.75" y="-31.75" drill="0.8" shape="octagon"/>
-<wire x1="-16.51" y1="-34.29" x2="-16.51" y2="10.16" width="0.127" layer="21"/>
-<wire x1="-16.51" y1="10.16" x2="34.29" y2="10.16" width="0.127" layer="21"/>
-<wire x1="34.29" y1="10.16" x2="34.29" y2="-34.29" width="0.127" layer="21"/>
-<wire x1="34.29" y1="-34.29" x2="-16.51" y2="-34.29" width="0.127" layer="21"/>
-<pad name="P$33" x="-12.7" y="-31.75" drill="0.8" shape="square"/>
+<pad name="GND" x="38.1" y="16.51" drill="0.8" shape="octagon"/>
+<pad name="ALARM1" x="38.1" y="13.97" drill="0.8" shape="octagon"/>
+<pad name="VBAT" x="38.1" y="11.43" drill="0.8" shape="octagon"/>
+<pad name="DC_DC_CNTL" x="38.1" y="8.89" drill="0.8" shape="octagon"/>
+<pad name="ALARM2" x="38.1" y="6.35" drill="0.8" shape="octagon"/>
+<pad name="ADC1" x="38.1" y="3.81" drill="0.8" shape="octagon"/>
+<pad name="ADC2" x="38.1" y="1.27" drill="0.8" shape="octagon"/>
+<pad name="VOUT_1V8" x="38.1" y="-1.27" drill="0.8" shape="octagon"/>
+<pad name="GPIO10" x="38.1" y="-6.35" drill="0.8" shape="octagon"/>
+<pad name="GPIO19" x="38.1" y="-8.89" drill="0.8" shape="octagon"/>
+<pad name="GPIO20" x="38.1" y="-11.43" drill="0.8" shape="octagon"/>
+<pad name="GPIO21" x="38.1" y="-13.97" drill="0.8" shape="octagon"/>
+<pad name="SPI_MISO" x="38.1" y="-16.51" drill="0.8" shape="octagon"/>
+<pad name="SPI_CLK" x="38.1" y="-19.05" drill="0.8" shape="octagon"/>
+<pad name="SPI_CS" x="38.1" y="-21.59" drill="0.8" shape="octagon"/>
+<pad name="SPI_MOSI" x="38.1" y="-24.13" drill="0.8" shape="octagon"/>
+<pad name="EXT_ANT" x="78.74" y="16.51" drill="0.8" shape="octagon"/>
+<pad name="GND4" x="78.74" y="13.97" drill="0.8" shape="octagon"/>
+<pad name="GPIO28" x="78.74" y="11.43" drill="0.8" shape="octagon"/>
+<pad name="GPIO29" x="78.74" y="8.89" drill="0.8" shape="octagon"/>
+<pad name="GPIO30" x="78.74" y="6.35" drill="0.8" shape="octagon"/>
+<pad name="GPIO31" x="78.74" y="3.81" drill="0.8" shape="octagon"/>
+<pad name="UART0_CTS" x="78.74" y="1.27" drill="0.8" shape="octagon"/>
+<pad name="UART0_RX" x="78.74" y="-1.27" drill="0.8" shape="octagon"/>
+<pad name="UART0_RTS" x="78.74" y="-6.35" drill="0.8" shape="octagon"/>
+<pad name="UART0_TX" x="78.74" y="-8.89" drill="0.8" shape="octagon"/>
+<pad name="GPIO27" x="78.74" y="-11.43" drill="0.8" shape="octagon"/>
+<pad name="EXT_NRESET" x="78.74" y="-13.97" drill="0.8" shape="octagon"/>
+<pad name="VDDIO" x="78.74" y="-16.51" drill="0.8" shape="octagon"/>
+<pad name="EN1V8" x="78.74" y="-19.05" drill="0.8" shape="octagon"/>
+<pad name="VIN3V3" x="78.74" y="-21.59" drill="0.8" shape="octagon"/>
+<pad name="GND3" x="78.74" y="-24.13" drill="0.8" shape="octagon"/>
+<wire x1="35.56" y1="-26.67" x2="35.56" y2="19.05" width="0.127" layer="21"/>
+<pad name="GND2" x="40.64" y="-1.27" drill="0.8" diameter="0.508" shape="square"/>
+<wire x1="35.56" y1="19.05" x2="81.28" y2="19.05" width="0.127" layer="21"/>
+<wire x1="81.28" y1="19.05" x2="81.28" y2="-26.67" width="0.127" layer="21"/>
+<wire x1="81.28" y1="-26.67" x2="35.56" y2="-26.67" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -245,9 +245,45 @@
 </deviceset>
 <deviceset name="WIZFISTACKED">
 <gates>
+<gate name="G$1" symbol="WIZFI210" x="0" y="0"/>
 </gates>
 <devices>
 <device name="" package="WIZFI210STACKABLE">
+<connects>
+<connect gate="G$1" pin="ADC1" pad="ADC1"/>
+<connect gate="G$1" pin="ADC2" pad="ADC2"/>
+<connect gate="G$1" pin="ALARM1" pad="ALARM1"/>
+<connect gate="G$1" pin="ALARM2" pad="ALARM2"/>
+<connect gate="G$1" pin="DC_DC_CNTL" pad="DC_DC_CNTL"/>
+<connect gate="G$1" pin="EN1V8" pad="EN1V8"/>
+<connect gate="G$1" pin="EXT_ANT" pad="EXT_ANT"/>
+<connect gate="G$1" pin="EXT_NRESET" pad="EXT_NRESET"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="GND2" pad="GND2"/>
+<connect gate="G$1" pin="GND3" pad="GND3"/>
+<connect gate="G$1" pin="GND4" pad="GND4"/>
+<connect gate="G$1" pin="GPIO10" pad="GPIO10"/>
+<connect gate="G$1" pin="GPIO19" pad="GPIO19"/>
+<connect gate="G$1" pin="GPIO20" pad="GPIO20"/>
+<connect gate="G$1" pin="GPIO21" pad="GPIO21"/>
+<connect gate="G$1" pin="GPIO27" pad="GPIO27"/>
+<connect gate="G$1" pin="GPIO28" pad="GPIO28"/>
+<connect gate="G$1" pin="GPIO29" pad="GPIO29"/>
+<connect gate="G$1" pin="GPIO30" pad="GPIO30"/>
+<connect gate="G$1" pin="GPIO31" pad="GPIO31"/>
+<connect gate="G$1" pin="SPI_CLK" pad="SPI_CLK"/>
+<connect gate="G$1" pin="SPI_CS" pad="SPI_CS"/>
+<connect gate="G$1" pin="SPI_MISO" pad="SPI_MISO"/>
+<connect gate="G$1" pin="SPI_MOSI" pad="SPI_MOSI"/>
+<connect gate="G$1" pin="UART0_CTS" pad="UART0_CTS"/>
+<connect gate="G$1" pin="UART0_RTS" pad="UART0_RTS"/>
+<connect gate="G$1" pin="UART0_RX" pad="UART0_RX"/>
+<connect gate="G$1" pin="UART0_TX" pad="UART0_TX"/>
+<connect gate="G$1" pin="VBAT" pad="VBAT"/>
+<connect gate="G$1" pin="VDDIO" pad="VDDIO"/>
+<connect gate="G$1" pin="VIN3V3" pad="VIN3V3"/>
+<connect gate="G$1" pin="VOUT_1V8" pad="VOUT_1V8"/>
+</connects>
 <technologies>
 <technology name=""/>
 </technologies>

@@ -63,6 +63,9 @@
  * Have fun :)
  */
 
+// CS de la carte wifi : PD6
+// CS de la flash : PD5
+
 #include <avr/io.h>
 #include <avr/interrupt.h> 	
 #include <avr/sfr_defs.h>
@@ -114,6 +117,7 @@ int main(void)
 		get_time_string(date);
 		serial_send_string(date, 17);
 		serial_send('\n');
+		
 		cbi(PORTB, PB3);
 	}
 

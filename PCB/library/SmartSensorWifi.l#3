@@ -145,6 +145,11 @@
 <pad name="P$30" x="31.75" y="-26.67" drill="0.8" shape="octagon"/>
 <pad name="P$31" x="31.75" y="-29.21" drill="0.8" shape="octagon"/>
 <pad name="P$32" x="31.75" y="-31.75" drill="0.8" shape="octagon"/>
+<wire x1="-16.51" y1="-34.29" x2="-16.51" y2="10.16" width="0.127" layer="21"/>
+<wire x1="-16.51" y1="10.16" x2="34.29" y2="10.16" width="0.127" layer="21"/>
+<wire x1="34.29" y1="10.16" x2="34.29" y2="-34.29" width="0.127" layer="21"/>
+<wire x1="34.29" y1="-34.29" x2="-16.51" y2="-34.29" width="0.127" layer="21"/>
+<pad name="P$33" x="-12.7" y="-31.75" drill="0.8" shape="square"/>
 </package>
 </packages>
 <symbols>
@@ -232,6 +237,17 @@
 <connect gate="G$1" pin="VIN3V3" pad="32"/>
 <connect gate="G$1" pin="VOUT_1V8" pad="17"/>
 </connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="WIZFISTACKED">
+<gates>
+</gates>
+<devices>
+<device name="" package="WIZFI210STACKABLE">
 <technologies>
 <technology name=""/>
 </technologies>
