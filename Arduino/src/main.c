@@ -79,6 +79,7 @@
 #include <serial.h>
 #include <eep.h>
 #include <ds1302.h>
+#include <spi.h>
 
 // Json : '{"key":"value","key2":"value2"}'
 
@@ -93,6 +94,7 @@ int main(void)
 	// Peripherals inits
 	serial_init();
 	adc_init();
+	init_spi();
 	
 	// Register inits
 	sbi(DDRB,PB5); // To blink the LED L
@@ -106,18 +108,26 @@ int main(void)
 	ds1302_clear_write_protect();
 	ds1302_clear_clock_halt();
 	
-	sbi(DDRB, PB3);
-	
 	ds1302_set_date(5, 3, 2014);
+	
+	_delay_us(1);
+	spi_send(SPI_IDLE_CHAR);
+	_delay_ms(1000);
+	spi_send_buffer("AT\r");
+	
+	while(gbi(PIND, PD3)==0);
+	
+	while(gbi(PIND, PD3)==1)
+		serial_send(spi_send(0));
 	
 	for(;;){
 		_delay_ms(1000);
 		sbi(PORTB, PB3);
-		char date[17];
+		/*char date[17];
 		get_time_string(date);
 		serial_send_string(date, 17);
 		serial_send('\n');
-		
+		*/
 		cbi(PORTB, PB3);
 	}
 
