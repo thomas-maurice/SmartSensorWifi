@@ -17,3 +17,7 @@ To launch it just type :
     ./pyserialcom.py [serialport] [baudrate=9600]
 
 and enjoy ;)
+
+## postJson.sh
+This script is used to emulate the data send by a sensor to check
+if the insersions into the database are effective or not.
