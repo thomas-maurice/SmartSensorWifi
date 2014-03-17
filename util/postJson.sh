@@ -1,10 +1,10 @@
 #!/bin/bash
 
-serv=localhost:8000
+serv=https://smartsensorwifi.plil.net:40098/recup.php
 
 id=1
-pass=testpass
+pass=PaSsWoRd
 
-curl -X POST -H "Content-Type: application/json" -d \
-	'{"id":"'$id'","pass":"'$pass'", "temp":"'128'", "lum":"'17'"}' \
+curl -k -X POST -H "Content-Type: application/json" -d \
+	'{"id":"'$id'","password":"'$pass'", "temp":"'128'", "lum":"'17'"}' \
 	$serv
