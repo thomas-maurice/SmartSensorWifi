@@ -43,8 +43,12 @@
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
 <layer number="51" name="tDocu" color="14" fill="1" visible="no" active="no"/>
 <layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
@@ -53,6 +57,51 @@
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
+<layer number="101" name="Patch_Top" color="12" fill="4" visible="yes" active="yes"/>
+<layer number="102" name="Vscore" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="103" name="tMap" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="104" name="Name" color="16" fill="1" visible="yes" active="yes"/>
+<layer number="105" name="tPlate" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="106" name="bPlate" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="107" name="Crop" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="108" name="tplace-old" color="10" fill="1" visible="yes" active="yes"/>
+<layer number="109" name="ref-old" color="11" fill="1" visible="yes" active="yes"/>
+<layer number="116" name="Patch_BOT" color="9" fill="4" visible="yes" active="yes"/>
+<layer number="121" name="_tsilk" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="122" name="_bsilk" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="151" name="HeatSink" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="200" name="200bmp" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="201" name="201bmp" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="202" name="202bmp" color="3" fill="10" visible="yes" active="yes"/>
+<layer number="203" name="203bmp" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="204" name="204bmp" color="5" fill="10" visible="yes" active="yes"/>
+<layer number="205" name="205bmp" color="6" fill="10" visible="yes" active="yes"/>
+<layer number="206" name="206bmp" color="7" fill="10" visible="yes" active="yes"/>
+<layer number="207" name="207bmp" color="8" fill="10" visible="yes" active="yes"/>
+<layer number="208" name="208bmp" color="9" fill="10" visible="yes" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="217" name="217bmp" color="18" fill="1" visible="no" active="no"/>
+<layer number="218" name="218bmp" color="19" fill="1" visible="no" active="no"/>
+<layer number="219" name="219bmp" color="20" fill="1" visible="no" active="no"/>
+<layer number="220" name="220bmp" color="21" fill="1" visible="no" active="no"/>
+<layer number="221" name="221bmp" color="22" fill="1" visible="no" active="no"/>
+<layer number="222" name="222bmp" color="23" fill="1" visible="no" active="no"/>
+<layer number="223" name="223bmp" color="24" fill="1" visible="no" active="no"/>
+<layer number="224" name="224bmp" color="25" fill="1" visible="no" active="no"/>
+<layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
+<layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
+<layer number="254" name="cooling" color="7" fill="1" visible="yes" active="yes"/>
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
@@ -3695,6 +3744,123 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 </deviceset>
 </devicesets>
 </library>
+<library name="SparkFun-Sensors">
+<description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
+In this library you'll find sensors- accelerometers, gyros, compasses, magnetometers, light sensors, imagers, temp sensors, etc.&lt;br&gt;&lt;br&gt;
+We've spent an enormous amount of time creating and checking these footprints and parts, but it is the end user's responsibility to ensure correctness and suitablity for a given componet or application. If you enjoy using this library, please buy one of our products at www.sparkfun.com.
+&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
+&lt;br&gt;&lt;br&gt;
+You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
+<packages>
+<package name="TO-92">
+<description>&lt;b&gt;TO 92&lt;/b&gt;</description>
+<wire x1="-2.0946" y1="-1.651" x2="-0.7863" y2="2.5485" width="0.2032" layer="21" curve="-111.098957" cap="flat"/>
+<wire x1="0.7863" y1="2.5484" x2="2.0945" y2="-1.651" width="0.2032" layer="21" curve="-111.09954" cap="flat"/>
+<wire x1="-2.0945" y1="-1.651" x2="2.0945" y2="-1.651" width="0.2032" layer="21"/>
+<wire x1="-2.6549" y1="-0.254" x2="-2.2537" y2="-0.254" width="0.2032" layer="21"/>
+<wire x1="-0.2863" y1="-0.254" x2="0.2863" y2="-0.254" width="0.2032" layer="21"/>
+<wire x1="2.2537" y1="-0.254" x2="2.6549" y2="-0.254" width="0.2032" layer="21"/>
+<pad name="3" x="1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<pad name="2" x="0" y="1.905" drill="0.8128" diameter="1.8796"/>
+<pad name="1" x="-1.27" y="0" drill="0.8128" diameter="1.8796"/>
+<text x="3.175" y="0.635" size="0.4064" layer="25" ratio="10">&gt;NAME</text>
+<text x="3.175" y="-1.27" size="0.4064" layer="27" ratio="10">&gt;VALUE</text>
+</package>
+<package name="TO-92-KIT">
+<wire x1="-2.0946" y1="-1.651" x2="-0.7863" y2="2.5485" width="0.2032" layer="21" curve="-111.098957" cap="flat"/>
+<wire x1="0.7863" y1="2.5484" x2="2.0945" y2="-1.651" width="0.2032" layer="21" curve="-111.09954" cap="flat"/>
+<wire x1="-2.0945" y1="-1.651" x2="2.0945" y2="-1.651" width="0.2032" layer="21"/>
+<wire x1="-2.6549" y1="-0.254" x2="-2.2537" y2="-0.254" width="0.2032" layer="21"/>
+<wire x1="-0.2863" y1="-0.254" x2="0.2863" y2="-0.254" width="0.2032" layer="21"/>
+<wire x1="2.2537" y1="-0.254" x2="2.6549" y2="-0.254" width="0.2032" layer="21"/>
+<pad name="3" x="1.27" y="0" drill="0.9" diameter="1.8796" stop="no"/>
+<pad name="2" x="0" y="1.905" drill="0.9" diameter="1.8796" stop="no"/>
+<pad name="1" x="-1.27" y="0" drill="0.9" diameter="1.8796" stop="no"/>
+<text x="3.175" y="0.635" size="0.4064" layer="25" ratio="10">&gt;NAME</text>
+<text x="3.175" y="-1.27" size="0.4064" layer="27" ratio="10">&gt;VALUE</text>
+<polygon width="0.127" layer="30">
+<vertex x="-1.2675" y="-0.9525" curve="-90"/>
+<vertex x="-2.2224" y="-0.0228" curve="-90.011749"/>
+<vertex x="-1.27" y="0.9526" curve="-90"/>
+<vertex x="-0.32" y="-0.0254" curve="-90.024193"/>
+</polygon>
+<polygon width="0.127" layer="29">
+<vertex x="-1.27" y="-0.4445" curve="-90.012891"/>
+<vertex x="-1.7145" y="-0.0203" curve="-90"/>
+<vertex x="-1.27" y="0.447" curve="-90"/>
+<vertex x="-0.8281" y="-0.0101" curve="-90.012967"/>
+</polygon>
+<polygon width="0.127" layer="30">
+<vertex x="1.2725" y="-0.9525" curve="-90"/>
+<vertex x="0.3176" y="-0.0228" curve="-90.011749"/>
+<vertex x="1.27" y="0.9526" curve="-90"/>
+<vertex x="2.22" y="-0.0254" curve="-90.024193"/>
+</polygon>
+<polygon width="0.127" layer="29">
+<vertex x="1.27" y="-0.4445" curve="-90.012891"/>
+<vertex x="0.8255" y="-0.0203" curve="-90"/>
+<vertex x="1.27" y="0.447" curve="-90"/>
+<vertex x="1.7119" y="-0.0101" curve="-90.012967"/>
+</polygon>
+<polygon width="0.127" layer="30">
+<vertex x="0.0025" y="0.9525" curve="-90"/>
+<vertex x="-0.9524" y="1.8822" curve="-90.011749"/>
+<vertex x="0" y="2.8576" curve="-90"/>
+<vertex x="0.95" y="1.8796" curve="-90.024193"/>
+</polygon>
+<polygon width="0.127" layer="29">
+<vertex x="0" y="1.4605" curve="-90.012891"/>
+<vertex x="-0.4445" y="1.8847" curve="-90"/>
+<vertex x="0" y="2.352" curve="-90"/>
+<vertex x="0.4419" y="1.8949" curve="-90.012967"/>
+</polygon>
+</package>
+</packages>
+<symbols>
+<symbol name="TMP36">
+<wire x1="-5.08" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-5.08" x2="-5.08" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-5.08" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+<text x="-5.08" y="5.588" size="1.778" layer="95">&gt;Name</text>
+<text x="-5.08" y="-7.366" size="1.778" layer="96">&gt;Value</text>
+<pin name="VCC" x="-7.62" y="2.54" length="short"/>
+<pin name="GND" x="-7.62" y="-2.54" length="short"/>
+<pin name="VOUT" x="7.62" y="0" length="short" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="TMP36" prefix="U" uservalue="yes">
+<description>Precision degC temp sensor, analog out</description>
+<gates>
+<gate name="G$1" symbol="TMP36" x="0" y="0"/>
+</gates>
+<devices>
+<device name="GT9" package="TO-92">
+<connects>
+<connect gate="G$1" pin="GND" pad="3"/>
+<connect gate="G$1" pin="VCC" pad="1"/>
+<connect gate="G$1" pin="VOUT" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="TO-92-KIT" package="TO-92-KIT">
+<connects>
+<connect gate="G$1" pin="GND" pad="3"/>
+<connect gate="G$1" pin="VCC" pad="1"/>
+<connect gate="G$1" pin="VOUT" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -3706,9 +3872,10 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 </classes>
 <parts>
 <part name="U$1" library="raspberry" deviceset="RPI-B-V1" device="SHIELD"/>
-<part name="X1" library="Microchip" deviceset="21298E" device="DIP"/>
+<part name="ADC1" library="Microchip" deviceset="21298E" device="DIP"/>
 <part name="R1" library="resistor" deviceset="R-EU_" device="0207/7"/>
-<part name="PH1" library="photo-elements" deviceset="D11" device="" technology="60_12"/>
+<part name="PR1" library="photo-elements" deviceset="D11" device="" technology="60_12"/>
+<part name="TMP36" library="SparkFun-Sensors" deviceset="TMP36" device="GT9"/>
 </parts>
 <sheets>
 <sheet>
@@ -3716,19 +3883,20 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 </plain>
 <instances>
 <instance part="U$1" gate="G$1" x="0" y="0"/>
-<instance part="X1" gate="G$1" x="-78.74" y="-2.54" rot="R90"/>
+<instance part="ADC1" gate="G$1" x="-78.74" y="-2.54" rot="R90"/>
 <instance part="R1" gate="G$1" x="-83.82" y="-45.72"/>
-<instance part="PH1" gate="G$1" x="-71.12" y="-45.72" rot="R90"/>
+<instance part="PR1" gate="G$1" x="-71.12" y="-45.72" rot="R90"/>
+<instance part="TMP36" gate="G$1" x="-25.4" y="-43.18"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="AGND"/>
+<pinref part="ADC1" gate="G$1" pin="AGND"/>
 <wire x1="-91.44" y1="10.16" x2="-106.68" y2="10.16" width="0.1524" layer="91"/>
 <wire x1="-106.68" y1="10.16" x2="-106.68" y2="-5.08" width="0.1524" layer="91"/>
-<pinref part="X1" gate="G$1" pin="DGND"/>
+<pinref part="ADC1" gate="G$1" pin="DGND"/>
 <wire x1="-106.68" y1="-5.08" x2="-91.44" y2="-5.08" width="0.1524" layer="91"/>
 <label x="-111.76" y="2.54" size="1.778" layer="95"/>
 </segment>
@@ -3738,14 +3906,19 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 <label x="-45.72" y="-12.7" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="PH1" gate="G$1" pin="2"/>
+<pinref part="PR1" gate="G$1" pin="2"/>
 <wire x1="-66.04" y1="-45.72" x2="-63.5" y2="-45.72" width="0.1524" layer="91"/>
 <label x="-58.42" y="-45.72" size="1.778" layer="95" rot="R180"/>
+</segment>
+<segment>
+<pinref part="TMP36" gate="G$1" pin="GND"/>
+<wire x1="-33.02" y1="-45.72" x2="-35.56" y2="-45.72" width="0.1524" layer="91"/>
+<label x="-40.64" y="-45.72" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="3V3" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="VREF"/>
+<pinref part="ADC1" gate="G$1" pin="VREF"/>
 <wire x1="-93.98" y1="0" x2="-91.44" y2="0" width="0.1524" layer="91"/>
 <label x="-101.6" y="0" size="1.778" layer="95"/>
 </segment>
@@ -3754,26 +3927,41 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 <wire x1="-33.02" y1="-10.16" x2="-40.64" y2="-10.16" width="0.1524" layer="91"/>
 <label x="-45.72" y="-10.16" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="ADC1" gate="G$1" pin="VDD"/>
+<wire x1="-91.44" y1="5.08" x2="-93.98" y2="5.08" width="0.1524" layer="91"/>
+<label x="-101.6" y="5.08" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R1" gate="G$1" pin="1"/>
+<wire x1="-88.9" y1="-45.72" x2="-91.44" y2="-45.72" width="0.1524" layer="91"/>
+<label x="-93.98" y="-45.72" size="1.778" layer="95" rot="R180"/>
+</segment>
+<segment>
+<pinref part="TMP36" gate="G$1" pin="VCC"/>
+<wire x1="-33.02" y1="-40.64" x2="-35.56" y2="-40.64" width="0.1524" layer="91"/>
+<label x="-40.64" y="-40.64" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$3" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="GPIO9/SPI0_MISO"/>
 <wire x1="-33.02" y1="2.54" x2="-55.88" y2="2.54" width="0.1524" layer="91"/>
 <wire x1="-55.88" y1="2.54" x2="-55.88" y2="10.16" width="0.1524" layer="91"/>
-<pinref part="X1" gate="G$1" pin="DOUT"/>
+<pinref part="ADC1" gate="G$1" pin="DOUT"/>
 <wire x1="-55.88" y1="10.16" x2="-63.5" y2="10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="DIN"/>
+<pinref part="ADC1" gate="G$1" pin="DIN"/>
 <pinref part="U$1" gate="G$1" pin="GPIO10/SPI0_MOSI"/>
 <wire x1="-63.5" y1="0" x2="-33.02" y2="0" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="CLK"/>
+<pinref part="ADC1" gate="G$1" pin="CLK"/>
 <wire x1="-63.5" y1="5.08" x2="-58.42" y2="5.08" width="0.1524" layer="91"/>
 <wire x1="-58.42" y1="5.08" x2="-58.42" y2="-2.54" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="GPIO11/SPI0_SLCK"/>
@@ -3785,36 +3973,38 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_Photocells
 <pinref part="U$1" gate="G$1" pin="GPIO8/SPI0_CE0"/>
 <wire x1="-33.02" y1="5.08" x2="-50.8" y2="5.08" width="0.1524" layer="91"/>
 <wire x1="-50.8" y1="5.08" x2="-50.8" y2="-5.08" width="0.1524" layer="91"/>
-<pinref part="X1" gate="G$1" pin="!CS"/>
+<pinref part="ADC1" gate="G$1" pin="!CS"/>
 <wire x1="-50.8" y1="-5.08" x2="-63.5" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="5V" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="VDD"/>
-<wire x1="-91.44" y1="5.08" x2="-93.98" y2="5.08" width="0.1524" layer="91"/>
-<label x="-101.6" y="5.08" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="U$1" gate="G$1" pin="+5V"/>
 <wire x1="-40.64" y1="-7.62" x2="-33.02" y2="-7.62" width="0.1524" layer="91"/>
 <label x="-45.72" y="-7.62" size="1.778" layer="95"/>
 </segment>
-<segment>
-<pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="-88.9" y1="-45.72" x2="-91.44" y2="-45.72" width="0.1524" layer="91"/>
-<label x="-93.98" y="-45.72" size="1.778" layer="95" rot="R180"/>
-</segment>
 </net>
 <net name="A1" class="0">
 <segment>
-<pinref part="X1" gate="G$1" pin="CH0"/>
+<pinref part="TMP36" gate="G$1" pin="VOUT"/>
+<wire x1="-17.78" y1="-43.18" x2="-15.24" y2="-43.18" width="0.1524" layer="91"/>
+<label x="-12.7" y="-43.18" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ADC1" gate="G$1" pin="CH1"/>
+<wire x1="-83.82" y1="-20.32" x2="-83.82" y2="-22.86" width="0.1524" layer="91"/>
+<label x="-83.82" y="-27.94" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="A0" class="0">
+<segment>
+<pinref part="ADC1" gate="G$1" pin="CH0"/>
 <wire x1="-86.36" y1="-20.32" x2="-86.36" y2="-22.86" width="0.1524" layer="91"/>
 <label x="-86.36" y="-27.94" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
-<pinref part="PH1" gate="G$1" pin="1"/>
+<pinref part="PR1" gate="G$1" pin="1"/>
 <wire x1="-76.2" y1="-45.72" x2="-78.74" y2="-45.72" width="0.1524" layer="91"/>
 <wire x1="-78.74" y1="-45.72" x2="-78.74" y2="-38.1" width="0.1524" layer="91"/>
 <label x="-78.74" y="-43.18" size="1.778" layer="95" rot="R90"/>
