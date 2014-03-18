@@ -1,11 +1,18 @@
+<?php
+	setCookie('login');
+	setCookie('password');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
     
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Ajout d'un capteur</title>
-        <meta name="description" content="">
+        <title>
+            Smart Sensor Wifi. Check your Sensor !
+        </title>
+        <meta name="description" content="Webpage monitoring of the project">
         <meta name="author" content="Maliar Benoit, Maurice Thomas">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
@@ -61,49 +68,33 @@
         </style>
     </head>
     
-	<body>
-		<div class="ink-grid">
+    <body>
+        <div class="ink-grid">
             <header>
-                <h1>Ajouter un capteur<small></small></h1>
-                <?php 
-                	include("connexion.php"); 
-	                include("nav.php");
-                ?>
+                <h1>Smart Sensor Wifi<small>Maliar Benoit & Maurice Thomas</small></h1>
+                <nav class="ink-navigation vspace">
+                    <ul class="menu horizontal black rounded shadowed">
+                    	<li><a href="#"></a></li>
+                    </ul>
+                </nav>             
             </header>
-		
-					<?php
-					$i=O;
-					if (isset($_POST['name'])){
-						if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
-							$check=$bdd->prepare("SELECT login, password FROM admin");
-                        	$check->execute();
-                        	$data=$check->fetch();
-                        	$check->closeCursor();
-                        	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
-	                        	
-	                        	$i=0;
-	                        	while($_POST['name'][$i] != NULL){
-	                        		$up=$_POST['name'][$i];
-	                        		$req = $bdd->prepare("INSERT INTO data(name) VALUES(?)");
-	                        		$req->execute(array($up));
-	                        		echo "Capteur ". $up . " ajouté à la base" . "</br>";
-		                        	$i++;
-		                        	$req->closeCursor();
-		                        }
-		                    }
-						}
-					}
-					else{
-					?>
-		    			<form action="add.php" method="post">
-		        			<div id="champs">
-					        	<input name="name[]" type=text placeholder="Nom du capteur">
-		        			</div>
-						    <button type="button" onclick="addField()" >+</button>
-					        <button type="submit" class="ink-button">Envoyer</button>
-					        <script type="text/javascript" src="addfield.js"></script>						        
-		    			</form>
-			   <?php } ?>
-        </div>
-	</body>
+            
+            <div class="column-group gutters">
+            	<div class="ink-form large-50 medium-50 small-100">
+            		Vous êtes à présent déconnecté
+	            	<a href="index.php" target="_self"> <input type="button" value ="Retour" class="ink-button"></a>
+				</div>                         
+            </div>
+        </div>               
+        <footer>
+            <div class="ink-grid">
+                <nav class="ink-navigation push-left medium-100 small-100 small-push-left">
+                    <ul class="menu horizontal">
+                        <li><a href="#">Link</a></li>
+                    </ul>
+                </nav>
+                <p class="push-right small-100">GNU GPL. 2014</p>
+            </div>
+        </footer>
+    </body>
 </html>

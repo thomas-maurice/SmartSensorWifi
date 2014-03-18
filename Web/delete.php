@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Ajout d'un capteur</title>
+        <title>Suppression d'un capteur</title>
         <meta name="description" content="">
         <meta name="author" content="Maliar Benoit, Maurice Thomas">
         <meta name="HandheldFriendly" content="True">
@@ -64,7 +64,7 @@
 	<body>
 		<div class="ink-grid">
             <header>
-                <h1>Ajouter un capteur<small></small></h1>
+                <h1>Supprimer un capteur<small></small></h1>
                 <?php 
                 	include("connexion.php"); 
 	                include("nav.php");
@@ -84,9 +84,9 @@
 	                        	$i=0;
 	                        	while($_POST['name'][$i] != NULL){
 	                        		$up=$_POST['name'][$i];
-	                        		$req = $bdd->prepare("INSERT INTO data(name) VALUES(?)");
+	                        		$req = $bdd->prepare("DELETE FROM data WHERE id=?");
 	                        		$req->execute(array($up));
-	                        		echo "Capteur ". $up . " ajouté à la base" . "</br>";
+	                        		echo "Capteur ". $up . " supprimé de la base" . "</br>";
 		                        	$i++;
 		                        	$req->closeCursor();
 		                        }
@@ -97,7 +97,7 @@
 					?>
 		    			<form action="add.php" method="post">
 		        			<div id="champs">
-					        	<input name="name[]" type=text placeholder="Nom du capteur">
+					        	<input name="name[]" type=text placeholder="ID du capteur">
 		        			</div>
 						    <button type="button" onclick="addField()" >+</button>
 					        <button type="submit" class="ink-button">Envoyer</button>

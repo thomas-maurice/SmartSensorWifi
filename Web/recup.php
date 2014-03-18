@@ -1,133 +1,49 @@
-<!DOCTYPE html>
-<html lang="fr">
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>
-            Mise à jour capteurs
-        </title>
-        <meta name="description" content="">
-        <meta name="author" content="Maliar Benoit, Maurice Thomas">
-        <meta name="HandheldFriendly" content="True">
-        <meta name="MobileOptimized" content="320">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <link rel="shortcut icon" href="/ink/img/polytech.ico">
-        <link rel="apple-touch-icon-precomposed" href="/ink/img/touch-icon.57.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ink/img/touch-icon.72.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ink/img/touch-icon.114.png">
-        <link rel="apple-touch-startup-image" href="/ink/img/splash.320x460.png"
-        media="screen and (min-device-width: 200px) and (max-device-width: 320px) and (orientation:portrait)">
-        <link rel="apple-touch-startup-image" href="/ink/img/splash.768x1004.png"
-        media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
-        <link rel="apple-touch-startup-image" href="/ink/img/splash.1024x748.png"
-        media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
-        <link rel="stylesheet" type="text/css" href="/ink/css/ink.css">
-        
-        <!--[if IE 7 ]>
-            <link rel="stylesheet" href="/ink/css/ink-ie7.css" type="text/css" media="screen" title="no title" charset="utf-8">
-        <![endif]-->
-        
-        <script type="text/javascript" src="/ink/js/holder.js"></script>
-        <script type="text/javascript" src="/ink/js/ink.min.js"></script>
-        <script type="text/javascript" src="/ink/js/ink-ui.min.js"></script>
-        <script type="text/javascript" src="/ink/js/autoload.js"></script>
-        <script type="text/javascript" src="/ink/js/html5shiv.js"></script>
-        
-        
-        <style type="text/css">
-       		body {
-                background: #ededed;
-            }
-            header {
-                padding: 2em 0;
-                margin-bottom: 2em;
-            }
-            header h1 {
-                font-size: 2em;
-            }
-            header h1 small:before  {
-                content: "|";
-                margin: 0 0.5em;
-                font-size: 1.6em;
-            }
-            footer {
-                background: #ccc;
-                color: #0003;
-            }
-            footer p {
-                padding: 0.5em 1em 0.5em 0;
-                margin: 0;        
-            }
+<?php
 
-        </style>
-    </head>
-    
-	<body>
-		<div class="ink-grid">
-            <header>
-                <h1>Update page<small></small></h1>
-                <nav class="ink-navigation vspace">
-                    <ul class="menu horizontal black rounded shadowed">
-                        <li class="active"><a href="../">Accueil</a></li>
-                    </ul>
-                </nav>             
-            </header>
-            
-        <div class="column-group gutters">
-        	<div class="ink-form large-50 medium-50 small-100">
-	        <?php
+	//Execute the update only if Json's $_POST is received
+	if (isset($_POST)){
+		//Connection's file
+		include("connexion.php");
 		
-				//Execute the update only if Json's $_POST is received
-				if (isset($_POST)){
-					//Connection's file
-					include("connexion.php");
-					
-					/*$json = $_POST;*/
-				
-					// Json's test
-					/*$json = '{"id":1,"password":"PaSsWoRd","temp":2,"pression":3,"detect":4}';*/
-					//End of Json's test 
-					
-					//Extract the received data
-					$var = json_decode($json);
-					$id = $var->{'id'};
-					$password = $var->{'password'};
-					$temp = $var->{'temp'};
-					$pression = $var->{'pression'};
-					$detect = $var->{'detect'};
-					
-					//Check the user
-					$check = $bdd->prepare("SELECT password FROM user WHERE id=?");
-					$check->execute(array($id));
-					$test=$check->fetch();
-					//Close the request's connection
-					$check->closeCursor();
-					
-					if ($test['password']==$password && $password!=NULL && $test['password']!=NULL){
-					
-						//Prepare and execute the update on the DB
-						$req = $bdd->prepare("UPDATE data SET temp=?, pression=?, detect=? WHERE id=?");
-						$req->execute(array($temp,$pression,$detect,$id));
-						
-						//Printing the update informations
-						echo 'Mise à jour de la table pour le capteur ' . $id . '</br>';
-						echo 'Température : ' . $temp . '</br>';
-						echo 'Pression : ' . $pression . '</br>';
-						echo 'Detection : ' . $detect . '</br>';
-						$errorinfo = $req->errorInfo();
-						if ($errorinfo == 00000){
-							print_r($errorinfo);	
-						}
-						//Close the request's connection
-						$req->closeCursor();
-					}
-					else{
-						echo "Permission refusée";
-					}							
-				}
-			?>
-        	</div>
-        </div>
-	</body>
-</html>
+		$json = $_POST;	
+		
+		// Json's test
+			//$json = '{"id":"1","password":"PaSsWoRd","temp":"2","lum":"3","detect":"4"}';
+		//End of Json's test 
+		
+		//Extract the received data
+		$var = json_decode($json);
+		$id = $var->{'id'};
+		$password = $var->{'password'};
+		$temp = $var->{'temp'};
+		$lum = $var->{'lum'};
+		
+		//Check the user
+		$check = $bdd->prepare("SELECT password FROM user WHERE id=?");
+		$check->execute(array($id));
+		$test=$check->fetch();
+		//Close the request's connection
+		$check->closeCursor();
+		
+		if ($test['password']==$password && $password!=NULL && $test['password']!=NULL){
+		
+			//Prepare and execute the update on the DB
+			$req = $bdd->prepare("UPDATE data SET temp=?, lum=?, WHERE id=?");
+			$req->execute(array($temp,$lum,$id));
+			
+			//Printing the update informations
+			echo 'Mise à jour de la table pour le capteur ' . $id . '</br>';
+			echo 'Température : ' . $temp . '</br>';
+			echo 'Luminosité : ' . $lum . '</br>';
+			$errorinfo = $req->errorInfo();
+			if ($errorinfo == 00000){
+				print_r($errorinfo);	
+			}
+			//Close the request's connection
+			$req->closeCursor();
+		}
+		else{
+			echo "Permission refusée";
+		}							
+	}
+?>

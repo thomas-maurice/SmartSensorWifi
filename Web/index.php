@@ -67,60 +67,96 @@
         <div class="ink-grid">
             <header>
                 <h1>Smart Sensor Wifi<small>Maliar Benoit & Maurice Thomas</small></h1>
-                <nav class="ink-navigation vspace">
-                    <ul class="menu horizontal black rounded shadowed">
-                        <li class="active"><a href="#">Accueil</a></li>
-                        <li><a href="../add/php">Add</a></li>
-                    </ul>
-                </nav>             
+                <?php 
+                	include("connexion.php"); 
+	                include("nav.php");
+                ?>    
             </header>
             
             <div class="column-group gutters">
-            <?php 
-	        	//Connection'file
-	            include("connexion.php");
-			
-	            //Select all data in the db with prepared request
-	            $req = $bdd->prepare('SELECT id, temp, pression, detect FROM data');
-	            $req->execute();
-	        ?>
-                <div class="ink-form large-50 medium-50 small-100">
-                	<p><table class="ink-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Temperature</th>
-                                <th>Pression</th>
-                                <th>Detection</th>
-                            </tr>
-                        </thead>                            
-                        <tbody>
-	                        <?php
-		                        while ($donnees = $req->fetch()){
-		                        	echo '<tr>';
-			                    		echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
-			                    		echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
-			                    		echo '<td>' . '<center>' . $donnees['pression'] . '</center>' . '</td>';
-			                    		echo '<td>' . '<center>' . $donnees['detect'] . '</center>' . '</td>';
-			                    	echo '</tr>';
-                            	}
-                            ?>
-                        </tbody>
-                    </table></p> 
-                    	<?php
-			                //Close the request's connection
-			                $req->closeCursor();
-			            ?>	
-                </div>
-                
-                <div class="large-50 medium-50 small-100">
-                    <p>
-                        Chuck Norris once kicked a baby elephant into puberty. Crop circles are Chuck Norris' way of telling the world that sometimes corn needs to lie the f*ck down.
-                    </p>
-                </div>
+            <?php
+					if( isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
+					  if($_COOKIE['login']!='destroyed' && $_COOKIE['password']!='destroyed'){
 
+						$check=$bdd->prepare("SELECT login, password FROM admin");
+						$check->execute();
+						$data=$check->fetch();
+						$check->closeCursor();
+						if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
+		    				//Select all data in the db with prepared request
+		    				$req = $bdd->prepare('SELECT id, name, temp, lum FROM data');
+		    				$req->execute();
+		    ?>
+		    				<div class="ink-form large-50 medium-50 small-100">
+			    				<p><table class="ink-table">
+				    			<thead>
+					    			<tr>
+						    			<th>ID</th>
+						    			<th>Identifiant</th>
+						    			<th>Temperature</th>
+						    			<th>Luminosité</th>
+						    		</tr>
+						    	</thead>                            
+						    	<tbody>
+							    	<?php
+								    	while ($donnees = $req->fetch()){
+									    	echo '<tr>';
+									    	echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
+									    	echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
+									    	echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
+									    	echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
+									    	echo '</tr>';
+									    }
+									    $req->closeCursor();
+									?>
+								</tbody>
+								</table></p> 
+							</div>
+							<div class="large-50 medium-50 small-100">
+								<p>
+									Chuck Norris once kicked a baby elephant into puberty. Crop circles are Chuck Norris' way of telling the world that sometimes corn needs to lie the f*ck down.
+								</p>
+							</div>
+		    	  <?php }
+		    	  		else
+		    	  		{
+		    	  			echo "Vous n'avez pas la permission !"; ?>	
+		    	  			<form action="redirect.php" method="POST">
+	                        <input type="hidden" value="logout" name="logout">
+	                        <input type="submit"  class='ink-button' value="Retour">
+	                    <?php
+	                    }
+		    	  }
+		    	}
+				else{ ?>
+				<div class="ink-form large-50 medium-50 small-100">
+	    			<form action="redirect.php" method="post" class="ink-form">
+	        			<fieldset class="column-group gutters">
+	        				<div class="control-group large-33 medium-33 small-100">
+	        					<div class="control-group gutters required">
+		        					<div class="control medium-20">
+			        					<input name=login type=text placeholder="Login">
+			        				</div>
+	        					</div>
+	        				</div>
+	        				<div class="control-group large-33 medium-33 small-100">
+			        			<div class="control required">
+				        			<input name=password type=password placeholder="Password">
+			        			</div>
+				        	</div>
+				        	<div class="control-group large-33 medium-33 small-100">
+					        	<div class="column">
+				        			<div class="control">
+				        				<button type="submit" class="ink-button">Envoyer</button>
+				        			</div>
+				        		</div>
+				        	</div 	
+		  				</fieldset>	
+	    			</form>
+	    		</div
+		<?php } ?>	                            
             </div>
-                        
+        </div>               
         <footer>
             <div class="ink-grid">
                 <nav class="ink-navigation push-left medium-100 small-100 small-push-left">
