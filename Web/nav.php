@@ -8,9 +8,10 @@
 	    		$data=$check->fetch();
 	    		$check->closeCursor();
 	    		if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
-	    ?>
+	    ?>			
+	    			<li><a href="search.php">Search</a></li>
 	    			<li><a href="add.php">Add</a></li>
-	            	<li><a href="delete.php">Del</a></li>
+	            	<li><a href="delete.php">Delete</a></li>
 	    			<li>
 	        			<form action="redirect.php" method="POST">
 	            			<input type="hidden" value="logout" name="logout">

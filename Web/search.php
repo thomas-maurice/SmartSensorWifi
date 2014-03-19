@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Suppression d'un capteur</title>
+        <title>Recherche d'un capteur</title>
         <meta name="description" content="">
         <meta name="author" content="Maliar Benoit, Maurice Thomas">
         <meta name="HandheldFriendly" content="True">
@@ -64,7 +64,7 @@
 	<body>
 		<div class="ink-grid">
             <header>
-                <h1>Supprimer un capteur<small></small></h1>
+                <h1>Rechercher un capteur<small></small></h1>
                 <?php 
                 	include("connexion.php"); 
 	                include("nav.php");
@@ -95,14 +95,48 @@
 					}
 					else{
 					?>
-		    			<form action="delete.php" method="post">
-		        			<div id="champs">
-					        	<input name="name[]" type=text placeholder="ID du capteur">
-		        			</div>
-						    <button type="button" onclick="delField()" >+</button>
-					        <button type="submit" class="ink-button">Envoyer</button>
-					        <script type="text/javascript" src="addfield.js"></script>						        
-		    			</form>
+						<div class="ink-form large-100 medium-100 small-100">
+		    				<form action="search.php" method="post" class="ink-form">
+		    					<p>Recherche par ID : </p>
+		    					<select name="id">'
+		    					<fieldset class="column-group gutters">
+			    					<div class="control-group large-33 medium-33 small-100">
+				    					<div class="control-group gutters required">
+					    					<div class="control medium-20">
+		        			<?php
+		        				$value = $bdd->query('SELECT id FROM data');
+		        				while ($data = $value->fetch()){
+			        				echo'<option value="'.$data['id'].'">'.$data['id'].'</option>';
+			        			}
+			        		?>
+					    					</div>
+					    				</div>
+					    			</div>
+					    		</fieldset>
+					    		</select>
+					    		<button type="submit" class="ink-button">Envoyer</button>
+					    	</form>
+					    	<form action="search.php" method="post" class="ink-form">
+		    					<p>Recherche par nom : </p>
+		    					<select name="name">'
+		    					<fieldset class="column-group gutters">
+			    					<div class="control-group large-33 medium-33 small-100">
+				    					<div class="control-group gutters required">
+					    					<div class="control medium-20">
+		        			<?php
+		        				$value = $bdd->query('SELECT name FROM data');
+		        				while ($data = $value->fetch()){
+			        				echo'<option value="'.$data['name'].'">'.$data['name'].'</option>';
+			        			}
+			        		?>
+					    					</div>
+					    				</div>
+					    			</div>
+					    		</fieldset>
+					    		</select>
+					    		<button type="submit" class="ink-button">Envoyer</button>
+					    	</form>
+						</div>
 			   <?php } ?>
         </div>
         <?php include("footer.php"); ?>

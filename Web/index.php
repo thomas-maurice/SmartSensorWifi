@@ -77,24 +77,25 @@
             <?php
 					if( isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 					  if($_COOKIE['login']!='destroyed' && $_COOKIE['password']!='destroyed'){
-
 						$check=$bdd->prepare("SELECT login, password FROM admin");
 						$check->execute();
 						$data=$check->fetch();
 						$check->closeCursor();
 						if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
 		    				//Select all data in the db with prepared request
-		    				$req = $bdd->prepare('SELECT id, name, temp, lum FROM data');
+		    				$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data ORDER BY id DESC LIMIT 5');
 		    				$req->execute();
 		    ?>
 		    				<div class="ink-form large-50 medium-50 small-100">
-			    				<p><table class="ink-table">
+		    					<h3> 5 Derniers ajouts </h3>
+			    				<table class="ink-table bordered alternating">
 				    			<thead>
 					    			<tr>
 						    			<th>ID</th>
-						    			<th>Identifiant</th>
+						    			<th>Nom</th>
 						    			<th>Temperature</th>
 						    			<th>Luminosité</th>
+						    			<th>Date</th>
 						    		</tr>
 						    	</thead>                            
 						    	<tbody>
@@ -105,17 +106,19 @@
 									    	echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
+									    	echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
 									    	echo '</tr>';
 									    }
 									    $req->closeCursor();
 									?>
 								</tbody>
-								</table></p> 
+								</table>
 							</div>
 							<div class="large-50 medium-50 small-100">
-								<p>
-									Chuck Norris once kicked a baby elephant into puberty. Crop circles are Chuck Norris' way of telling the world that sometimes corn needs to lie the f*ck down.
-								</p>
+								</br></br>
+								<center>
+									<img src="doge.jpeg" width="450" height="450"/>
+								</center>
 							</div>
 		    	  <?php }
 		    	  		else
@@ -157,15 +160,6 @@
 		<?php } ?>	                            
             </div>
         </div>               
-        <footer>
-            <div class="ink-grid">
-                <nav class="ink-navigation push-left medium-100 small-100 small-push-left">
-                    <ul class="menu horizontal">
-                        <li><a href="#">Link</a></li>
-                    </ul>
-                </nav>
-                <p class="push-right small-100">GNU GPL. 2014</p>
-            </div>
-        </footer>
+        <?php include("footer.php"); ?>
     </body>
 </html>
