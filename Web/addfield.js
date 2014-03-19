@@ -13,3 +13,9 @@ function addField() {
 	div.appendChild(document.createElement("br"));
 	addInput("name[]","Identifiant");
 }
+
+// Ajout du champ (pour delete)
+function delField() {
+	div.appendChild(document.createElement("br"));
+	addInput("name[]","ID du capteur");
+}
