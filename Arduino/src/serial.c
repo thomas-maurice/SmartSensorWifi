@@ -67,3 +67,15 @@ void serial_send_string(const char* s, int size) {
 	for(uint8_t i = 0; i < size; i++)
 		serial_send(s[i]);
 }
+
+/**
+ * Sends a null terminated char* buffer to the serial link.
+ * This is a blocking function.
+ * 
+ * \param [in] s The string to send
+ */
+void serial_send_string_nt(const char* s) {
+	for(uint16_t i = 0; s[i] != '\0'; i++)
+		serial_send(s[i]);
+}
+

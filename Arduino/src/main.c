@@ -80,6 +80,7 @@
 #include <eep.h>
 #include <ds1302.h>
 #include <spi.h>
+#include <wizFi210.h>
 
 // Json : '{"key":"value","key2":"value2"}'
 
@@ -91,6 +92,8 @@
  */
 int main(void)
 {
+	wizFi210_init();
+	
 	// Peripherals inits
 	serial_init();
 	adc_init();
@@ -110,15 +113,17 @@ int main(void)
 	
 	ds1302_set_date(5, 3, 2014);
 	
-	_delay_us(1);
-	spi_send(SPI_IDLE_CHAR);
+	display_clear();
+	
+	serial_send_string_nt("AT\r");
+	
+	while(wizFi210_check_ok() != 1) {
+		_delay_ms(10);
+	}
+	
+	display_send(8);
+	
 	_delay_ms(1000);
-	spi_send_buffer("AT\r");
-	
-	while(gbi(PIND, PD3)==0);
-	
-	while(gbi(PIND, PD3)==1)
-		serial_send(spi_send(0));
 	
 	for(;;){
 		_delay_ms(1000);
