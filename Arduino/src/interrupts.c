@@ -35,6 +35,8 @@
 #include <web.h>
 #include <serial.h>
 #include <adc.h>
+#include <spi.h>
+#include <wizFi210.h>
 
 /**
  * \brief USART RX Interrupt
@@ -45,16 +47,7 @@
  */
 ISR(USART_RX_vect) {
 	char recv = UDR0;
-	if(recv != '\n') {
-		request[request_index] = recv;
-		request[request_index+1] = '\0';
-		if(request_index == MAX_REQUEST_LENGTH) {
-			web_parse_request(request, request_index+1);
-			request_index = 0;
-		}
-		request_index = request_index + 1;
-	} else {
-		web_parse_request(request, request_index+1);
-		request_index = 0;
-	}
+	
+	wizFi210_recv_buffer[wizFi210_recv_len]=recv;
+	wizFi210_recv_len=(wizFi210_recv_len+1)%WIZFI210_BUFSIZE;
 }

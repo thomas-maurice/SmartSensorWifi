@@ -34,7 +34,7 @@
 #include <string.h>
 
 /** Baudrate for the serial link */
-#define BAUDRATE	103 // UBRR value for 9600
+#define BAUDRATE	8 // value for 115200 //103 // UBRR value for 9600
 
 /** Initializes the serial link for 9600 bauds */
 void serial_init(void);
@@ -42,5 +42,6 @@ void serial_init(void);
 void serial_send(unsigned char c);
 /** Sends a string to the serial port */
 void serial_send_string(const char* s, int size);
+void serial_send_string_nt(const char* s);
 
 #endif
