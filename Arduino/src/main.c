@@ -110,15 +110,27 @@ int main(void)
 	
 	ds1302_set_date(5, 3, 2014);
 	
-	_delay_us(1);
-	spi_send(SPI_IDLE_CHAR);
 	_delay_ms(1000);
+	
+	serial_send_string("Sync\n", 5);
+	
+	spi_send(0xFB);
+	spi_send(0xD5);
+	
+	serial_send_string("....\n", 5);
+	
+	uint8_t b = spi_send(0);
+	while((b != SPI_IDLE_CHAR) &&  (b != SPI_INVALID_CHAR_ALL_ZERO) && (b != SPI_INVALID_CHAR_ALL_ONE)) {
+		b = spi_send(0);
+	}
+	
+	serial_send_string("Ok\n", 3);
+	
 	spi_send_buffer("AT\r");
 	
-	while(gbi(PIND, PD3)==0);
-	
-	while(gbi(PIND, PD3)==1)
+	while(gbi(PIND, PD3)==1) {
 		serial_send(spi_send(0));
+	}
 	
 	for(;;){
 		_delay_ms(1000);
