@@ -1,0 +1,138 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages standards
+
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{lmodern}
+
+% Configuration
+\def\NomAuteur{Maurice}
+\def\PrenomAuteur{Thomas}
+\def\Titre{Rapport de projet de Système et Réseau}
+\def\TitreCourt{Rapport PSR}
+
+% Infos du document
+% Auteur et tout ça
+% Mise en page
+
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{titlesec}
+% Pour include PDF :
+% \includepdf[pages=n-m]{fichier.pdf}
+\usepackage[final]{pdfpages}
+
+% Urls & figures
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+% Configuration de l'article
+
+\hypersetup{
+	pdftitle={\Titre~-~\PrenomAuteur~\NomAuteur}, 	% Titre
+	pdfauthor={\PrenomAuteur \NomAuteur}, 	% Auteur
+	colorlinks=true,			% Couleur des liens
+	linkcolor=black,			% Couleur des liens
+	urlcolor=black				% Couleur des liens
+}
+
+% Géométrie
+
+\geometry{
+	a4paper,
+	body={150mm,250mm},
+	left=20mm,
+	right=20mm,
+	top=20mm,
+	bottom=20mm,
+	headheight=7mm,
+	headsep=4mm
+}
+
+\pagestyle{empty}
+
+ % Titre du document
+
+\newcommand{\titre}[1]{
+						\textbf{
+							\LARGE{
+								\begin{center}
+									#1
+								\end{center}
+							}
+						}
+					}
+
+% En-tête du document
+
+\newcommand{\makehead}{
+	~~
+	\vspace{3cm}
+	\titre{\Titre}
+	\vspace{3cm}
+	\begin{center}
+		\PrenomAuteur~\bsc{\NomAuteur} \\
+		Benoit \bsc{Maliar} \\~\\
+		École Polytechnique Universitaire de Lille \\
+		Département IMA \\
+		~\\
+		\href{mailto:thomas.maurice@polytech-lille.net}{\texttt{Thomas.Maurice@polytech-lille.net}} \\
+		\href{mailto:benoit.maliar@polytech-lille.net}{\texttt{Benoit.Maliar@polytech-lille.net}} \\
+		~\\
+		\today\\
+	\end{center}
+	\vspace{5cm}
+	\begin{center}
+		\begin{tabular}{l r}
+			\includegraphics[scale=0.5]{polytech.eps} ~~~~~~~~~ & ~~~~~~~~~ \includegraphics[scale=0.5]{ustl.eps} \\
+		\end{tabular}
+	\end{center}
+	
+	\newpage
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0.4pt}
+	
+	\pagestyle{fancy}
+	\fancyhead[L]{\bsc{Maliar - Maurice}}
+	\fancyhead[R]{\TitreCourt}
+	\fancyhead[C]{}
+	\fancyfoot[C]{}
+	
+	\tableofcontents
+	\newpage
+	\pagestyle{fancy}
+	\fancyhead[L]{\bsc{Maliar - Maurice}}
+	\fancyhead[R]{\TitreCourt}
+	\fancyhead[C]{}
+	\fancyfoot[C]{\thepage}
+	\setcounter{page}{1}
+}
+
+\begin{document}
+	\makehead
+	
+	\addcontentsline{toc}{section}{Introduction}
+	\section*{Introduction}
+		Texte d'introduction
+	
+	\section{Section 1}
+		\subsection{Section 1}
+			Test 1
+		\subsection{Section 2}
+			Test 2
+	
+	\section{Section 2}
+		\subsection{Section 1}
+			Test 1
+		\subsection{Section 2}
+			Test 2
+	
+	\addcontentsline{toc}{section}{Conclusion}
+	\section*{Conclusion}
+		Conclusion
+		
+\end{document}

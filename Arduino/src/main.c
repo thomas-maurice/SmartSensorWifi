@@ -83,6 +83,36 @@
 #include <wizFi210.h>
 
 // Json : '{"key":"value","key2":"value2"}'
+static char buf[7];
+int check_ok() {
+
+	int stop = 0;
+	
+	while(stop==0) {
+		while(!(UCSR0A&(1<<RXC0)));
+		char c = UDR0;
+		if(c=='\n')
+			continue;
+		if(c=='\r')
+			continue;
+		for(int i = 0; i < 7; i++) {
+			buf[i] = buf[i+1];
+		}
+		
+		buf[6] = c;
+		
+		/*serial_send_string(buf, 7);
+		serial_send('|');
+		serial_send('\n');
+		*/
+		if(strncmp(buf, "[ERROR:", 7) == 0) {
+			return 1;
+		}
+		else if(strncmp(buf+3, "[OK]", 4) == 0) {
+			return 0;
+		}
+	}
+}
 
 /**
  * \brief Main function of the program
@@ -114,16 +144,39 @@ int main(void)
 	ds1302_set_date(5, 3, 2014);
 	
 	display_clear();
-	
-	serial_send_string_nt("AT\r");
-	
-	while(wizFi210_check_ok() != 1) {
-		_delay_ms(10);
+	cli();
+	serial_send_string_nt("\rAT+WM=0\r");
+	_delay_ms(10);
+	if(check_ok() == 0) {
+		serial_send_string_nt("OKTAMERE\r");
+		if(check_ok() == 1)
+			serial_send_string_nt("ERR\r");
+		sei();
 	}
-	
-	display_send(8);
-	
+	serial_send_string_nt("AT+NDHCP=0\r");
+	serial_send_string_nt("AT+WSEC=8\r");
+	serial_send_string_nt("AT+WPAPSK=Network,lolimagonnagiveyouthepassword\r");
+	//serial_send_string_nt("AT+WPSK=pas facile a retenir, hein ?\r");
+	serial_send_string_nt("AT+WA=PolyWSN\r");
+	serial_send_string_nt("AT+NSET=172.26.240.13,255.255.255.0,172.26.240.254\r");
+	//_delay_ms(1000);
+	//serial_send_string_nt("AT+PING=172.26.240.254,1\r");
+	//_delay_ms(1000);
+	//serial_send_string_nt("AT+WS\r");
+	serial_send_string_nt("AT+NCTCP=193.48.57.56,80\r");
+	_delay_ms(5000);
+	serial_send_string_nt("AT+CID=?\r");
 	_delay_ms(1000);
+	serial_send(0x1B);
+	serial_send_string_nt("S0");
+	serial_send_string_nt("POST /recup.php HTTP/1.0\n\
+Host: smartsensorwifi.plil.net\n\
+Content-type: application/x-www-form-urlencoded\n\
+Content-length: 40\n\
+\n\
+temp=240&lum=140&mid=42&mpass=captest\n         ");
+	serial_send(0x1B);
+	serial_send('E');
 	
 	for(;;){
 		_delay_ms(1000);

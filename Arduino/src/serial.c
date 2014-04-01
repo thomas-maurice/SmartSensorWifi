@@ -41,7 +41,7 @@ void serial_init(void) {
 	// ATMEGA328
 	UBRR0H = (BAUDRATE>>8);
 	UBRR0L = BAUDRATE;	
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0);//|(1<<RXCIE0);
 	UCSR0C = (1<<UCSZ00)|(1<<UCSZ01);//0x06;
 }
 
