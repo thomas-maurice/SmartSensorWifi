@@ -70,74 +70,100 @@
 	                include("nav.php");
                 ?>
             </header>
-		
-					<?php
-					$i=O;
-					if (isset($_POST['name'])){
-						if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
-							$check=$bdd->prepare("SELECT login, password FROM admin");
-                        	$check->execute();
-                        	$data=$check->fetch();
-                        	$check->closeCursor();
-                        	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
-	                        	
-	                        	$i=0;
-	                        	while($_POST['name'][$i] != NULL){
-	                        		$up=$_POST['name'][$i];
-	                        		$req = $bdd->prepare("DELETE FROM data WHERE id=?");
-	                        		$req->execute(array($up));
-	                        		echo "Capteur ". $up . " supprimé de la base" . "</br>";
-		                        	$i++;
-		                        	$req->closeCursor();
-		                        }
-		                    }
-						}
-					}
-					else{
-					?>
-						<div class="ink-form large-100 medium-100 small-100">
-		    				<form action="search.php" method="post" class="ink-form">
-		    					<p>Recherche par ID : </p>
-		    					<select name="id">'
-		    					<fieldset class="column-group gutters">
-			    					<div class="control-group large-33 medium-33 small-100">
-				    					<div class="control-group gutters required">
-					    					<div class="control medium-20">
-		        			<?php
-		        				$value = $bdd->query('SELECT id FROM data');
-		        				while ($data = $value->fetch()){
-			        				echo'<option value="'.$data['id'].'">'.$data['id'].'</option>';
-			        			}
-			        		?>
-					    					</div>
-					    				</div>
-					    			</div>
-					    		</fieldset>
-					    		</select>
-					    		<button type="submit" class="ink-button">Envoyer</button>
-					    	</form>
-					    	<form action="search.php" method="post" class="ink-form">
-		    					<p>Recherche par nom : </p>
-		    					<select name="name">'
-		    					<fieldset class="column-group gutters">
-			    					<div class="control-group large-33 medium-33 small-100">
-				    					<div class="control-group gutters required">
-					    					<div class="control medium-20">
-		        			<?php
-		        				$value = $bdd->query('SELECT name FROM data');
-		        				while ($data = $value->fetch()){
-			        				echo'<option value="'.$data['name'].'">'.$data['name'].'</option>';
-			        			}
-			        		?>
-					    					</div>
-					    				</div>
-					    			</div>
-					    		</fieldset>
-					    		</select>
-					    		<button type="submit" class="ink-button">Envoyer</button>
-					    	</form>
-						</div>
-			   <?php } ?>
+			<div class="ink-form large-100 medium-100 small-100">
+				<?php
+				if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
+					$check=$bdd->prepare("SELECT login, password FROM admin");
+                	$check->execute();
+                	$data=$check->fetch();
+                	$check->closeCursor();
+                	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
+						if (isset($_POST['id']) || isset($_POST['name'])){
+						  ?>
+							<div class="ink-form large-100 medium-100 small-100">
+		    				<h3> Informations sur le capteur demandé </h3>
+			    			<table class="ink-table bordered alternating">
+				    		<thead>
+					    	<tr>
+						    	<th>ID</th>
+						    	<th>Nom</th>
+						    	<th>Temperature</th>
+						    	<th>Luminosité</th>
+						    	<th>Date</th>
+						    </tr>
+						    </thead>                            
+						    <tbody>
+						  <?php
+							if(isset($_POST['id'])){
+								$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data WHERE id=? ORDER BY id');
+								$req->execute(array((int)$_POST['id']));
+							}
+							else{
+								$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data WHERE name=? ORDER BY id');
+								$req->execute(array($_POST['name']));
+							}
+								while ($donnees = $req->fetch()){
+									echo '<tr>';
+								    echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
+									echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
+									echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
+									echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
+									echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
+									echo '</tr>';
+								}
+								$req->closeCursor();
+				?>
+							</tbody>
+							</table>
+							</div>
+	           <?php }
+	           	else {?>
+						<form action="search.php" method="post" class="ink-form">
+							<p>Recherche par ID : </p>
+							<select name="id">'
+							<fieldset class="column-group gutters">
+		    					<div class="control-group large-33 medium-33 small-100">
+			    					<div class="control-group gutters required">
+				    					<div class="control medium-20">
+		    			<?php
+		    				$value = $bdd->query('SELECT id FROM data ORDER BY id');
+		    				while ($data = $value->fetch()){
+		        				echo'<option value="'.$data['id'].'">'.$data['id'].'</option>';
+		        			}
+		        			$value->closeCursor();
+		        		?>
+				    					</div>
+				    				</div>
+				    			</div>
+				    		</fieldset>
+				    		</select>
+				    		<button type="submit" class="ink-button">Envoyer</button>
+				    	</form>
+				    	<form action="search.php" method="post" class="ink-form">
+							<p>Recherche par nom : </p>
+							<select name="name">'
+							<fieldset class="column-group gutters">
+		    					<div class="control-group large-33 medium-33 small-100">
+			    					<div class="control-group gutters required">
+				    					<div class="control medium-20">
+		    			<?php
+		    				$value = $bdd->query('SELECT name FROM data ORDER BY name');
+		    				while ($data = $value->fetch()){
+		        				echo'<option value="'.$data['name'].'">'.$data['name'].'</option>';
+		        			}	
+		        			$value->closeCursor();
+		        		?>
+				    					</div>
+				    				</div>
+				    			</div>
+				    		</fieldset>
+				    		</select>
+				    		<button type="submit" class="ink-button">Envoyer</button>
+				    	</form>
+			 <?php } 
+				 }
+			   }
+			    ?>
         </div>
         <?php include("footer.php"); ?>
 	</body>
