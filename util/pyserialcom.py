@@ -246,7 +246,7 @@ if __name__ == "__main__":
 	if len(sys.argv) == 2:
 		w = MainWindow(sys.argv[1])
 	elif len(sys.argv) == 3:
-		w = MainWindow(sys.argv[1], int(sys.argv(2)))
+		w = MainWindow(sys.argv[1], int(sys.argv[2]))
 	try:
 		w.main()
 	except KeyboardInterrupt:

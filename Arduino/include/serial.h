@@ -34,7 +34,7 @@
 #include <string.h>
 
 /** Baudrate for the serial link */
-#define BAUDRATE	8 // value for 115200 //103 // UBRR value for 9600
+#define BAUDRATE	(103) //8 // value for 115200 //103 // UBRR value for 9600
 
 /** Initializes the serial link for 9600 bauds */
 void serial_init(void);

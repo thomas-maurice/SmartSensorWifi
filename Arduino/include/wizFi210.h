@@ -10,5 +10,7 @@ uint8_t wizFi210_recv_len;
 
 void wizFi210_init();
 int wizFi210_check_ok();
+uint8_t serial_recieve();
+void wizFi210_associate(char* ap);
 
 #endif
