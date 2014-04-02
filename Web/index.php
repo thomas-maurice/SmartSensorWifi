@@ -68,7 +68,7 @@
             <header>
                 <h1>Smart Sensor Wifi<small>Maliar Benoit & Maurice Thomas</small></h1>
                 <?php 
-                	include("connexion.php"); 
+                	include("dbconnect.php"); 
 	                include("nav.php");
                 ?>    
             </header>
@@ -77,7 +77,7 @@
             <?php
 					if( isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 					  if($_COOKIE['login']!='destroyed' && $_COOKIE['password']!='destroyed'){
-						$check=$bdd->prepare("SELECT login, password FROM admin");
+						$check=$bdd->prepare("SELECT login, password FROM users");
 						$check->execute();
 						$data=$check->fetch();
 						$check->closeCursor();
@@ -104,8 +104,11 @@
 									    	echo '<tr>';
 									    	echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
-									    	echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
-									    	echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
+									    	echo '<td>' . '<center>' . $donnees['temp'] . ' °C</center>' . '</td>';
+									    	if ($donnees['lum']<100)
+									    	echo '<td>' . '<center>' . 'Lumineux (' . $donnees['lum'] . ')</center>' . '</td>';
+									    	if ($donnees['lum']>100)
+									    	echo '<td>' . '<center>' . 'Sombre (' . $donnees['lum'] . ')</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
 									    	echo '</tr>';
 									    }
@@ -133,6 +136,7 @@
 		    	}
 				else{ ?>
 				<div class="ink-form large-50 medium-50 small-100">
+		    		<h3> Connexion </h3>
 	    			<form action="redirect.php" method="post" class="ink-form">
 	        			<fieldset class="column-group gutters">
 	        				<div class="control-group large-33 medium-33 small-100">
@@ -150,7 +154,7 @@
 				        	<div class="control-group large-33 medium-33 small-100">
 					        	<div class="column">
 				        			<div class="control">
-				        				<button type="submit" class="ink-button">Envoyer</button>
+				        				<button type="submit" class="ink-button">Connexion</button>
 				        			</div>
 				        		</div>
 				        	</div 	
@@ -160,6 +164,6 @@
 		<?php } ?>	                            
             </div>
         </div>               
-        <?php include("footer.php"); ?>
     </body>
+    <?php include("footer.php"); ?>
 </html>

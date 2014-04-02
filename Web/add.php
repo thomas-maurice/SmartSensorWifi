@@ -64,9 +64,9 @@
 	<body>
 		<div class="ink-grid">
             <header>
-                <h1>Ajouter un capteur<small></small></h1>
+                <h1>Ajouter un capteur</h1>
                 <?php 
-                	include("connexion.php"); 
+                	include("dbconnect.php"); 
 	                include("nav.php");
                 ?>
             </header>
@@ -75,7 +75,7 @@
 					$i=O;
 					if (isset($_POST['name'])){
 						if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
-							$check=$bdd->prepare("SELECT login, password FROM admin");
+							$check=$bdd->prepare("SELECT login, password FROM users");
                         	$check->execute();
                         	$data=$check->fetch();
                         	$check->closeCursor();
