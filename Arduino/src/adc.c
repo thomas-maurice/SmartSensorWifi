@@ -75,7 +75,7 @@ void adc_to_char(int channel, char* str) {
  */
 void adc_print_conv(int channel) {
 	char s[4];
-	adc_to_char(0, s);
+	adc_to_char(channel, s);
 	serial_send_string(s, strlen(s));
 	serial_send_string("\r\n", 2);
 }

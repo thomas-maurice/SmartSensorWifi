@@ -75,7 +75,6 @@
 
 #include <adc.h>
 #include <macros.h>
-#include <web.h>
 #include <serial.h>
 #include <eep.h>
 #include <ds1302.h>
@@ -83,36 +82,6 @@
 #include <wizFi210.h>
 
 // Json : '{"key":"value","key2":"value2"}'
-static char buf[7];
-int check_ok() {
-
-	int stop = 0;
-	
-	while(stop==0) {
-		while(!(UCSR0A&(1<<RXC0)));
-		char c = UDR0;
-		if(c=='\n')
-			continue;
-		if(c=='\r')
-			continue;
-		for(int i = 0; i < 7; i++) {
-			buf[i] = buf[i+1];
-		}
-		
-		buf[6] = c;
-		
-		/*serial_send_string(buf, 7);
-		serial_send('|');
-		serial_send('\n');
-		*/
-		if(strncmp(buf, "[ERROR:", 7) == 0) {
-			return 1;
-		}
-		else if(strncmp(buf+3, "[OK]", 4) == 0) {
-			return 0;
-		}
-	}
-}
 
 /**
  * \brief Main function of the program
@@ -121,19 +90,30 @@ int check_ok() {
  * the whole thing is interrupt-driven.
  */
 int main(void)
-{
-	wizFi210_init();
-	
+{	
 	// Peripherals inits
 	serial_init();
 	adc_init();
 	init_spi();
 	
+	//while(wizFi210_get_next_command('0')==0);
+	
+	/*uint8_t l = eeprom_read_word(EEP_DHCP);
+	
+	serial_send(l);
+	l = eeprom_read_word(EEP_DHCP+1);
+	
+	serial_send(l);
+	
+	while(1);*/
+	
 	// Register inits
 	sbi(DDRB,PB5); // To blink the LED L
 	
-	// Varialble inits
-	request_index = 0;
+	/*while(1) {
+		_delay_ms(1000);
+		adc_print_conv(1);
+	}*/
 	
 	sei(); // Global interruption enable
 	
@@ -146,47 +126,52 @@ int main(void)
 	display_clear();
 	cli();
 	serial_send_string_nt("\rAT+WM=0\r");
-	_delay_ms(10);
-	if(check_ok() == 0) {
+	if(wizFi210_check_ok() == 0) {
 		serial_send_string_nt("OKTAMERE\r");
-		if(check_ok() == 1)
+		if(wizFi210_check_ok() == 1)
 			serial_send_string_nt("ERR\r");
 		sei();
 	}
-	serial_send_string_nt("AT+NDHCP=0\r");
+	
+	/*serial_send_string_nt("AT+NDHCP=0\r");
 	serial_send_string_nt("AT+WSEC=8\r");
-	serial_send_string_nt("AT+WPAPSK=Network,lolimagonnagiveyouthepassword\r");
-	//serial_send_string_nt("AT+WPSK=pas facile a retenir, hein ?\r");
-	serial_send_string_nt("AT+WA=PolyWSN\r");
-	serial_send_string_nt("AT+NSET=172.26.240.13,255.255.255.0,172.26.240.254\r");
+	serial_send_string_nt("AT+WPAPSK=net,pass\r");
+	serial_send_string_nt("AT+WA=net\r");
+	*/
+	wizFi210_login_to_network();
+	
+	//serial_send_string_nt("AT+NSET=172.26.240.13,255.255.255.0,172.26.240.254\r");
+	
 	//_delay_ms(1000);
 	//serial_send_string_nt("AT+PING=172.26.240.254,1\r");
 	//_delay_ms(1000);
 	//serial_send_string_nt("AT+WS\r");
+	//serial_send_string_nt("AT+NCTCP=193.48.57.56,80\r");
 	serial_send_string_nt("AT+NCTCP=193.48.57.56,80\r");
 	_delay_ms(5000);
 	serial_send_string_nt("AT+CID=?\r");
 	_delay_ms(1000);
-	serial_send(0x1B);
-	serial_send_string_nt("S0");
-	serial_send_string_nt("POST /recup.php HTTP/1.0\n\
-Host: smartsensorwifi.plil.net\n\
-Content-type: application/x-www-form-urlencoded\n\
-Content-length: 40\n\
-\n\
-temp=240&lum=140&mid=42&mpass=captest\n         ");
-	serial_send(0x1B);
-	serial_send('E');
+	
+	wizFi210_send_update();
+	
+	_delay_ms(5000);
+	
+	serial_send_string_nt("AT\r");
+	wizFi210_check_ok();
+	
+	serial_send_string_nt("AT+NSTCP=80\r");
 	
 	for(;;){
-		_delay_ms(1000);
-		sbi(PORTB, PB3);
-		/*char date[17];
-		get_time_string(date);
-		serial_send_string(date, 17);
-		serial_send('\n');
-		*/
-		cbi(PORTB, PB3);
+		char cid = wizFi210_check_connect();
+		wizFi210_send_data(cid, "Sup biatch ?\r\n");
+		
+		int res = 0;
+		while(res == 0)
+			wizFi210_get_next_command(cid);
+		
+		serial_send_string_nt("AT+NCLOSE=");
+		serial_send(cid);
+		serial_send('\r');
 	}
 
 	return 0;
