@@ -64,16 +64,16 @@
 	<body>
 		<div class="ink-grid">
             <header>
-                <h1>Rechercher un capteur<small></small></h1>
+                <h1>Rechercher un capteur</h1>
                 <?php 
-                	include("connexion.php"); 
+                	include("dbconnect.php"); 
 	                include("nav.php");
                 ?>
             </header>
 			<div class="ink-form large-100 medium-100 small-100">
 				<?php
 				if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
-					$check=$bdd->prepare("SELECT login, password FROM admin");
+					$check=$bdd->prepare("SELECT login, password FROM users");
                 	$check->execute();
                 	$data=$check->fetch();
                 	$check->closeCursor();
@@ -82,7 +82,7 @@
 						  ?>
 							<div class="ink-form large-100 medium-100 small-100">
 		    				<h3> Informations sur le capteur demandé </h3>
-			    			<table class="ink-table bordered alternating">
+			    			<table class="ink-table bordered">
 				    		<thead>
 					    	<tr>
 						    	<th>ID</th>
@@ -164,7 +164,8 @@
 				 }
 			   }
 			    ?>
+			</div>
         </div>
-        <?php include("footer.php"); ?>
 	</body>
+	<?php include("footer.php"); ?>
 </html>

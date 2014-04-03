@@ -1,34 +1,34 @@
 <?php
-
-	//Execute the update only if Json's $_POST is received
-	if (isset($_POST['mid']) && isset($_POST['mpass'])){
+	//Execute the update only if $_POST is received
+	if (isset($_POST['mid']) && isset($_POST['mpass']) && isset($_POST['temp']) && isset($_POST['lum'])){
 		//Connection's file
-		include("connexion.php");
+		include("dbconnect.php");
 				
 		//Extract the received data
-		$id = $_POST['mid'];
-		$password = $_POST['mpass'];
-		$temp = $_POST['temp'];
-		$lum = $_POST['lum'];
+		//$id = trim($_POST['mid']);
+		//$password = trim($_POST['mpass']);
+		//$temp = $_POST['temp'];
+		//$lum = $_POST['lum'];
 		
 		//Check the user
-		$check = $bdd->prepare("SELECT password FROM captors WHERE id=?");
-		$check->execute(array($id));
+		$check = $bdd->prepare("SELECT password FROM data WHERE id=?");
+		$check->execute(array(trim($_POST['mid'])));
 		$test=$check->fetch();
 		//Close the request's connection
 		$check->closeCursor();
 		
-		if ($test['password']==$password && $password!=NULL && $test['password']!=NULL){
+		if ($test['password']==trim($_POST['mpass'])){
 		
 			//Prepare and execute the update on the DB
-			$now =$today = date("Y-m-d H:i:s");
+			//$now =date("Y-m-d H:i:s");
 			$req = $bdd->prepare("UPDATE data SET temp=?, lum=?,timestamp=? WHERE id=?");
-			$req->execute(array($temp,$lum,$now,$id));
+			$req->execute(array(round(($_POST['temp']*0.647),1),$_POST['lum'],date("Y-m-d H:i:s"),trim($_POST['mid'])));
 			
 			//Printing the update informations
 			echo 'Mise à jour de la table pour le capteur ' . $id . '</br>';
-			echo 'Température : ' . $temp . '</br>';
-			echo 'Luminosité : ' . $lum . '</br>';
+			echo 'Température : ' . $_POST['temp'] . '</br>';
+			echo 'Luminosité : ' . $_POST['lum'] . '</br>';
+			// Error info
 			$errorinfo = $req->errorInfo();
 			if ($errorinfo == 00000){
 				print_r($errorinfo);	
