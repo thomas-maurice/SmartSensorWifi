@@ -73,6 +73,9 @@ void wizFi210_send_data(char cid, char* data) {
 int wizFi210_get_next_command(char cid) {
 	unsigned char buffer[128];
 	memset(buffer, '\0', 128);
+	unsigned char ok[2];
+	ok[0] = 0x1B;
+	ok[1] = 'O';
 	int stop = 0;
 	int n = 0;
 	while(stop==0 && n < 128) {
@@ -80,11 +83,16 @@ int wizFi210_get_next_command(char cid) {
 		char c = UDR0;
 		
 		if(c=='\r' || c=='\n') {
+			if(n < 6) {
+				continue;
+			}
 			stop = 1;
 			continue;
 		}
 			
 		buffer[n] = c;
+		char* p = strstr(buffer, ok);
+		if(p != NULL) {n=0;continue;}
 		n++;
 	}
 	
@@ -235,7 +243,7 @@ int wizFi210_get_next_command(char cid) {
 		wizFi210_send_data(cid, ptr+12);
 		return 0;
 	}
-	wizFi210_send_data(cid, "[FAIL]");
+	wizFi210_send_data(cid, "[FAIL]\r\n");
 	return 0;
 }
 

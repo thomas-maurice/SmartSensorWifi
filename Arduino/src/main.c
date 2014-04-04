@@ -163,11 +163,10 @@ int main(void)
 	
 	for(;;){
 		char cid = wizFi210_check_connect();
-		wizFi210_send_data(cid, "Sup biatch ?\r\n");
-		
+
 		int res = 0;
-		while(res == 0)
-			wizFi210_get_next_command(cid);
+		
+		while(wizFi210_get_next_command(cid) == 0) { res++;};
 		
 		serial_send_string_nt("AT+NCLOSE=");
 		serial_send(cid);

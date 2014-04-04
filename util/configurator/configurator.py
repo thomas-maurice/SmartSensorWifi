@@ -132,12 +132,27 @@ class Configurator:
 		d.run()
 		d.destroy()
 	
+	def send(self, string):
+		if type(self.fileDescriptor)==socket.socket:
+			self.fileDescriptor.send(string)
+		else:
+			self.fileDescriptor.write(string)
+	
+	def read(self):
+		if type(self.fileDescriptor)==socket.socket:
+			return self.fileDescriptor.recv(1024)
+		else:
+			return self.fileDescriptor.read(1024)
+	
 	def loadSensor(self, data=None):
 		"""
 		This functions logs you into a sensor (serial or network) and issue
 		the AT+IDENT and AT+DUMP config to load the config from  a server to
 		the application. So that you don't have to retype everything by hand.
 		"""
+		if self.masterKeyEntry.get_text() == "":
+			self.error("Cannot connect", "The <b>Master key</b> is empty ! You cannot identify onto the sensor. Fill this field and try again :)")
+			return
 		if self.useSerialLink.get_active() == True:
 			print "Connecting to serial sensor"
 			try:
@@ -150,17 +165,28 @@ class Configurator:
 				return
 		else:
 			print "Connecting to remote sensor"
+			try:
+				self.fileDescriptor = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+				self.fileDescriptor.connect((self.remoteHostEntry.get_text(), int(self.remoteHostPort.get_value())))
+			except Exception as e:
+				print "Cannot connect"
+				self.error("Cannot connect", str(e))
+				return
 		
-		self.fileDescriptor.setTimeout(5)
+		if type(self.fileDescriptor)==socket.socket:
+			self.fileDescriptor.settimeout(10)
+		else:
+			self.fileDescriptor.setTimeout(10)
+			
 		time.sleep(1);
-		self.fileDescriptor.write("\n")
+		self.send("\n")
 		time.sleep(1)
-		self.fileDescriptor.write("AT+IDENT="+self.masterKeyEntry.get_text()+"\n")
+		self.send("AT+IDENT="+self.masterKeyEntry.get_text()+"\n")
 		time.sleep(1)
-		self.fileDescriptor.write("AT+DUMP\n");
+		self.send("AT+DUMP\n");
 		time.sleep(1);
 		
-		r = self.fileDescriptor.read(2048)
+		r = self.read()
 		for resp in r.split("\n"):
 			resp = resp.strip()
 			print resp
@@ -202,8 +228,11 @@ class Configurator:
 				
 			except:
 				pass
-		
+				
+		self.send("AT+EXIT\n");
+		time.sleep(1)
 		self.fileDescriptor.close()
+		self.fileDescriptor = None
 	
 	def updateSensor(self, data=None):
 		"""
@@ -281,17 +310,28 @@ class Configurator:
 				self.error("Cannot open serial port", "Cannot open serial port... :(")
 				return
 		else:
-			print "Connecting to remote sensor"
+			try:
+				self.fileDescriptor = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+				self.fileDescriptor.connect((self.remoteHostEntry.get_text(), int(self.remoteHostPort.get_value())))
+			except Exception as e:
+				print "Cannot connect"
+				self.error("Cannot connect", str(e))
+				return
+		
+		if type(self.fileDescriptor)==socket.socket:
+			self.fileDescriptor.settimeout(10)
+		else:
+			self.fileDescriptor.setTimeout(10)
 		
 		print newConfiguration
-		time.sleep(2)
-		print self.fileDescriptor.read(1024)
+		time.sleep(1)
+		#print self.read()
 		for c in newConfiguration.split("\n"):
-			self.fileDescriptor.write(c+"\n")
+			self.send(c+"\n")
 			resp = ""
 			print ">", c
 			while not "[OK]" in resp and not "[FAIL]" in resp:
-				tmp = self.fileDescriptor.read(1024)
+				tmp = self.read()
 				sys.stdout.write(tmp)
 				resp += tmp
 				time.sleep(0.2)
@@ -300,6 +340,7 @@ class Configurator:
 				break
 		
 		self.fileDescriptor.close()
+		self.fileDescriptor = None
 	
 	def dhcpToggled(self, data=None):
 		"""This is called whenever the dhcpCheckbox is toggled"""
