@@ -47,7 +47,10 @@ except:
 
 
 class Configurator:
-	"""Configurator"""
+	"""Configurator
+	
+	This is the main class of the software.
+	"""
 	
 	fileDescriptor = None
 	serialDeviceEntry = None
@@ -68,6 +71,10 @@ class Configurator:
 	networkTypeCombo = None
 	
 	def __init__(self):
+		"""
+		Init function, this will load the glade file and get all the
+		interesting widgets as instance variables.
+		"""
 		# Load the gladefile
 		self.gladefile = "configurator.glade"  
 		self.windowTree = gtk.glade.XML(self.gladefile) 
@@ -108,10 +115,17 @@ class Configurator:
 		self.sensorUpdateButton.connect("clicked", self.updateSensor)
 		self.sensorImportButton.connect("clicked", self.loadSensor)
 		
-		#checkbox
+		# checkbox
 		self.dhcpCheckbox.connect("toggled", self.dhcpToggled)
 	
 	def error(self, title, error):
+		"""Issues an error window with a close button.
+		
+		Args:
+			title: The title of the error
+			error: the pango markuped error body
+		
+		"""
 		d = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, flags=0, buttons=gtk.BUTTONS_CLOSE)
 		d.set_title(title)
 		d.set_markup(error)
@@ -119,6 +133,11 @@ class Configurator:
 		d.destroy()
 	
 	def loadSensor(self, data=None):
+		"""
+		This functions logs you into a sensor (serial or network) and issue
+		the AT+IDENT and AT+DUMP config to load the config from  a server to
+		the application. So that you don't have to retype everything by hand.
+		"""
 		if self.useSerialLink.get_active() == True:
 			print "Connecting to serial sensor"
 			try:
@@ -187,6 +206,14 @@ class Configurator:
 		self.fileDescriptor.close()
 	
 	def updateSensor(self, data=None):
+		"""
+		This builds a new configuration (e.g. AT command list) and
+		sends it to the chosen sensor. Either via a serial link or via
+		the network. If the configuration is inconsistant (i.e. missing
+		fields, the configuration shall not be sent. For now only the
+		emptyness of the fields is tested, not the regexp correctness.
+		This will come soon. Hopefully
+		"""
 		if self.masterKeyEntry.get_text() == "":
 			self.error("Cannot connect", "The <b>Master key</b> is empty ! You cannot identify onto the sensor. Fill this field and try again :)")
 			return
@@ -275,6 +302,7 @@ class Configurator:
 		self.fileDescriptor.close()
 	
 	def dhcpToggled(self, data=None):
+		"""This is called whenever the dhcpCheckbox is toggled"""
 		if self.dhcpCheckbox.get_active() == True:
 			self.sensorIPEntry.set_sensitive(False)
 			self.netmaskEntry.set_sensitive(False)
@@ -285,6 +313,7 @@ class Configurator:
 			self.gatewayEntry.set_sensitive(True)
 			
 	def main(self):
+		"""Launched the main gtk loop"""
 		try:
 			gtk.main()
 		except KeyboardInterrupt:
