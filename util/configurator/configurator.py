@@ -1,4 +1,33 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+"""
+	configurator.py : Configure serially or over the air smart sensors
+	
+	           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                   Version 2, December 2004
+ 
+	Copyright (C) 2013 Thomas Maurice <tmaurice59@gmail.com>
+	 
+	Everyone is permitted to copy and distribute verbatim or modified
+	copies of this license document, and changing it is allowed as long
+	as the name is changed.
+	 
+		         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+		TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+	 
+	 0. You just DO WHAT THE FUCK YOU WANT TO.
+	 
+"""
+
+__author__ = "Thomas Maurice"
+__copyright__ = "Copyright 2013, Thomas Maurice"
+__license__ = "WTFPL"
+__version__ = "0.1"
+__maintainer__ = "Thomas Maurice"
+__email__ = "tmaurice59@gmail.com"
+__status__ = "Development"
 
 import sys
 import socket
@@ -78,6 +107,9 @@ class Configurator:
 		# Button signals
 		self.sensorUpdateButton.connect("clicked", self.updateSensor)
 		self.sensorImportButton.connect("clicked", self.loadSensor)
+		
+		#checkbox
+		self.dhcpCheckbox.connect("toggled", self.dhcpToggled)
 	
 	def error(self, title, error):
 		d = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, flags=0, buttons=gtk.BUTTONS_CLOSE)
@@ -241,6 +273,16 @@ class Configurator:
 				break
 		
 		self.fileDescriptor.close()
+	
+	def dhcpToggled(self, data=None):
+		if self.dhcpCheckbox.get_active() == True:
+			self.sensorIPEntry.set_sensitive(False)
+			self.netmaskEntry.set_sensitive(False)
+			self.gatewayEntry.set_sensitive(False)
+		else:
+			self.sensorIPEntry.set_sensitive(True)
+			self.netmaskEntry.set_sensitive(True)
+			self.gatewayEntry.set_sensitive(True)
 			
 	def main(self):
 		try:
@@ -252,9 +294,4 @@ class Configurator:
 if __name__ == "__main__":
 	app = Configurator()
 	app.main()
-	#try:
-	#	gtk.main()
-	#except KeyboardInterrupt:
-	#	app.mainWindow.destroy()
-	#	print "Exited by user"
 

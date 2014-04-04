@@ -36,13 +36,13 @@
 	  <property name="shadow_type">GTK_SHADOW_IN</property>
 
 	  <child>
-	    <widget class="GtkVBox" id="vbox2">
+	    <widget class="GtkVBox" id="mainVBox">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkFrame" id="frame1">
+		<widget class="GtkFrame" id="connectionFrame">
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
@@ -73,7 +73,7 @@
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkFrame" id="">
+				<widget class="GtkFrame" id="serialconnframe">
 				  <property name="visible">True</property>
 				  <property name="label_xalign">0</property>
 				  <property name="label_yalign">0.5</property>
@@ -102,10 +102,6 @@
 					  <property name="expand">True</property>
 					  <property name="fill">True</property>
 					</packing>
-				      </child>
-
-				      <child>
-					<placeholder/>
 				      </child>
 				    </widget>
 				  </child>
@@ -141,7 +137,7 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkFrame" id="frame3">
+				<widget class="GtkFrame" id="netconframe">
 				  <property name="visible">True</property>
 				  <property name="label_xalign">0</property>
 				  <property name="label_yalign">0.5</property>
@@ -201,10 +197,6 @@
 					      <property name="expand">True</property>
 					      <property name="fill">True</property>
 					    </packing>
-					  </child>
-
-					  <child>
-					    <placeholder/>
 					  </child>
 					</widget>
 				      </child>
@@ -326,7 +318,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkFrame" id="frame4">
+		<widget class="GtkFrame" id="IdentFrame">
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
@@ -345,7 +337,7 @@
 		      <property name="right_padding">0</property>
 
 		      <child>
-			<widget class="GtkTable" id="table1">
+			<widget class="GtkTable" id="identTable">
 			  <property name="visible">True</property>
 			  <property name="n_rows">2</property>
 			  <property name="n_columns">2</property>
@@ -486,7 +478,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkFrame" id="frame5">
+		<widget class="GtkFrame" id="networkFrame">
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
@@ -505,7 +497,7 @@
 		      <property name="right_padding">0</property>
 
 		      <child>
-			<widget class="GtkTable" id="table2">
+			<widget class="GtkTable" id="networkTable">
 			  <property name="visible">True</property>
 			  <property name="n_rows">7</property>
 			  <property name="n_columns">2</property>
@@ -893,7 +885,7 @@ WPA2-PSK</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkFrame" id="frame6">
+		<widget class="GtkFrame" id="MasterKeyFrame">
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
@@ -1000,11 +992,7 @@ WPA2-PSK</property>
 	      </child>
 
 	      <child>
-		<placeholder/>
-	      </child>
-
-	      <child>
-		<widget class="GtkFrame" id="frame7">
+		<widget class="GtkFrame" id="UpdateFrame">
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
@@ -1092,6 +1080,10 @@ WPA2-PSK</property>
 		  <property name="expand">True</property>
 		  <property name="fill">True</property>
 		</packing>
+	      </child>
+
+	      <child>
+		<placeholder/>
 	      </child>
 	    </widget>
 	  </child>
