@@ -101,12 +101,12 @@
 						  <?php
 						  	// Extract the informations from the database, searching by ID
 							if(isset($_POST['id'])){
-								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY data.id');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY captors.timestamp DESC');
 								$req->execute(array((int)$_POST['id']));
 							}
 							// Extract the informations from the database, searching by name
 							else{
-								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY data.name');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY captors.timestamp DESC');
 								$req->execute(array($_POST['name']));
 							}
 								// Display the extracted informations
