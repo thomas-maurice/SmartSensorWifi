@@ -82,11 +82,12 @@
                         	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
 	                        	
 	                        	$i=0;
-	                        	while($_POST['name'][$i] != NULL){
-	                        		$up=$_POST['name'][$i];
-	                        		$req = $bdd->prepare("INSERT INTO data(name) VALUES(?)");
-	                        		$req->execute(array($up));
-	                        		echo "Capteur ". $up . " ajouté à la base" . "</br>";
+	                        	while( ($_POST['name'][$i] != NULL) && ($_POST['password'][$i] != NULL) ){
+	                        		$up1=$_POST['name'][$i];
+	                        		$up2=$_POST['password'][$i];	                        		
+	                        		$req = $bdd->prepare("INSERT INTO data(name,password) VALUES(?,?)");
+	                        		$req->execute(array($up1,$up2));
+	                        		echo "Capteur ". $up1 . " ajouté à la base" . "</br>";
 		                        	$i++;
 		                        	$req->closeCursor();
 		                        }
@@ -97,7 +98,7 @@
 					?>
 		    			<form action="add.php" method="post">
 		        			<div id="champs">
-					        	<input name="name[]" type=text placeholder="Nom du capteur">
+					        	<input name="name[]" type=text placeholder="Nom du capteur"><input name="password[]" type=text placeholder="Mot de passe du capteur">				
 		        			</div>
 						    <button type="button" onclick="addField()" >+</button>
 					        <button type="submit" class="ink-button">Envoyer</button>

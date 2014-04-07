@@ -83,7 +83,7 @@
 						$check->closeCursor();
 						if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
 		    				//Select all data in the db with prepared request
-		    				$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data ORDER BY id DESC LIMIT 5');
+		    				$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data, captors WHERE data.id=captors.id ORDER BY id DESC LIMIT 5');
 		    				$req->execute();
 		    ?>
 		    				<div class="ink-form large-50 medium-50 small-100">
