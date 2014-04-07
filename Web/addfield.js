@@ -1,6 +1,8 @@
+// Javascript used to add dynamically new submit field
+
 var div = document.getElementById('champs');
 
-// Création du champ
+// Create the new field
 function addInput(name,placeholder){
     var input = document.createElement("input");
     input.name = name;
@@ -8,14 +10,14 @@ function addInput(name,placeholder){
     div.appendChild(input);
 }
 
-// Ajout du champ
+// Add the field to the page
 function addField() {
 	div.appendChild(document.createElement("br"));
 	addInput("name[]","Nom du capteur");
 	addInput("password[]","Mot de passe du capteur");
 }
 
-// Ajout du champ (pour delete)
+// Add the field (for deletion page)
 function delField() {
 	div.appendChild(document.createElement("br"));
 	addInput("name[]","ID du capteur");

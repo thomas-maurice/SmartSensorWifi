@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Ink header format -->
 <html lang="fr">
     
     <head>
@@ -32,7 +33,7 @@
         <script type="text/javascript" src="/ink/js/autoload.js"></script>
         <script type="text/javascript" src="/ink/js/html5shiv.js"></script>
         
-        
+        <!-- Ink required css -->
         <style type="text/css">
        		body {
                 background: #ededed;
@@ -62,26 +63,30 @@
     </head>
     
 	<body>
+		<!-- Main frame-->
 		<div class="ink-grid">
             <header>
                 <h1>Ajouter un capteur</h1>
                 <?php 
-                	include("dbconnect.php"); 
-	                include("nav.php");
+                	include("dbconnect.php"); //Database connection file
+	                include("nav.php"); // Navbar
                 ?>
             </header>
 		
 					<?php
-					$i=O;
+					// Check if the adding is really required
 					if (isset($_POST['name'])){
+						// ------------ Check is the user is registred ----------------
 						if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 							$check=$bdd->prepare("SELECT login, password FROM users");
                         	$check->execute();
                         	$data=$check->fetch();
                         	$check->closeCursor();
                         	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
+	                    // ------------ End of checking ----------------
 	                        	
-	                        	$i=0;
+	                        	$i=0; // Using to know how many fields must be added
+	                        	// --------------- Insert the name and the password of each new captors in the database ------------------
 	                        	while( ($_POST['name'][$i] != NULL) && ($_POST['password'][$i] != NULL) ){
 	                        		$up1=$_POST['name'][$i];
 	                        		$up2=$_POST['password'][$i];	                        		
@@ -91,17 +96,21 @@
 		                        	$i++;
 		                        	$req->closeCursor();
 		                        }
+		                        // --------------- End of Insertion -------------------
 		                    }
 						}
 					}
+					// If the adding is not required, show the submitting form
 					else{
 					?>
+						<!-- Send the information to itself by POST -->
 		    			<form action="add.php" method="post">
 		        			<div id="champs">
 					        	<input name="name[]" type=text placeholder="Nom du capteur"><input name="password[]" type=text placeholder="Mot de passe du capteur">				
 		        			</div>
 						    <button type="button" onclick="addField()" >+</button>
 					        <button type="submit" class="ink-button">Envoyer</button>
+					        <!-- New field by javascript -->
 					        <script type="text/javascript" src="addfield.js"></script>						        
 		    			</form>
 			   <?php } ?>
