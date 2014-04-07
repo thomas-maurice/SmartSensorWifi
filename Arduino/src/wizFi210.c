@@ -1,10 +1,45 @@
+/*
+ *
+ *	Copyright (C) 2014 Thomas MAURICE <tmaurice59@gmail.com>
+ *
+ *	This program is free software; you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation; either version 2 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License along
+ *	with this program; if not, write to the Free Software Foundation, Inc.,
+ *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+/**
+ * \file wizfi210.c
+ * \author Thomas Maurice
+ * 
+ * \brief wifi management implementation 
+ * \version 0.1
+ * 
+ */
+
 #include <wizFi210.h>
 #include <avr/io.h>
 #include <serial.h>
 #include <adc.h>
 #include <spi.h>
 
+/** Static buffer used to check wether it's an error or not */
 static char buf[7];
+/**
+ * Loops through the infomming data flow till it encounters a [OK] ar an
+ * [ERROR: string.
+ * 
+ * \return 0 if OK and 1 if ERROR
+ */
 int wizFi210_check_ok() {
 
 	int stop = 0;
@@ -35,7 +70,13 @@ int wizFi210_check_ok() {
 	}
 }
 
+/** Static buffer used to store the flow */
 static char bufconnect[12];
+/**
+ * Loops until someone connects to the sensor
+ * 
+ * \return The matching CID in a char format
+ */
 char wizFi210_check_connect() {
 
 	int stop = 0;
@@ -59,6 +100,13 @@ char wizFi210_check_connect() {
 	}
 }
 
+/**
+ * This will send the data data to the giver connection ID. It will
+ * wrap the data between all the good special chars :)
+ * 
+ * \param [in] cid The connection ID you want to use
+ * \param [in] data the data you want to send
+ */
 void wizFi210_send_data(char cid, char* data) {
 	serial_send('\r');
 	serial_send(0x1B);
@@ -70,6 +118,17 @@ void wizFi210_send_data(char cid, char* data) {
 	serial_send('\r');
 }
 
+/**
+ * Read and execute the next command on the giver CID.
+ * If a command can be executed it will print [OK] to the client, [FAIL]
+ * otherwise.
+ * 
+ * Note that this function works with the serial port as welll as with
+ * any network connection.
+ * 
+ * \return 0 if next command is ready to be waited for and processed. 1 if the
+ * client disconnected.
+ */
 int wizFi210_get_next_command(char cid) {
 	unsigned char buffer[128];
 	memset(buffer, '\0', 128);
@@ -247,6 +306,9 @@ int wizFi210_get_next_command(char cid) {
 	return 0;
 }
 
+/**
+ * Loads the parameters in EEPROM and connects to the given network.
+ */
 void wizFi210_login_to_network() {
 	unsigned char data[64];
 	uint8_t len=0;
@@ -310,6 +372,9 @@ void wizFi210_login_to_network() {
 	
 }
 
+/**
+ * Send an update to the server.
+ */
 void wizFi210_send_update() {
 	serial_send(0x1B);
 	serial_send_string_nt("S0");
