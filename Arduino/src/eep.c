@@ -40,6 +40,7 @@
  * \param len  [in] The length of the memory block.
  */
 void eep_update_data(uint16_t addr, char* data, uint8_t len) {
+	if(len > EEP_MAX_DATA_LENGTH) len=EEP_MAX_DATA_LENGTH-1;
 	eeprom_update_word((uint16_t*)addr, len);
 	eeprom_update_block(data, (void*)(addr+1), len);
 }

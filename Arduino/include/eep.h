@@ -59,10 +59,17 @@
  * ~~~~~~~
  */
 
-#define EEP_MAX_DATA_LENGTH 0x40 //!< Maximum value is 0xFF !
-#define EEP_ESSID    (0x000) //!< Address of the ESSID block
-#define EEP_PASSWORD (EEP_ESSID+1+EEP_MAX_DATA_LENGTH) //!< Address of the PASSWORD block
-#define EEP_USERNAME (EEP_PASSWORD+1+EEP_MAX_DATA_LENGTH) //!< Address of the USERNAME block
+#define EEP_MAX_DATA_LENGTH 0x20 //!< Maximum value is 0xFF !
+#define EEP_ID       (0x000) //!< ID
+#define EEP_PASSWORD (EEP_ID+1+20) //!< Password
+#define EEP_ESSID    (EEP_PASSWORD+1+0x20) //!< ESSID
+#define EEP_NETPASS  (EEP_ESSID+1+0x20) //!< Network key
+#define EEP_NETTYPE  (EEP_NETPASS+1+0x20) //!< Network type
+#define EEP_DHCP     (EEP_NETTYPE+1+2) //!< DHCP
+#define EEP_NETIP    (EEP_DHCP+1+2) //!< Network config
+#define EEP_NETMSK   (EEP_NETIP+1+16) //!< Network config
+#define EEP_NETGW    (EEP_NETMSK+1+16) //!< Network config
+#define EEP_MASTER   (EEP_NETGW+1+16) //!< MasterKey
 
 #include <avr/eeprom.h>
 #include <avr/io.h>

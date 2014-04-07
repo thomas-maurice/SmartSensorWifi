@@ -2,15 +2,13 @@
 #define WIZNET210
 
 #include <avr/io.h>
+#include <eep.h>
 
-#define WIZFI210_BUFSIZE 128
-
-uint8_t wizFi210_recv_buffer[WIZFI210_BUFSIZE];
-uint8_t wizFi210_recv_len;
-
-void wizFi210_init();
 int wizFi210_check_ok();
-uint8_t serial_recieve();
-void wizFi210_associate(char* ap);
+void wizFi210_send_update();
+char wizFi210_check_connect();
+void wizFi210_send_data(char cid, char* data);
+int wizFi210_get_next_command(char cid);
+void wizFi210_login_to_network();
 
 #endif

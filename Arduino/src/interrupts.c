@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <web.h>
 #include <serial.h>
 #include <adc.h>
 #include <spi.h>
@@ -46,8 +45,5 @@
  * to handle the HTTP requests sent to the board
  */
 ISR(USART_RX_vect) {
-	char recv = UDR0;
 	
-	wizFi210_recv_buffer[wizFi210_recv_len]=recv;
-	wizFi210_recv_len=(wizFi210_recv_len+1)%WIZFI210_BUFSIZE;
 }
