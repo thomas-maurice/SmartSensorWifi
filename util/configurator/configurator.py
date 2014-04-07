@@ -187,6 +187,7 @@ class Configurator:
 		time.sleep(1);
 		
 		r = self.read()
+		print r
 		for resp in r.split("\n"):
 			resp = resp.strip()
 			print resp

@@ -95,9 +95,8 @@ int main(void)
 	serial_init();
 	adc_init();
 	init_spi();
-	
-	//while(wizFi210_get_next_command('0')==0);
-	
+
+	while(wizFi210_get_next_command('0')==0);
 	/*uint8_t l = eeprom_read_word(EEP_DHCP);
 	
 	serial_send(l);
