@@ -126,8 +126,10 @@
 								$req->execute();
 								$req = $bdd->prepare("ALTER TABLE `data` AUTO_INCREMENT =1");
 								$req->execute();
+								$req = $bdd->prepare("DELETE FROM captors");
+								$req->execute();
 								$req->closeCursor();
-								echo '<p>Toutes les données de la table ont été supprimés</p>';
+								echo '<p>Toutes les données des tables ont été supprimées</p>';
 							}
 							else{
 			?>

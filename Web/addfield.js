@@ -11,7 +11,8 @@ function addInput(name,placeholder){
 // Ajout du champ
 function addField() {
 	div.appendChild(document.createElement("br"));
-	addInput("name[]","Identifiant");
+	addInput("name[]","Nom du capteur");
+	addInput("password[]","Mot de passe du capteur");
 }
 
 // Ajout du champ (pour delete)

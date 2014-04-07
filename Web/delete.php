@@ -86,6 +86,8 @@
 	                        		$up=$_POST['name'][$i];
 	                        		$req = $bdd->prepare("DELETE FROM data WHERE id=?");
 	                        		$req->execute(array($up));
+	                        		$req = $bdd->prepare("DELETE FROM captors WHERE id=?");
+	                        		$req->execute(array($up));
 	                        		echo "Capteur ". $up . " supprimé de la base" . "</br>";
 		                        	$i++;
 		                        	$req->closeCursor();

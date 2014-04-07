@@ -21,11 +21,13 @@
 		
 			//Prepare and execute the update on the DB
 			//$now =date("Y-m-d H:i:s");
-			$req = $bdd->prepare("UPDATE data SET temp=?, lum=?,timestamp=? WHERE id=?");
+			$req = $bdd->prepare("UPDATE data SET timestamp=? WHERE id=?");
+			$req->execute(array(date("Y-m-d H:i:s"),trim($_POST['mid'])));
+			$req = $bdd->prepare("UPDATE captors SET temp=?, lum=?,timestamp=? WHERE id=? ");
 			$req->execute(array(round(($_POST['temp']*0.647),1),$_POST['lum'],date("Y-m-d H:i:s"),trim($_POST['mid'])));
 			
 			//Printing the update informations
-			echo 'Mise à jour de la table pour le capteur ' . $id . '</br>';
+			echo 'Mise à jour de la table pour le capteur ' . $_POST['mid'] . '</br>';
 			echo 'Température : ' . $_POST['temp'] . '</br>';
 			echo 'Luminosité : ' . $_POST['lum'] . '</br>';
 			// Error info

@@ -95,11 +95,11 @@
 						    <tbody>
 						  <?php
 							if(isset($_POST['id'])){
-								$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data WHERE id=? ORDER BY id');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY data.id');
 								$req->execute(array((int)$_POST['id']));
 							}
 							else{
-								$req = $bdd->prepare('SELECT id, name, temp, lum, timestamp FROM data WHERE name=? ORDER BY id');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY data.name');
 								$req->execute(array($_POST['name']));
 							}
 								while ($donnees = $req->fetch()){
