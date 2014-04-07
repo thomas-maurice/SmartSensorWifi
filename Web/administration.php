@@ -72,7 +72,7 @@
             </header>
             
             <?php
-            // PHP Functions
+            // DiffDate compare 2 dates (timestamps) and return values (0 if d1 is more than 1 hour later than d2)
             function DiffDate($date) {
             	$now=date("Y-m-d H:i:s");
             	$d1=strtotime($date);
@@ -85,15 +85,18 @@
             ?>
             <div class="column-group gutters">
             <?php
+            	// ------------------ Check if the user is registered ---------------------
 	        	if( isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 	            	if($_COOKIE['login']!='destroyed' && $_COOKIE['password']!='destroyed'){
 						$check=$bdd->prepare("SELECT login, password FROM users");
 						$check->execute();
 						$data=$check->fetch();
-					  if ( ($data['login']==$_COOKIE['login']) && ($data['password']==$_COOKIE['password']) ){			
+					  if ( ($data['login']==$_COOKIE['login']) && ($data['password']==$_COOKIE['password']) ){				// ----------------- End of checking -------------------------------------
 			?>
+				<!-- Left Column -->
             	<div class="ink-form large-50 medium-50 small-100">
             <?php
+            	// ----------------- Adding the new user in the DB if required -------------------
 						if ( isset($_POST['adduser']) && isset($_POST['addpassword']) ){
 							$req=$bdd->prepare("INSERT INTO users(login,password) VALUES(?,?)");
 	                        $req->execute(array($_POST['adduser'],$_POST['addpassword']));
@@ -101,6 +104,9 @@
 	                        echo '<div class="ink-form large-50 medium-50 small-100">';
 	                        echo "Utilisateur ". $_POST['adduser'] . " ajouté à la base avec mot de passe " . $_POST['addpassword'] . '</div>';							
 						}
+				// --------------- End of adding new user -----------------------
+				
+				// ---------------- Delete user in the DB if required ------------
 						if ( isset($_POST['deluser']) ){
                     		$req = $bdd->prepare("DELETE FROM users WHERE login=?");
                     		$req->execute(array($_POST['deluser']));
@@ -108,7 +114,9 @@
 	                        echo '<div class="ink-form large-50 medium-50 small-100">';                    
                     		echo "Utilisateur ". $_POST['deluser'] . " supprimé de la base" . "</div>";
 						}
-						else{		         	
+				// -------------- End of deleting user ---------------------
+						else{	
+							// ------------- Asking twice if you really want to empty the table (missclick prevention)--------------
 							if ( isset($_POST['deltable']) ){
 								if ( isset($_POST['deltable']) ){
 		?>	
@@ -121,6 +129,9 @@
 		<?php		
 								}
 							}
+							// ------------- End of security prevention from deletion --------------
+							
+							// ------------- Empty the captors' data if required ---------------
 							else if ( isset($_POST['deltables']) ){
 								$req = $bdd->prepare("DELETE FROM data");
 								$req->execute();
@@ -131,6 +142,9 @@
 								$req->closeCursor();
 								echo '<p>Toutes les données des tables ont été supprimées</p>';
 							}
+							// ------------ End of deleting captors' data --------------------
+							
+							// If nothing is required, simply show the possibilities
 							else{
 			?>
 				            	<h3> Ajout d'un utilisateur </h3>
@@ -158,12 +172,18 @@
 					}
 				?>
             	</div>
+            	<!-- End of Left Column -->
+            	
+            	<!-- Right Column -->
             	<div class="large-50 medium-50 small-100">
 			<?php
+					// ----------- Check if all the captors have sent data in the last hour. If not, show which one have not. ---------------
+					// toulouse is a timestamp variable in tribute to Mathieu "Toulouse" Gerier, an IMA student who really loves timestamp.
 					$req2 = $bdd->prepare("SELECT timestamp, id FROM data");
 					$req2->execute();
 					$nb=0;
 					$wg=0;
+					// 4 next echos have design utility 
 					echo '<div class="column-group gutters">' . '<div class="large-50 medium-50 small-50">';
 					echo '<h3>Erreurs :</h3>';
 					echo '<div style="height:260px;width:230px;border:1px solid #ccc;overflow:auto;">';
@@ -171,6 +191,7 @@
 					while ($toulouse = $req2->fetch()){
 						settype($toulouse[0],"string");
 						$nb++;
+						// If the captors have not sent datas in the last hour, show it name in the list.
 						if ( DiffDate($toulouse[0]) ){
 							$wg++;
 							echo '<li>Capteur: ' . $toulouse[1] . '</li>';
@@ -182,6 +203,7 @@
 					$req2->closeCursor();
 			?>
 				</div>
+				<!-- End of Right Column -->
 			</div>
 			<?php } ?>
 	    </div>
