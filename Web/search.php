@@ -72,14 +72,17 @@
             </header>
 			<div class="ink-form large-100 medium-100 small-100">
 				<?php
+				// Check if the user is a valide user
 				if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 					$check=$bdd->prepare("SELECT login, password FROM users");
                 	$check->execute();
                 	$data=$check->fetch();
                 	$check->closeCursor();
                 	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
+                	// -------------- If informations are requested -------------------------------
 						if (isset($_POST['id']) || isset($_POST['name'])){
 						  ?>
+						  	<!-- Show the informations --> 
 							<div class="ink-form large-100 medium-100 small-100">
 		    				<h3> Informations sur le capteur demandé </h3>
 			    			<table class="ink-table bordered">
@@ -94,14 +97,17 @@
 						    </thead>                            
 						    <tbody>
 						  <?php
+						  	// If the informations are requested by the id
 							if(isset($_POST['id'])){
 								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY data.id');
 								$req->execute(array((int)$_POST['id']));
 							}
+							// If not, the informations are requested by name
 							else{
 								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY data.name');
 								$req->execute(array($_POST['name']));
 							}
+								// Print the informations (id, name,temperature, lightning, dateof last update
 								while ($donnees = $req->fetch()){
 									echo '<tr>';
 								    echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
@@ -117,8 +123,12 @@
 							</table>
 							</div>
 	           <?php }
+	           //---------------- End of informations request -------------------------
+	           
+	           //---------------- Show a basic page with requests choices ------------
 	           	else {?>
 						<form action="search.php" method="post" class="ink-form">
+							<!-- Request by ID -->
 							<p>Recherche par ID : </p>
 							<select name="id">'
 							<fieldset class="column-group gutters">
@@ -126,6 +136,7 @@
 			    					<div class="control-group gutters required">
 				    					<div class="control medium-20">
 		    			<?php
+		    				// List all the captors by ID
 		    				$value = $bdd->query('SELECT id FROM data ORDER BY id');
 		    				while ($data = $value->fetch()){
 		        				echo'<option value="'.$data['id'].'">'.$data['id'].'</option>';
@@ -140,6 +151,7 @@
 				    		<button type="submit" class="ink-button">Envoyer</button>
 				    	</form>
 				    	<form action="search.php" method="post" class="ink-form">
+				    		<!-- Request by name -->
 							<p>Recherche par nom : </p>
 							<select name="name">'
 							<fieldset class="column-group gutters">
@@ -147,6 +159,7 @@
 			    					<div class="control-group gutters required">
 				    					<div class="control medium-20">
 		    			<?php
+		    				//list all the captors by name
 		    				$value = $bdd->query('SELECT name FROM data ORDER BY name');
 		    				while ($data = $value->fetch()){
 		        				echo'<option value="'.$data['name'].'">'.$data['name'].'</option>';
@@ -161,6 +174,7 @@
 				    		<button type="submit" class="ink-button">Envoyer</button>
 				    	</form>
 			 <?php } 
+			 		// -----------------------End of choice page -------------------
 				 }
 			   }
 			    ?>
