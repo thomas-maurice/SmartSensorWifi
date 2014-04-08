@@ -1,7 +1,9 @@
+<!-- Navigation bar's page -->
 <nav class="ink-navigation vspace">
 	<ul class="menu horizontal black rounded shadowed">
-	    <li><a href="index.php">Accueil</a></li>
+	    <li><a href="index.php">Accueil</a></li> <!-- Show anytime -->
 	    <?php 
+	    	// If the user is a valid user
 	    	if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 	    		$check=$bdd->prepare("SELECT login, password FROM users");
 	    		$check->execute();
@@ -12,7 +14,9 @@
 	    			<li><a href="search.php">Search</a></li>
 	    			<li><a href="add.php">Add</a></li>
 	            	<li><a href="delete.php">Delete</a></li>
-	    <?php		if($_COOKIE['login']== 'admin'){
+	    <?php		
+	    			//If the user is ad administrator
+	    			if($_COOKIE['login']== 'admin'){
 	    ?>        		<li><a href="administration.php">Administration</a></li>
 	    <?php		} ?>
 	    			<li>

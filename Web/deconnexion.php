@@ -68,6 +68,7 @@
         </style>
     </head>
     
+    <!-- Just show a deconnection message -->
     <body>
         <div class="ink-grid">
             <header>
@@ -87,14 +88,7 @@
             </div>
         </div>               
         <footer>
-            <div class="ink-grid">
-                <nav class="ink-navigation push-left medium-100 small-100 small-push-left">
-                    <ul class="menu horizontal">
-                        <li><a href="#">Link</a></li>
-                    </ul>
-                </nav>
-                <p class="push-right small-100">GNU GPL. 2014</p>
-            </div>
+	    	<?php include("footer.php"); ?>
         </footer>
     </body>
 </html>

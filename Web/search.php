@@ -31,6 +31,8 @@
         <script type="text/javascript" src="/ink/js/ink-ui.min.js"></script>
         <script type="text/javascript" src="/ink/js/autoload.js"></script>
         <script type="text/javascript" src="/ink/js/html5shiv.js"></script>
+        <script type="text/javascript" src="Chart.js"></script>
+
         
         
         <style type="text/css">
@@ -66,21 +68,24 @@
             <header>
                 <h1>Rechercher un capteur</h1>
                 <?php 
-                	include("dbconnect.php"); 
-	                include("nav.php");
+                	include("dbconnect.php"); //Database connection
+	                include("nav.php");	// Navbar
                 ?>
             </header>
-			<div class="ink-form large-100 medium-100 small-100">
+			<div class="ink-form column-group gutters large-100 medium-100 small-100">
 				<?php
+				// Check if the user is a validated user
 				if (isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 					$check=$bdd->prepare("SELECT login, password FROM users");
                 	$check->execute();
                 	$data=$check->fetch();
                 	$check->closeCursor();
                 	if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
+                		// ---------------- If informations are requested ---------------
 						if (isset($_POST['id']) || isset($_POST['name'])){
 						  ?>
-							<div class="ink-form large-100 medium-100 small-100">
+						  	<!-- Show the informations designed || Left column-->
+							<div class="ink-form large-50 medium-50 small-100">
 		    				<h3> Informations sur le capteur demandé </h3>
 			    			<table class="ink-table bordered">
 				    		<thead>
@@ -94,14 +99,20 @@
 						    </thead>                            
 						    <tbody>
 						  <?php
+						  	// Extract the informations from the database, searching by ID
 							if(isset($_POST['id'])){
-								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY data.id');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.id=? AND data.id=captors.id ORDER BY captors.timestamp DESC');
 								$req->execute(array((int)$_POST['id']));
 							}
+							// Extract the informations from the database, searching by name
 							else{
-								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY data.name');
+								$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data,captors WHERE data.name=? AND data.id=captors.id ORDER BY captors.timestamp DESC');
 								$req->execute(array($_POST['name']));
 							}
+								// Display the extracted informations
+								$i=0;
+								$chart_temp; // Chart temperature array
+								$chart_lum; // Chart lightning array
 								while ($donnees = $req->fetch()){
 									echo '<tr>';
 								    echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
@@ -110,14 +121,72 @@
 									echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
 									echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
 									echo '</tr>';
+									$chart_lum[$i]=$donnees['lum']; // Save the lighning's informations for the chart
+									$chart_temp[$i]=$donnees['temp']; // Save the temperature's informations for the chart
+									$i++;
 								}
 								$req->closeCursor();
 				?>
 							</tbody>
 							</table>
 							</div>
+							<!-- Display the chart || Right column -->
+							<div class="ink-form large-50 medium-50 small-100">
+							<h4> <center>Graphique des 10 dernières mesures du capteur</center></h4>
+							<small><center>10 correspond à la valeur la plus récente</center></small>
+							<canvas id="chart" width="600" height="400">
+							</canvas>
+							<?php
+								for($i = 0;$i <=9;$i++){
+									if ($chart_lum[$i] == NULL)
+										$chart_lum[$i] = 0;
+									if ($chart_temp[$i] == NULL)
+										$chart_temp[$i] = 0;
+								}
+							?>
+							<!-- Javascript displaying the chart using Chart.js -->
+							<script type="text/javascript">
+							// Display the chart in "chart" div
+							var ctxChart = document.getElementById("chart").getContext("2d");
+							// Adding the data to the chart
+							var data = {
+								labels : ["1","2","3","4","5","6","7","8","9","10"],
+								datasets : [
+									{
+										fillColor : "rgba(255,140,0,0.5)",
+										strokeColor : "rgba(255,140,0,1)",
+										data : [<?php
+											for($i =0;$i <=8;$i++){
+												echo $chart_lum[$i].',';
+											}
+											echo $chart_lum[9];
+											echo ']';
+										?>
+									},
+									{
+										fillColor : "rgba(0,191,255,0.5)",
+										strokeColor : "rgba(0,191,255,1)",
+										data : [<?php
+											for($i =0;$i <=8;$i++){
+												echo $chart_temp[$i].',';
+											}
+											echo $chart_temp[9];
+											echo ']';
+										?>
+									}
+								]
+							}	
+							new Chart(ctxChart).Bar(data,{});
+							</script>
+							<!-- Caption -->
+							<center><small><font color="#FF8C00">Luminosité</font></small></br>
+							<small><font color="#00BFFF">Temperature</font></small></center>
+							</div>
+						</div>
 	           <?php }
+	           // -------------- If nothing is requested, display the search selector ------------
 	           	else {?>
+						<!-- By ID -->
 						<form action="search.php" method="post" class="ink-form">
 							<p>Recherche par ID : </p>
 							<select name="id">'
@@ -126,6 +195,7 @@
 			    					<div class="control-group gutters required">
 				    					<div class="control medium-20">
 		    			<?php
+		    				// Extracts the informations from the DB and displays it
 		    				$value = $bdd->query('SELECT id FROM data ORDER BY id');
 		    				while ($data = $value->fetch()){
 		        				echo'<option value="'.$data['id'].'">'.$data['id'].'</option>';
@@ -139,6 +209,7 @@
 				    		</select>
 				    		<button type="submit" class="ink-button">Envoyer</button>
 				    	</form>
+				    	<!-- By name -->
 				    	<form action="search.php" method="post" class="ink-form">
 							<p>Recherche par nom : </p>
 							<select name="name">'
@@ -147,6 +218,7 @@
 			    					<div class="control-group gutters required">
 				    					<div class="control medium-20">
 		    			<?php
+		    				// Extracts the informations from the DB and displays it
 		    				$value = $bdd->query('SELECT name FROM data ORDER BY name');
 		    				while ($data = $value->fetch()){
 		        				echo'<option value="'.$data['name'].'">'.$data['name'].'</option>';

@@ -68,13 +68,14 @@
             <header>
                 <h1>Smart Sensor Wifi<small>Maliar Benoit & Maurice Thomas</small></h1>
                 <?php 
-                	include("dbconnect.php"); 
-	                include("nav.php");
+                	include("dbconnect.php"); // Database connection file 
+	                include("nav.php"); // Navbar
                 ?>    
             </header>
             
             <div class="column-group gutters">
             <?php
+            		// --------------- Check is the user is registered ------------------
 					if( isset($_COOKIE['login']) && isset($_COOKIE['password']) ){
 					  if($_COOKIE['login']!='destroyed' && $_COOKIE['password']!='destroyed'){
 						$check=$bdd->prepare("SELECT login, password FROM users");
@@ -82,11 +83,15 @@
 						$data=$check->fetch();
 						$check->closeCursor();
 						if($_COOKIE['login']==$data['login'] && $_COOKIE['password']==$data['password']){
-		    				//Select all data in the db with prepared request
+					// ------------------ End of checking ------------------------------
+					
+		    				//Select all the datas (id, name, temperature, lightning, time of last update)  in the db with prepared request
 		    				$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data, captors WHERE data.id=captors.id ORDER BY id DESC LIMIT 5');
 		    				$req->execute();
 		    ?>
+		    				<!--  -------------------Left column-------------------  -->
 		    				<div class="ink-form large-50 medium-50 small-100">
+		    					<!-- Designing the ouput of the datas -->
 		    					<h3> 5 Derniers ajouts </h3>
 			    				<table class="ink-table bordered alternating">
 				    			<thead>
@@ -100,6 +105,7 @@
 						    	</thead>                            
 						    	<tbody>
 							    	<?php
+							    		// Extracting and printing the datas
 								    	while ($donnees = $req->fetch()){
 									    	echo '<tr>';
 									    	echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
@@ -117,23 +123,32 @@
 								</tbody>
 								</table>
 							</div>
+							<!--  ----------------------- End of Left column -------------------  -->
+							
+							<!--  ----------------------- Right Column ------------------  -->
 							<div class="large-50 medium-50 small-100">
 								</br></br>
 								<center>
 									<img src="doge.jpeg" width="450" height="450"/>
 								</center>
 							</div>
+							<!--  ----------------------- End of Right Column -----------------  -->
 		    	  <?php }
+		    	  		// If you're not a valid user or you misswriting your username or password
 		    	  		else
 		    	  		{
 		    	  			echo "Vous n'avez pas la permission !"; ?>	
-		    	  			<form action="redirect.php" method="POST">
-	                        <input type="hidden" value="logout" name="logout">
-	                        <input type="submit"  class='ink-button' value="Retour">
+		    	  			<form action="redirect.php" method="POST"> <!-- Redirect the user -->
+	                        <input type="hidden" value="logout" name="logout"> <!-- Delete the associate cookie when  -->
+	                        <input type="submit"  class='ink-button' value="Retour"> <!-- Executing 2 last previous actions -->
 	                    <?php
 	                    }
 		    	  }
 		    	}
+		    	/* ------------------ First page, if you're not registered ------------------- 
+		    							Asking username and password
+		    							Redirecting to the redirect.php page
+		    		-------------------------------------------------------------------------*/
 				else{ ?>
 				<div class="ink-form large-50 medium-50 small-100">
 		    		<h3> Connexion </h3>
