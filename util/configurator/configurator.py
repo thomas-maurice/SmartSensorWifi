@@ -174,9 +174,9 @@ class Configurator:
 				return
 		
 		if type(self.fileDescriptor)==socket.socket:
-			self.fileDescriptor.settimeout(10)
+			self.fileDescriptor.settimeout(5)
 		else:
-			self.fileDescriptor.setTimeout(10)
+			self.fileDescriptor.setTimeout(5)
 			
 		time.sleep(1);
 		self.send("\n")

@@ -1,4 +1,4 @@
-SRC=$(wildcard *.tex)
+SRC=Rapport.tex
 PDF=$(SRC:.tex=.pdf)
 
 all: $(PDF)

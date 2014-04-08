@@ -9,8 +9,8 @@
 % Configuration
 \def\NomAuteur{Maurice}
 \def\PrenomAuteur{Thomas}
-\def\Titre{Rapport de projet de Système et Réseau}
-\def\TitreCourt{Rapport PSR}
+\def\Titre{Rapport de projet de quatrième année\\Smart Sensor WiFi}
+\def\TitreCourt{Rapport de projet Smart Sensor WiFi}
 
 % Infos du document
 % Auteur et tout ça
@@ -33,7 +33,7 @@
 % Configuration de l'article
 
 \hypersetup{
-	pdftitle={\Titre~-~\PrenomAuteur~\NomAuteur}, 	% Titre
+	pdftitle={\Titre}, 	% Titre
 	pdfauthor={\PrenomAuteur \NomAuteur}, 	% Auteur
 	colorlinks=true,			% Couleur des liens
 	linkcolor=black,			% Couleur des liens
@@ -97,7 +97,7 @@
 	\renewcommand{\footrulewidth}{0.4pt}
 	
 	\pagestyle{fancy}
-	\fancyhead[L]{\bsc{Maliar - Maurice}}
+	\fancyhead[L]{\bsc{Maliar - Maurice} IMA4}
 	\fancyhead[R]{\TitreCourt}
 	\fancyhead[C]{}
 	\fancyfoot[C]{}
@@ -105,7 +105,7 @@
 	\tableofcontents
 	\newpage
 	\pagestyle{fancy}
-	\fancyhead[L]{\bsc{Maliar - Maurice}}
+	\fancyhead[L]{\bsc{Maliar - Maurice} IMA4}
 	\fancyhead[R]{\TitreCourt}
 	\fancyhead[C]{}
 	\fancyfoot[C]{\thepage}
@@ -115,24 +115,10 @@
 \begin{document}
 	\makehead
 	
-	\addcontentsline{toc}{section}{Introduction}
-	\section*{Introduction}
-		Texte d'introduction
-	
-	\section{Section 1}
-		\subsection{Section 1}
-			Test 1
-		\subsection{Section 2}
-			Test 2
-	
-	\section{Section 2}
-		\subsection{Section 1}
-			Test 1
-		\subsection{Section 2}
-			Test 2
-	
-	\addcontentsline{toc}{section}{Conclusion}
-	\section*{Conclusion}
-		Conclusion
+		\include{intro}
+		\include{achievements}
+		\include{web}
+		\include{capteurs}
+		\include{conclusion}
 		
 \end{document}
