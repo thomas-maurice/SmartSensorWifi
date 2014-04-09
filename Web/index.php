@@ -86,7 +86,7 @@
 					// ------------------ End of checking ------------------------------
 					
 		    				//Select all the datas (id, name, temperature, lightning, time of last update)  in the db with prepared request
-		    				$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data, captors WHERE data.id=captors.id ORDER BY id DESC LIMIT 5');
+		    				$req = $bdd->prepare('SELECT data.id, data.name, captors.temp, captors.lum, captors.timestamp FROM data, captors WHERE data.id=captors.id ORDER BY captors.timestamp DESC LIMIT 5');
 		    				$req->execute();
 		    ?>
 		    				<!--  -------------------Left column-------------------  -->
@@ -111,10 +111,10 @@
 									    	echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['temp'] . ' °C</center>' . '</td>';
-									    	if ($donnees['lum']<100)
-									    	echo '<td>' . '<center>' . 'Lumineux (' . $donnees['lum'] . ')</center>' . '</td>';
-									    	if ($donnees['lum']>100)
+									    	if ($donnees['lum']<150)
 									    	echo '<td>' . '<center>' . 'Sombre (' . $donnees['lum'] . ')</center>' . '</td>';
+									    	if ($donnees['lum']>150)
+									    	echo '<td>' . '<center>' . 'Lumineux (' . $donnees['lum'] . ')</center>' . '</td>';
 									    	echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
 									    	echo '</tr>';
 									    }
@@ -129,7 +129,7 @@
 							<div class="large-50 medium-50 small-100">
 								</br></br>
 								<center>
-									<img src="doge.jpeg" width="450" height="450"/>
+									<!--<img src="doge.jpeg" width="450" height="450"/>-->
 								</center>
 							</div>
 							<!--  ----------------------- End of Right Column -----------------  -->
