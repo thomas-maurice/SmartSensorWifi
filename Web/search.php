@@ -117,7 +117,7 @@
 									echo '<tr>';
 								    echo '<td>' . '<center>' . $donnees['id'] . '</center>' . '</td>';
 									echo '<td>' . '<center>' . $donnees['name'] . '</center>' . '</td>';
-									echo '<td>' . '<center>' . $donnees['temp'] . '</center>' . '</td>';
+									echo '<td>' . '<center>' . $donnees['temp'] . '°C' . '</center>' . '</td>';
 									echo '<td>' . '<center>' . $donnees['lum'] . '</center>' . '</td>';
 									echo '<td>' . '<center>' . $donnees['timestamp'] . '</center>' . '</td>';
 									echo '</tr>';
@@ -132,10 +132,17 @@
 							</div>
 							<!-- Display the chart || Right column -->
 							<div class="ink-form large-50 medium-50 small-100">
-							<h4> <center>Graphique des 10 dernières mesures du capteur</center></h4>
-							<small><center>10 correspond à la valeur la plus récente</center></small>
-							<canvas id="chart" width="600" height="400">
+							<h4> <center>Graphique des 10 dernières valeurs de luminosité du capteur</center></h4>
+							<small><center>1 correspond à la valeur la plus récente. Valeur augmente avec la luminosité</center></small>
+							<canvas id="chartLum" width="600" height="400">
 							</canvas>
+							<center><small><font color="#FF8C00">Luminosité</font></small></center></br>
+							<center><small><font color="#FF0000">Limite lumineux/sombre</font></small></center></br>
+							<h4> <center>Graphique des 10 dernières valeurs de température du capteur</center></h4>
+							<small><center>1 correspond à la valeur la plus récente</center></small>
+							<canvas id="chartTemp" width="600" height="400">
+							</canvas>
+							<center><small><font color="#00BFFF">Temperature</font></small></center>
 							<?php
 								for($i = 0;$i <=9;$i++){
 									if ($chart_lum[$i] == NULL)
@@ -147,14 +154,17 @@
 							<!-- Javascript displaying the chart using Chart.js -->
 							<script type="text/javascript">
 							// Display the chart in "chart" div
-							var ctxChart = document.getElementById("chart").getContext("2d");
-							// Adding the data to the chart
-							var data = {
+							var ctxChartLum = document.getElementById("chartLum").getContext("2d");
+							var ctxChartTemp = document.getElementById("chartTemp").getContext("2d");
+
+							// Adding the data to the lum chart
+							var datalum = {
 								labels : ["1","2","3","4","5","6","7","8","9","10"],
 								datasets : [
 									{
 										fillColor : "rgba(255,140,0,0.5)",
 										strokeColor : "rgba(255,140,0,1)",
+										pointStrokeColor : "#fff",
 										data : [<?php
 											for($i =0;$i <=8;$i++){
 												echo $chart_lum[$i].',';
@@ -164,8 +174,27 @@
 										?>
 									},
 									{
+										fillColor : "rgba(0,0,0,0)",
+										strokeColor : "rgba(255,0,0,1)",
+										pointStrokeColor : "#fff",
+										data : [<?php
+											for($i =0;$i <=8;$i++){
+												echo '150,';
+											}
+											echo '150]';
+										?>
+									}
+								]
+
+							}
+							// Adding the data to the temp chart
+							var datatemp = {
+								labels : ["1","2","3","4","5","6","7","8","9","10"],
+								datasets : [
+									{
 										fillColor : "rgba(0,191,255,0.5)",
 										strokeColor : "rgba(0,191,255,1)",
+										pointStrokeColor : "#fff",
 										data : [<?php
 											for($i =0;$i <=8;$i++){
 												echo $chart_temp[$i].',';
@@ -173,14 +202,20 @@
 											echo $chart_temp[9];
 											echo ']';
 										?>
+									},
+									{
+										fillColor : "rgba(0,0,0,0)",
+										strokeColor : "rgba(0,0,0,0)",
+										data : [0]
 									}
+
 								]
-							}	
-							new Chart(ctxChart).Bar(data,{});
+							}
+	
+							new Chart(ctxChartLum).Line(datalum,{});
+							new Chart(ctxChartTemp).Line(datatemp,{});
 							</script>
 							<!-- Caption -->
-							<center><small><font color="#FF8C00">Luminosité</font></small></br>
-							<small><font color="#00BFFF">Temperature</font></small></center>
 							</div>
 						</div>
 	           <?php }
