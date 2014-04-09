@@ -80,6 +80,7 @@
 #include <ds1302.h>
 #include <spi.h>
 #include <wizFi210.h>
+#include <timer.h>
 
 // Json : '{"key":"value","key2":"value2"}'
 
@@ -95,8 +96,17 @@ int main(void)
 	serial_init();
 	adc_init();
 	init_spi();
-
-	while(wizFi210_get_next_command('0')==0);
+	init_timer();
+	
+	cbi(DDRD, PD2);
+	sbi(DDRB, PB2); // For status led
+	
+	_delay_ms(500);
+	if(gbi(PIND, PD2)) {
+		while(wizFi210_get_next_command('0')==0);
+	}
+	
+	//while(wizFi210_get_next_command('0')==0);
 	/*uint8_t l = eeprom_read_word(EEP_DHCP);
 	
 	serial_send(l);
@@ -122,7 +132,7 @@ int main(void)
 	
 	ds1302_set_date(5, 3, 2014);
 	
-	display_clear();
+	/*display_clear();
 	cli();
 	serial_send_string_nt("\rAT+WM=0\r");
 	if(wizFi210_check_ok() == 0) {
@@ -130,7 +140,7 @@ int main(void)
 		if(wizFi210_check_ok() == 1)
 			serial_send_string_nt("ERR\r");
 		sei();
-	}
+	}*/
 	
 	/*serial_send_string_nt("AT+NDHCP=0\r");
 	serial_send_string_nt("AT+WSEC=8\r");
@@ -146,17 +156,8 @@ int main(void)
 	//_delay_ms(1000);
 	//serial_send_string_nt("AT+WS\r");
 	//serial_send_string_nt("AT+NCTCP=193.48.57.56,80\r");
-	serial_send_string_nt("AT+NCTCP=193.48.57.56,80\r");
-	_delay_ms(5000);
-	serial_send_string_nt("AT+CID=?\r");
-	_delay_ms(1000);
-	
-	wizFi210_send_update();
-	
-	_delay_ms(5000);
-	
-	serial_send_string_nt("AT\r");
-	wizFi210_check_ok();
+
+	//wizFi210_send_update();
 	
 	serial_send_string_nt("AT+NSTCP=80\r");
 	

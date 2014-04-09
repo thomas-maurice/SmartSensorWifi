@@ -70,6 +70,8 @@
 #define EEP_NETMSK   (EEP_NETIP+1+16) //!< Network config
 #define EEP_NETGW    (EEP_NETMSK+1+16) //!< Network config
 #define EEP_MASTER   (EEP_NETGW+1+16) //!< MasterKey
+#define EEP_IPDB     (EEP_MASTER+1+32) //!< IP of the db server
+#define EEP_HOSTDB   (EEP_IPDB+1+16) //!< hostname of the DB server
 
 #include <avr/eeprom.h>
 #include <avr/io.h>

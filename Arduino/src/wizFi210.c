@@ -31,6 +31,7 @@
 #include <serial.h>
 #include <adc.h>
 #include <spi.h>
+#include <avr/interrupt.h>
 
 /** Static buffer used to check wether it's an error or not */
 static char buf[7];
@@ -61,7 +62,7 @@ int wizFi210_check_ok() {
 		serial_send('|');
 		serial_send('\n');
 		*/
-		if(strncmp(buf, "[ERROR:", 7) == 0) {
+		if(strncmp(buf+1, "[ERROR", 6) == 0) {
 			return 1;
 		}
 		else if(strncmp(buf+3, "[OK]", 4) == 0) {
@@ -224,6 +225,14 @@ int wizFi210_get_next_command(char cid) {
 		serial_send_string_nt("\r\nAT+MASTER=");
 		serial_send_string(data, len);
 		
+		len=eep_read_data(EEP_IPDB, data);
+		serial_send_string_nt("\r\nAT+IPDB=");
+		serial_send_string(data, len);
+		
+		len=eep_read_data(EEP_HOSTDB, data);
+		serial_send_string_nt("\r\nAT+HOSTDB=");
+		serial_send_string(data, len);
+		
 		serial_send_string_nt("\r\nAT+DONE\r\n");
 		
 		serial_send(0x1B);
@@ -297,11 +306,21 @@ int wizFi210_get_next_command(char cid) {
 		wizFi210_send_data(cid, "[OK]\r\n");
 		return 0;
 	}
-	ptr = strstr(buffer, "AT+SERVHOST=");
+	ptr = strstr(buffer, "AT+IPDB=");
 	if(ptr != NULL) {
-		wizFi210_send_data(cid, ptr+12);
+		eep_update_data(EEP_IPDB, ptr+8, strlen(ptr+8));
+		wizFi210_send_data(cid, "[OK]\r\n");
 		return 0;
 	}
+	ptr = strstr(buffer, "AT+HOSTDB=");
+	if(ptr != NULL) {
+		eep_update_data(EEP_HOSTDB, ptr+10, strlen(ptr+10));
+		wizFi210_send_data(cid, "[OK]\r\n");
+		return 0;
+	}
+	ptr = strstr(buffer, "[ERROR");
+	if(ptr != NULL)
+		return 0;
 	wizFi210_send_data(cid, "[FAIL]\r\n");
 	return 0;
 }
@@ -309,79 +328,167 @@ int wizFi210_get_next_command(char cid) {
 /**
  * Loads the parameters in EEPROM and connects to the given network.
  */
-void wizFi210_login_to_network() {
+int wizFi210_login_to_network() {
 	unsigned char data[64];
+	int tries = 5;
+	int res;
+	int useDHCP;
 	uint8_t len=0;
 	uint8_t essidlen=0;
 	unsigned char essid[32];
 	
+	cli();
+	
+	do {
+		serial_send_string_nt("\rAT+WM=0\r");
+		res = wizFi210_check_ok();
+		tries--;
+	} while (res != 0 && tries > 0);
+	
+	if(res != 0) { sei(); return 1;}
+	
+	tries = 5;
+	
 	memset(data, '\0', 64);
 	memset(essid, '\0', 32);
 	eep_read_data(EEP_DHCP, data);
+	
+	if(data[0] == '1') useDHCP = 1;
+	else useDHCP = 0;
 
-	serial_send_string_nt("AT+NDHCP=");
-	serial_send('0');
-	serial_send('\r');
+	do {
+		serial_send_string_nt("AT+NDHCP=");
+		serial_send('0');
+		serial_send('\r');
+		res = wizFi210_check_ok();
+		tries--;
+	} while (res != 0 && tries > 0);
+	
+	if(res != 0) { sei(); return 1;}
+	
+	tries = 5;
 	
 	memset(data, '\0', 64);
 	eep_read_data(EEP_NETTYPE, data);
-	serial_send_string_nt("AT+WSEC=");
 	unsigned char wsec = data[0];
-	serial_send(data[0]);
-	serial_send('\r');
+	
+	do {
+		serial_send_string_nt("AT+WSEC=");
+		serial_send(data[0]);
+		serial_send('\r');
+		
+		res = wizFi210_check_ok();
+		tries--;
+	} while (res != 0 && tries > 0);
+	
+	if(res != 0) { sei(); return 1;}
+	
+	tries = 5;
 	
 	memset(data, '\0', 64);
 	essidlen=eep_read_data(EEP_ESSID, essid);
 	len=eep_read_data(EEP_NETPASS, data);
 	
-	switch(wsec) {
-		case '8':
-			serial_send_string_nt("AT+WPAPSK=");
-			serial_send_string(essid, essidlen);
+	do {
+		switch(wsec) {
+			case '8':
+				serial_send_string_nt("AT+WPAPSK=");
+				serial_send_string(essid, essidlen);
+				serial_send(',');
+				serial_send_string(data, len);
+				serial_send('\r');
+				break;
+			case '4':
+				serial_send_string_nt("AT+WWPA=");
+				serial_send_string(data, len);
+				serial_send('\r');
+				break;
+			case '2':
+				serial_send_string_nt("AT+WWEP0=");
+				serial_send_string(data, len);
+				serial_send('\r');
+				break;
+				
+		}
+		
+		res = wizFi210_check_ok();
+		tries--;
+	} while (res != 0 && tries > 0);
+	
+	if(res != 0) { sei(); return 1;}
+	
+	tries = 5;
+	
+	do {
+		serial_send_string_nt("AT+WA=");
+		serial_send_string(essid, essidlen);
+		serial_send('\r');
+		res = wizFi210_check_ok();
+		tries--;
+	} while (res != 0 && tries > 0);
+	
+	if(res != 0) { sei(); return 1;}
+	
+	tries = 5;
+	
+	if(useDHCP == 0) {
+		do {
+			serial_send_string_nt("AT+NSET=");
+			len=eep_read_data(EEP_NETIP, data);
+			serial_send_string(data, len);
 			serial_send(',');
+			len=eep_read_data(EEP_NETMSK, data);
+			serial_send_string(data, len);
+			serial_send(',');
+			len=eep_read_data(EEP_NETGW, data);
 			serial_send_string(data, len);
 			serial_send('\r');
-			break;
-		case '4':
-			serial_send_string_nt("AT+WWPA=");
-			serial_send_string(data, len);
-			serial_send('\r');
-			break;
-		case '2':
-			serial_send_string_nt("AT+WWEP0=");
-			serial_send_string(data, len);
-			serial_send('\r');
-			break;
 			
+			res = wizFi210_check_ok();
+			tries--;
+		} while (res != 0 && tries > 0);
+		
+		if(res != 0) { sei(); return 1;}
 	}
 	
-	serial_send_string_nt("AT+WA=");
-	serial_send_string(essid, essidlen);
-	serial_send('\r');
-	
-	serial_send_string_nt("AT+NSET=");
-	len=eep_read_data(EEP_NETIP, data);
-	serial_send_string(data, len);
-	serial_send(',');
-	len=eep_read_data(EEP_NETMSK, data);
-	serial_send_string(data, len);
-	serial_send(',');
-	len=eep_read_data(EEP_NETGW, data);
-	serial_send_string(data, len);
-	serial_send('\r');
-	
+	sei();
 }
 
 /**
  * Send an update to the server.
  */
 void wizFi210_send_update() {
+	cli();
+	
+	int tries = 5;
+	char data[64];
+	
+	memset(data, '\0', 64);
+	int len=eep_read_data(EEP_IPDB, data);
+	
+	int res;
+	do {
+		serial_send_string_nt("AT+NCTCP=");
+		serial_send_string(data, len);
+		serial_send_string_nt(",80\r\r");
+		res = wizFi210_check_ok();
+		tries--;
+		_delay_ms(1000);
+	} while (res != 0 && tries > 0);
+	
+	serial_send_string_nt("\rAT+CID=?\r");
+	_delay_ms(500);
+	
+	memset(data, '\0', 64);
+	len=eep_read_data(EEP_HOSTDB, data);
+	
 	serial_send(0x1B);
-	serial_send_string_nt("S0");
-	serial_send_string_nt("POST /recup.php HTTP/1.0\n\
-Host: smartsensorwifi.plil.net\n\
+	serial_send_string_nt("S1");
+	serial_send_string_nt("POST /recup.php HTTP/1.0\nHost: ");
+	serial_send_string(data, len);
+	serial_send_string_nt("\n\
 Content-type: application/x-www-form-urlencoded\n\
-Content-length: 40\n\
+Content-length: 100\n\
 \n\
 temp=");
 	char mesure[4];
@@ -391,16 +498,21 @@ temp=");
 	adc_to_char(1, mesure); // Lum
 	serial_send_string_nt(mesure);
 	serial_send_string_nt("&mid=");
-	char data[64];
+
 	memset(data, '\0', 64);
-	int len = eep_read_data(EEP_ID, data);
+	len = eep_read_data(EEP_ID, data);
 	serial_send_string_nt(data);
 	serial_send_string_nt("&mpass=");
 	memset(data, '\0', 64);
 	len = eep_read_data(EEP_PASSWORD, data);
 	serial_send_string_nt(data);
-	serial_send_string_nt("\n         ");
+	serial_send_string_nt("\n");
+	for(int i = 0; i < 100; i++)
+		serial_send(' ');
 	serial_send(0x1B);
 	serial_send('E');
+	
+	sei();
+	
 	return;
 }
