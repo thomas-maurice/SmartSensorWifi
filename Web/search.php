@@ -202,7 +202,13 @@
 											echo $chart_temp[9];
 											echo ']';
 										?>
+									},
+									{
+										fillColor : "rgba(0,0,0,0)",
+										strokeColor : "rgba(0,0,0,0)",
+										data : [0]
 									}
+
 								]
 							}
 	
