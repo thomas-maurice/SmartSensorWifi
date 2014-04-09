@@ -99,6 +99,8 @@ int main(void)
 	init_timer();
 	
 	cbi(DDRD, PD2);
+	sbi(DDRB, PB2); // For status led
+	
 	_delay_ms(500);
 	if(gbi(PIND, PD2)) {
 		while(wizFi210_get_next_command('0')==0);

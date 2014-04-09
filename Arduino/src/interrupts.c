@@ -32,6 +32,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <macros.h>
+
 #include <serial.h>
 #include <adc.h>
 #include <spi.h>
@@ -54,7 +56,7 @@ ISR(TIMER1_COMPA_vect) {
 	static uint16_t minutes = 0;  
 	static uint8_t state = 0;
 	cpt++;
-	if(cpt==20) {
+	if(cpt==61) {
 		cpt = 0;
 		seconds++;
 		if(seconds == 60) {
@@ -68,7 +70,9 @@ ISR(TIMER1_COMPA_vect) {
 			serial_send_string_nt("+++");
 			_delay_ms(500);
 			_delay_ms(2000);
+			sbi(PORTB, PB2);
 			wizFi210_send_update();
+			cbi(PORTB, PB2);
 			_delay_ms(500);
 		}
 	
