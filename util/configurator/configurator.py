@@ -59,7 +59,6 @@ class Configurator:
 	useSerialLink = None
 	sensorIDEntry = None
 	sensorPasswordEntry = None
-	sensorUpdateInterval = None
 	dhcpCheckbox = None
 	sensorIPEntry = None
 	netmaskEntry = None
@@ -87,12 +86,11 @@ class Configurator:
 		self.serialDeviceEntry = self.windowTree.get_widget("serialDeviceEntry")
 		self.remoteHostEntry = self.windowTree.get_widget("remoteHostEntry")
 		self.remoteHostPort = self.windowTree.get_widget("remoteHostPort")
-		self.sensorUpdateInterval = self.windowTree.get_widget("useSerialLink")
+		self.useSerialLink = self.windowTree.get_widget("useSerialLink")
 		
 		# The sensor stuff
 		self.sensorIDEntry = self.windowTree.get_widget("sensorIDEntry")
 		self.sensorPasswordEntry = self.windowTree.get_widget("sensorPasswordEntry")
-		self.sensorPasswordEntry = self.windowTree.get_widget("sensorUpdateInterval")
 		
 		# The network stuff
 		self.dhcpCheckbox = self.windowTree.get_widget("dhcpCheckbox")
@@ -222,8 +220,6 @@ class Configurator:
 						self.networkTypeCombo.set_active(3)
 					if t=='8':
 						self.networkTypeCombo.set_active(4)
-				elif "AT+UPINT" in resp.split("=")[0]:
-					self.sensorUpdateInterval.set_value(int(resp.split("=")[1]))
 				elif "AT+DHCP" in resp.split("=")[0]:
 					if resp.split("=")[1] == 1:
 						self.dhcpCheckbox.set_active(True)
@@ -274,10 +270,7 @@ class Configurator:
 		else:
 			newConfiguration += "AT+ESSID="+self.essidEntry.get_text() + "\n"
 			newConfiguration += "AT+WKEY="+self.wirelessKeyEntry.get_text() + "\n"
-		
-		newConfiguration += "AT+UPINT="+str(int(self.sensorUpdateInterval.get_value()))+"\n"
-		
-		
+			
 		if self.sensorIDEntry.get_text() == "" or self.sensorPasswordEntry.get_text() == "":
 			self.error("Cannot validate input", "You need to provide an ID and a password to your sensor")
 			return

@@ -102,8 +102,9 @@ int main(void)
 	sbi(DDRB, PB2); // For status led
 	
 	_delay_ms(500);
-	if(gbi(PIND, PD2)) {
-		while(wizFi210_get_next_command('0')==0);
+	if(gbi(PIND, PD2)==0) {
+		int id=1;
+		while(wizFi210_get_next_command('0', &id)==0);
 	}
 	
 	//while(wizFi210_get_next_command('0')==0);
@@ -165,8 +166,9 @@ int main(void)
 		char cid = wizFi210_check_connect();
 
 		int res = 0;
+		int id = 0;
 		
-		while(wizFi210_get_next_command(cid) == 0) { res++;};
+		while(wizFi210_get_next_command(cid, &id) == 0) { res++;};
 		
 		serial_send_string_nt("AT+NCLOSE=");
 		serial_send(cid);

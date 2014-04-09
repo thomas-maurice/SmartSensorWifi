@@ -36,7 +36,7 @@ int wizFi210_check_ok(); //!< Checks if the command is OK
 void wizFi210_send_update(); //!< Send an update to the server
 char wizFi210_check_connect(); //!< Checks for a client connection
 void wizFi210_send_data(char cid, char* data); //!< Sends a data to a CID
-int wizFi210_get_next_command(char cid); //!< Parse and axecute the next AT command
+int wizFi210_get_next_command(char cid, int* ident); //!< Parse and axecute the next AT command
 int wizFi210_login_to_network(); //!< Logs in to a network
 
 #endif

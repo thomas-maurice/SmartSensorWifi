@@ -130,7 +130,7 @@ void wizFi210_send_data(char cid, char* data) {
  * \return 0 if next command is ready to be waited for and processed. 1 if the
  * client disconnected.
  */
-int wizFi210_get_next_command(char cid) {
+int wizFi210_get_next_command(char cid, int* ident) {
 	unsigned char buffer[128];
 	memset(buffer, '\0', 128);
 	unsigned char ok[2];
@@ -162,11 +162,17 @@ int wizFi210_get_next_command(char cid) {
 		int len=0;
 		
 		len=eep_read_data(EEP_MASTER, data);
-		if(strncmp(data, ptr+9, len)==0)
+		if(strncmp(data, ptr+9, len)==0) {
 			wizFi210_send_data(cid, "[OK]\r\n");
-		else
+			*ident = 1;
+		} else
 			wizFi210_send_data(cid, "[FAIL] Invalid ident\r\n");
 		
+		return 0;
+	}
+	
+	if(ident == 0) {
+		wizFi210_send_data(cid, "[FAIL] Not identified\r\n");
 		return 0;
 	}
 	
