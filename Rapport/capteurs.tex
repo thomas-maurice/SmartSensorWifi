@@ -69,15 +69,50 @@
 		Pour cela nous avions pensé le coupler avec une flash (voir les schémas en annexe). Cela dit
 		comme le composant n'était disponible qu'en format SOIC8 et que nous n'avons pas réalisé la carte
 		il nous a été impossible de l'intégrer correctement. Une amélioration possible et très facile à
-		mettre en oeuvre pour la capteur serait donc l'intégration de cette flash et l'utilisation
+		mettre en oeuvre pour le projet serait donc l'intégration de cette flash et l'utilisation
 		de la RTC pour soumettre en différé des données de mesures qui n'aurais pas pu être
 		transmises à temps.
+		\par
+		La troisième partie du projet a été consacrée à faire en sorte que la configuration du capteur
+		soit persistante entre les reboots. Durant les phases de développement nous ne nous étions pas
+		vraiment occupé de cela mais dès que le programme est devenu plus compliqué il est devenu
+		essentiel de stocker certains paramètres (d'identifications notamment) autrement qu'en dur
+		dans le code. Il a donc fallu ajouter un module de gestion de l'EEPROM. La structure suivante a donc
+		été choisie pour stocker des données :
+		\begin{itemize}
+			\item L'EEPROM est découpée en différents secteur de taille fixé à la compilation
+			\item Chaque secteur contient un octet de taille et $N$ octets de données ($N < 255$)
+			\item Chaque secteur est uniquement défini par sa position en mémoire
+		\end{itemize}
+		
+		Cette solution présente l'avantage d'être très simple à mettre en place d'un point de vue
+		logiciel, ce système souffre cependant d'un gros problème qui est que l'on ne peut
+		pas connaitre de manière dynamique la taille maximale des données que l'on peut ranger
+		dans un segment. Ce qui implique que le programmeur fasse très attention aux données qu'il
+		manipule, de manière à ne pas provoquer de débordement sur un autre segment. Ceci dit,
+		ce problème n'est pas vraiment critique puisqu'une simple réécriture de la configuration
+		rétablira tout correctement. Ceci fait également partie des améliorations possibles
+		du projet.
 		
 		\par
-		La troisième partie du projet a sans aucun doute été la plus difficile à réaliser. En
+		La quatrième partie du projet a sans aucun doute été la plus difficile à réaliser. En
 		effet après s'être occupé des briques élémentaire qui compose le capteur (communiquer
-		en série, lire des capteurs analogiques, lire la RTC). Il a falllu regrouper tout ça
-		ensemble et l'envoyer sur internet.
+		en série, lire des capteurs analogiques, lire la RTC). Il a fallu regrouper tout ça
+		ensemble et l'envoyer sur internet. Pour se faire, il a d'abord fallu comprendre comment
+		fonctionnait la carte WiFi. La datasheet n'étant pas toujours très claire, ni très complète
+		il a d'abord fallu passer par une phase \og{} d'exploration \fg{} de la carte via le port
+		série, de manière à comprendre précisément ce qu'elle attendais de nous en terme de commandes.
+		La carte se configurait finalement par un set de commandes AT via le port série et malgré
+		les quelques imprécisions de la datasheet nous avons finalement été capables de nous identifier
+		sur un réseau spécialement créé pour l'occasion.
+		
+		\par
+		A partir de là a été développé une petite bibliothèque qui intègre les fonctions réseau de base,
+		à savoir s'identifier sur un réseau avec des paramètres donnés, soumettre des requêtes HTTP et
+		vérifier le retour des commandes AT de manière à réitérer plusieurs fois une tentative de connexion
+		qui aurait échouée.
+		
+		\subsubsection{Interaction du capteur avec les internets}
 		
 		\subsubsection{Principales difficultés rencontrées}
 		
