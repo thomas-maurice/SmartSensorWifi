@@ -250,7 +250,7 @@ class Configurator:
 		# Building the configuration commands
 		
 		newConfiguration = ""
-		#newConfiguration = "AT+IDENT="+self.masterKeyEntry.get_text()+"\n"
+		newConfiguration = "AT+IDENT="+self.masterKeyEntry.get_text()+"\n"
 		
 		if self.dhcpCheckbox.get_active() == False:
 			newConfiguration += "AT+DHCP=0\n"
@@ -318,20 +318,22 @@ class Configurator:
 				return
 		
 		if type(self.fileDescriptor)==socket.socket:
-			self.fileDescriptor.settimeout(10)
+			self.fileDescriptor.settimeout(5)
 		else:
-			self.fileDescriptor.setTimeout(10)
+			self.fileDescriptor.setTimeout(5)
 		
 		print newConfiguration
 		time.sleep(1)
-		#print self.read()
+		print self.read()
 		for c in newConfiguration.split("\n"):
 			self.send(c+"\n")
 			resp = ""
-			print ">", c
+			print "\n>", c
+			sys.stdout.write("< ")
 			while not "[OK]" in resp and not "[FAIL]" in resp:
 				tmp = self.read()
 				sys.stdout.write(tmp)
+				sys.stdout.flush()
 				resp += tmp
 				time.sleep(0.2)
 			

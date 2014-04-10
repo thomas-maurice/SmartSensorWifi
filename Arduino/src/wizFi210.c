@@ -165,13 +165,15 @@ int wizFi210_get_next_command(char cid, int* ident) {
 		if(strncmp(data, ptr+9, len)==0) {
 			wizFi210_send_data(cid, "[OK]\r\n");
 			*ident = 1;
-		} else
+		} else {
 			wizFi210_send_data(cid, "[FAIL] Invalid ident\r\n");
+		}
 		
+		wizFi210_send_data(cid, "[OK]\r\n");
 		return 0;
 	}
 	
-	if(ident == 0) {
+	if(*ident == 0) {
 		wizFi210_send_data(cid, "[FAIL] Not identified\r\n");
 		return 0;
 	}
