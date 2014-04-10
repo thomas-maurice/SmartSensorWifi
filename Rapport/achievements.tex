@@ -63,3 +63,12 @@
 		d'un set de commandes AT décris et documenté en annexe.
 		
 		\subsubsection{Le software}
+		La partie logicielle du projet est découpée en deux parties. La première
+		consiste en le firmware que nous avons chargé dans l'Arduino, et qui est chargé
+		de gérer la carte WiFi et les différents capteurs.
+		\par
+		La seconde partie consiste en un logiciel de configuration écrit spécialement
+		pour ce projet, il s'agit de \texttt{configurator}. C'est un script en python
+		qui permet via une interface graphique plutôt intuitive de configurer un capteur,
+		et ce que ça soit par le port série d'un capteur directement relié au PC en USB
+		ou via le réseau en utilisant une socket TCP.
