@@ -1,7 +1,65 @@
 \section{Cahier des charges}
-
-
+	\par
+	Le cahier des charges a été formulé comme il suit : L'objectif du
+	projet consiste en la conception et la réalisation de capteurs autonomes
+	communiquant en WiFi afin de pouvoir remonter régulièrement des informations
+	sur l'état des salles de cours. Les capteurs seront par exemple des détecteurs de
+	lumières, de pression, de qualité de l'air, ...
+	\par
+	La communication sera obligatoirement réalisée en WiFi sur le réseau
+	de l'université en respectant les contraintes de sécurité (WPA2, ...).
+	\par
+	Deux options sont possibles :
+	\begin{itemize}
+    \item Refaire complètement une carte avec un microcontroleur et une
+    puce wifi (comme par exemple les \href{https://www.spark.io/}{spark})
+    \item Réaliser un shield pour raspberry pi contenant les différents capteurs. 
+	\end{itemize}
+	
 \section{Présentation de la réalisation}
 	\subsection{Présentation de la partie web}
 	
 	\subsection{Présentation de la partie capteur}
+		\subsubsection{Le hardware}
+		\par
+		A la fin du projet, nous avons réalisé un prototype fonctionnel de ce
+		que pourrait être le capteur. Il est important de noter que nous n'avons
+		pas cherché à intégrer la solution mais plutôt à la développer en terme
+		de fonctionnalités. De ce fait le prototype est assez volumineux mais
+		sa taille peut aisément être réduite en utilisant des solutions à base
+		de composants CMS notemment ce qui permettrait de réduire de manière
+		significative l'encombrement de l'appareil.
+		\par
+		Le prototype final se compose donc de trois éléments principaux. Le coeur
+		du système est réalisé avec un Arduino Uno. Une platine de développement
+		sur microcontrôleur basée sur un ATmega328P de chez Atmel. C'est dans cet
+		Arduino qu'est flashé le programme du capteur. Vient en suite la partie
+		qui prend en charge le WiFi, il s'agit d'un shield WiFi de chez GoTronic
+		basée sur la puce WizFi210 de WizNet, cette dernière est interfacée avec
+		l'Arduino via le port série. Enfin la dernière partie est un protoshield
+		sur lequel est placé une breadboard sur laquelle sont enfichés les composants
+		avec lesquels l'Arduino peut intéragir, à savoir :
+		\begin{itemize}
+			\item Une photorésistance pour capter la luminosité
+			\item Un capteur TMP36 de température
+			\item Une RTC (Real Time Clock) DS1302
+		\end{itemize}
+		Notons que nous avons choisi ces capteurs pour leur facilité d'utilisation,
+		mais dans l'absolu rien n'empêche d'utiliser n'importe quel autre capteur
+		analogique ou TOR, ni même d'interfacer le système avec des choses plus
+		complexes à base de SPI ou d'I$^2$C, étant donné que l'ATmega328P en a
+		la possibilité.
+		\par
+		Le principe de fonctionnement du capteur est très simple. Une fois configuré
+		à l'aide de \texttt{configurator} (dont le fonctionnement sera détaillé ci après)
+		il vous suffit de déployer le capteur là où vous souhaitez qu'il opère et le
+		laisser envoyer des mesures à interval d'une minute. On dispose ainsi
+		d'un suivi efficace de l'environnement. Aussitôt que l'appareil est
+		mis sous tension il va essayer de se connecter au réseau qui lui a été
+		spécifié en configuration et une fois que cela s'est fait proprement il
+		va passer en mode interruptif et enverra ses mises à jour toutes les minutes.
+		Il faut aussi noter que pendant ce temps là, le capteur écoutera les connexions
+		entrantes sur le port 80 et pourra ainsi être reconfiguré par ce biais à l'aide
+		d'un set de commandes AT décris et documenté en annexe.
+		
+		\subsubsection{Le software}
