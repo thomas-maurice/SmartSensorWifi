@@ -27,14 +27,57 @@
 		\par
 		Nous n'avons malheureusement pas eu le temps de réaliser de carte
 		pour fixer ce design. Et il n'aurait pas été pertinent de le faire dans la mesure
-		ou la conception et la fabrication d'une carte sont des activités pour
+		ou la conception, le routage et la fabrication d'une carte sont des activités pour
 		le moins chronophages et qu'il a effectivement été plus productif pour nous de nous
 		concentrer sur l'ajout de nouvelles fonctionalités au capteur. Cependant
 		nous avons édités des PCB et des schémas électroniques disponibles en
 		annexe qui permettent de réaliser une telle carte.
 		
 		\subsubsection{Conception du firmware de l'Arduino}
+		La conception du firmware de l'arduino s'est découpée en plusieurs étapes.
+		Pour commencer nous avons séparé les différentes fonctionnalités que nous
+		souhaitions. D'un point de vue organisation cela s'est traduit par un fractionnement
+		du code en plusieurs fichiers, chacun regroupant les fonctions relatives à un
+		domaine, par exemple la gestion du port série, des CAN, de l'EEPROM et autre.
+		\par
+		Ensuite, une fois que la séparation logique des fonctionalités a été effectuée
+		nous avons commencé à les développer une à une, en lançant à chaque fois une
+		série de tests sur ce que nous avions créé, de manière à nous assurer que tout
+		était bien conforme à ce que nous attendions. De cette manière nous pouvions
+		réutiliser sans crainte du code ue nous aviosn précédemment écrit puisqu'il
+		avait été validé par une batterie de tests.
+		\par
+		Une attention toute particulière a été portée à la doc. En effet si nous
+		souhaitons que le projet puisse être repris les années suivantes il
+		est indispensable de fournir une documentation valable, fiable et complète
+		de manière à ce que n'importe qui ouo presque soit en mesure de comprendre
+		ce qui a déjà été réalisé de manière logicielle. Pour ce faire nous avont eu
+		recours au système de documentation in-code Doxygen, qui grâce à un
+		système de commentaires au formattage particulier permet de générer automatiquement
+		une belle documentation HTML. Cette documentation navigable est facile à utiliser, avec outils
+		de recherche intégré et liens entre les différentes fonctions documentées.
+		Si vous souhaitez construire la documentation du programme rendez vous dans
+		le répertoire Arduino et tapez simplement \texttt{doxygen} un dossier contenant
+		le nécessaire sera généré pour vous !
+		\par
+		La seconde partie du projet, qui n'est au final même pas utilisée dans le prototype
+		actuel, a été la réalisation d'un driver pour la real time clock de Maxim DS1302. En
+		effet, nous somme parti du constat que le fonctionnement du WiFi pouvait être parfois
+		assez instable, et que de ce fait il serait appréciable que le capteur puisse se comporter
+		comme une sorte de datalogger dans le cas où il serait dans l'incapacité momentanée de communiquer
+		avec le serveur de donnée, que cela soit a cause du wifi ou d'un autre problème d'ailleurs.
+		Pour cela nous avions pensé le coupler avec une flash (voir les schémas en annexe). Cela dit
+		comme le composant n'était disponible qu'en format SOIC8 et que nous n'avons pas réalisé la carte
+		il nous a été impossible de l'intégrer correctement. Une amélioration possible et très facile à
+		mettre en oeuvre pour la capteur serait donc l'intégration de cette flash et l'utilisation
+		de la RTC pour soumettre en différé des données de mesures qui n'aurais pas pu être
+		transmises à temps.
 		
+		\par
+		La troisième partie du projet a sans aucun doute été la plus difficile à réaliser. En
+		effet après s'être occupé des briques élémentaire qui compose le capteur (communiquer
+		en série, lire des capteurs analogiques, lire la RTC). Il a falllu regrouper tout ça
+		ensemble et l'envoyer sur internet.
 		
 		\subsubsection{Principales difficultés rencontrées}
 		
