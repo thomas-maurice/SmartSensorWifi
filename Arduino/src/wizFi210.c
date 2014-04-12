@@ -18,7 +18,7 @@
  */
 
 /**
- * \file wizfi210.c
+ * \file wizFi210.c
  * \author Thomas Maurice
  * 
  * \brief wifi management implementation 

@@ -61,8 +61,15 @@
 		le nécessaire sera généré pour vous !
 		\par
 		La seconde partie du projet, qui n'est au final même pas utilisée dans le prototype
-		actuel, a été la réalisation d'un driver pour la real time clock de Maxim DS1302. En
-		effet, nous somme parti du constat que le fonctionnement du WiFi pouvait être parfois
+		actuel, a été la réalisation d'un driver pour la real time clock de Maxim DS1302.
+		Ce driver a été implémenté en utilisant le protocole de communication 3-Wire décrit dans
+		la datasheet, c'est un protocole similaire au protocole SPI mais suffisemment différent de celui ci
+		pour ne pas pouvoir utiliser le contrôleur SPI de l'Arduino. Le driver est fonctionnel et
+		permet d'accéder aux registres de temps de la RTC ainsi qu'aux quelques octets de RAM qu'elle
+		nous fourni en plus, ce qui peut être pratique si jamais l'arduino venait à en manquer. Toutes
+		les informations nécessaires sont bien évidemment documentées dans le code et via Doxygen.
+		\par
+		Nous somme partis du constat que le fonctionnement du WiFi pouvait être parfois
 		assez instable, et que de ce fait il serait appréciable que le capteur puisse se comporter
 		comme une sorte de datalogger dans le cas où il serait dans l'incapacité momentanée de communiquer
 		avec le serveur de donnée, que cela soit a cause du wifi ou d'un autre problème d'ailleurs.
@@ -110,7 +117,11 @@
 		A partir de là a été développé une petite bibliothèque qui intègre les fonctions réseau de base,
 		à savoir s'identifier sur un réseau avec des paramètres donnés, soumettre des requêtes HTTP et
 		vérifier le retour des commandes AT de manière à réitérer plusieurs fois une tentative de connexion
-		qui aurait échouée.
+		qui aurait échouée. Cette bibliothèque fonctionne sur le port série via une scrutation, elle n'utilise
+		pas d'interruptions pour avoir plus de contrôle et intercepter tout ce qui circule sur le port série
+		et le conserver au sein du même contexte (il est préférable que le retour d'une commande reste interceptée
+		par la fonction qui l'a émise plutôt que de devoir passer par une interruption globale et deviner
+		quelle fonction a besoin des données reçues).
 		
 		\subsubsection{Interaction du capteur avec les internets}
 		

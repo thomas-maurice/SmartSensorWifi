@@ -149,7 +149,7 @@ uint8_t ds1302_read_register(uint8_t addr, uint8_t target) {
  * Creates a timestring for the current date following the format :
  * DD/MM/YY HH:MM:SS so it is 18 chars long, including the null terminator.
  * 
- * \param [in|out] time_string the pointer on the memory zone needed.
+ * \param [inout] time_string the pointer on the memory zone needed.
  */
 void get_time_string(char* time_string) {
 	uint8_t result = 0;

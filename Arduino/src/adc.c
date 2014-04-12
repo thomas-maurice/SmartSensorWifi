@@ -42,7 +42,7 @@ void adc_init() {
  * 
  * @todo Implement a 10 bit version, just in case.
  * 
- * @param channel [in] The channel you want to sample
+ * @param [in] channel The channel you want to sample
  * 
  * @return The value of the channel
  */
@@ -57,7 +57,7 @@ uint8_t adc_get_sample(uint8_t channel) {
  * Converts an integer value from the ADC to a string and stores it into
  * the string str.
  * 
- * \param [in] channel, the channel to convert
+ * \param [in] channel the channel to convert
  * \param [out] str The final string. Must be of length 4, the \0 will be added by the function
  */
 void adc_to_char(int channel, char* str) {
@@ -71,7 +71,7 @@ void adc_to_char(int channel, char* str) {
 /**
  * Sends the conversion of the ADC channel channel to the serial port.
  * 
- * \param [in] The channel to get a dample from.
+ * \param [in] channel The channel to get a dample from.
  */
 void adc_print_conv(int channel) {
 	char s[4];

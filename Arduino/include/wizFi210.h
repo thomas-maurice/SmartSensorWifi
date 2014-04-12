@@ -18,7 +18,7 @@
  */
 
 /**
- * \file wizfi210.h
+ * \file wizFi210.h
  * \author Thomas Maurice
  * 
  * \brief wifi management header 
