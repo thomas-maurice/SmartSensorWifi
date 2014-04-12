@@ -1,8 +1,8 @@
 \section{Détail de la conception de la partie microcontrôleur du projet}
 	\subsection{Le capteur}
-		Lors de la réalisation du capteur il a fallu en premier lieu se fixer
+		Lors de la réalisation du senseur il a fallu en premier lieu se fixer
 		des objectifs à atteindre, afin d'être sur d'aller dans une direction
-		cohérente tout a long du projet. De  ce fait nous avons choisi d'opter pour
+		cohérente tout au long du projet. De  ce fait nous avons choisi d'opter pour
 		la réalisation d'un prototype fonctionnel et relativement simple au début.
 		Par relativement simple, nous entendions capable de lire un ou deux capteurs
 		analogiques simples à mettre en place de manière à nous focaliser sur
@@ -123,11 +123,61 @@
 		par la fonction qui l'a émise plutôt que de devoir passer par une interruption globale et deviner
 		quelle fonction a besoin des données reçues).
 		
-		\subsubsection{Interaction du capteur avec les internets}
+		\subsubsection{Communication avec l'application web}
+		Une fois la carte configurée et connectée au réseau, il a fallu envoyer des données de mise à jour au
+		site de Benoit. Nous avions au départ pensé à faire ça via post en JSON, simplement ça aurait
+		été trop long et gourmand à mettre en place niveau mémoire (les données post doivent avoir
+		une longueur définie et il faut encoder les caractères "{:," qui sont très utilisées dans une
+		chaine JSON ce qui aurait rendu l'envoi des données affreuse). Du coup nous avons opté pour un
+		format d'envoi en post classique. Voici par exemple la requete POST que le capteur "cap1" doté du mot de passe
+		"coucoutuveuxvoirmadata" aurait envoyé :
+		
+		\begin{verbatim}
+    POST /recup.php HTTP/1.0
+    Host: smartsensorwifi.plil.net
+    Content-type: application/x-www-form-urlencoded
+    Content-length: 100
+    
+    temp=140&lum=17&mid=cap1&mpass=coucoutuveuxvoirmadata
+		\end{verbatim}
+		
+		\par Notons que les valeurs envoyées peuvent paraitre étranges, mais elle ne sont que la lecture
+		directe du CAN de l'ATmega, la serveur les traitera pour les transformer en température ou
+		déterminer le seuil de luminosité. Ainsi on décharge le microcontrôleur d'une partie
+		du travail.
+		
+		\subsubsection{Reconfiguration du capteur}
+		Une fois que le projet est capable de communiquer avec l'appli web, de soumettre
+		des données, de se connecter à un réseau et ce genre de chose il ne luimanque pas beaucoup de fonctionnalités.
+		Ceci dit une fonctionnalité indispensable s'est vite faite ressentir :
+		le besoin de pouvoir reconfigurer le capteur à distance. En effet, le
+		seul moyen de reconfigurer le capteur était en modifiant en dur dans le code les identifiants et
+		de reflasher le programme ensuite, ce qui n'est pas pratique.
+
+		Pour palier à ce problème nous avons donc créé un set relativement complet de commandes AT,
+		documentées en annexe. L'idée est que le capteur écoute ce qu'il se passe sur son port série
+		et dès qu'une commande AT est reconnue elle est exécutée pour peu que l'on soit authentifié sur
+		le capteur. Pour se faire nous avons établi deux modes de configuration, une configuration "locale" via
+		le port série, et une reconfiguration à distance via le réseau. 
 		
 		\subsubsection{Principales difficultés rencontrées}
 		
 	\subsection{Configurator.py}
+	\begin{wrapfigure}{r}{40mm}
+		  \centering
+		  \includegraphics[scale=0.3]{SSWconfigurator.eps}
+		  \caption{Interface de configurator}
+		  \vspace{-20mm}
+	\end{wrapfigure}
+		Afin que l'utilisateur n'ai pas a se munir de minicom ou de netcat pour reconfigurer
+		ses capteurs, nous avons choisi de développer un logiciel dont le rôle est de se
+		charger de la configuration à la place de l'utilisateur. Qu'il s'agisse d'une configuration
+		locale via le port série ou à distance via le réseau, configurator fait le lien
+		entre l'utilisateur et son capteur. Le logiciel dispose d'une interface très simple composée
+		de quelques champs et de deux boutons, un pour rapatrier la configuration d'un capteur et l'autre
+		pour envoyer une configuration à un capteur. De cette manière il n'est plus utile de connaître
+		par coeur les commandes AT nécessaires à la configuration de l'appareil. Ce logiciel a été
+		réalisé en python avec pygtk, glade2 et pyserial.
 	
 	\subsection{Tentative de substitution par une solution a base de RaspberryPi}
 		Comme la carte WizFi tardait à arriver, nous avons pensés opter pour une solution alternative
