@@ -1,8 +1,9 @@
+% !TEX encoding = UTF-8 Unicode
 \section{Cahier des charges}
 	\par
 	Le cahier des charges a été formulé comme il suit : L'objectif du
 	projet consiste en la conception et la réalisation de capteurs autonomes
-	communiquant en WiFi afin de pouvoir remonter régulièrement des informations
+	communiquant en WiFi afin de pouvoir remonter réguliérement des informations
 	sur l'état des salles de cours. Les capteurs seront par exemple des détecteurs de
 	lumières, de pression, de qualité de l'air, ...
 	\par
@@ -19,7 +20,7 @@
 \section{Présentation de la réalisation}
 	\subsection{Présentation de la partie web}
 		\par
-		La partie Web du projet offre une interface de supervision et de monitoring des capteurs. En effet, nous avons pens� qu'il ne suffisait pas de r�ussir � envoyer des donn�es en Wifi par le biais des capteurs, il fallait aussi pouvoir r�cup�rer et stocker ces informations en vue d'un potentiel traitement. 
+		La partie Web du projet offre une interface de supervision et de monitoring des capteurs. En effet, nous avons pense qu'il ne suffisait pas de réussir à envoyer des données en Wifi par le biais des capteurs, il fallait aussi pouvoir récupérer et stocker ces informations en vue d'un potentiel traitement. 
 
 	\subsection{Présentation de la partie capteur}
 		\subsubsection{Le hardware}
@@ -29,20 +30,20 @@
 		pas cherché à intégrer la solution mais plutôt à la développer en terme
 		de fonctionnalités. De ce fait le prototype est assez volumineux mais
 		sa taille peut aisément être réduite en utilisant des solutions à base
-		de composants CMS notemment ce qui permettrait de réduire de manière
+		de composants CMS notamment ce qui permettrait de réduire de manière
 		significative l'encombrement de l'appareil.
 		\par
 		Le prototype final se compose donc de trois éléments principaux. Le coeur
 		du système est réalisé avec un Arduino Uno. Une platine de développement
-		sur microcontrôleur basée sur un ATmega328P de chez Atmel. C'est dans cet
+		sur microcontroleur basée sur un ATmega328P de chez Atmel. C'est dans cet
 		Arduino qu'est flashé le programme du capteur. Vient en suite la partie
 		qui prend en charge le WiFi, il s'agit d'un shield WiFi de chez GoTronic
-		basée sur la puce WizFi210 de WizNet, cette dernière est interfacée avec
+		basé sur la puce WizFi210 de WizNet, cette dernière est interfacée avec
 		l'Arduino via le port série. Enfin la dernière partie est un protoshield
 		sur lequel est placé une breadboard sur laquelle sont enfichés les composants
-		avec lesquels l'Arduino peut intéragir, à savoir :
+		avec lesquels l'Arduino peut interagir, à savoir :
 		\begin{itemize}
-			\item Une photorésistance pour capter la luminosité
+			\item Une photorésistante pour capter la luminosité
 			\item Un capteur TMP36 de température
 			\item Une RTC (Real Time Clock) DS1302
 		\end{itemize}
