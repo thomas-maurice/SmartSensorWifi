@@ -69,6 +69,8 @@ class Configurator:
 	sensorUpdateButton = None
 	sensorImportButton = None
 	networkTypeCombo = None
+	dataServerIP = None
+	dataServerHost = None
 	
 	def __init__(self):
 		"""
@@ -91,6 +93,8 @@ class Configurator:
 		# The sensor stuff
 		self.sensorIDEntry = self.windowTree.get_widget("sensorIDEntry")
 		self.sensorPasswordEntry = self.windowTree.get_widget("sensorPasswordEntry")
+		self.dataServerHost = self.windowTree.get_widget("dataServerHost")
+		self.dataServerIP = self.windowTree.get_widget("dataServerIP")
 		
 		# The network stuff
 		self.dhcpCheckbox = self.windowTree.get_widget("dhcpCheckbox")
@@ -198,6 +202,10 @@ class Configurator:
 					self.gatewayEntry.set_text(resp.split("=")[1])
 				elif "AT+NMSK" in resp.split("=")[0]:
 					self.netmaskEntry.set_text(resp.split("=")[1])
+				elif "AT+IPDB" in resp.split("=")[0]:
+					self.dataServerIP.set_text(resp.split("=")[1])
+				elif "AT+HOSTDB" in resp.split("=")[0]:
+					self.dataServerHost.set_text(resp.split("=")[1])
 				elif "AT+ID" in resp.split("=")[0]:
 					self.sensorIDEntry.set_text(resp.split("=")[1])
 				elif "AT+PW" in resp.split("=")[0]:
@@ -277,6 +285,13 @@ class Configurator:
 		else:
 			newConfiguration += "AT+ID=" + self.sensorIDEntry.get_text() + "\n"
 			newConfiguration += "AT+PW=" + self.sensorPasswordEntry.get_text() + "\n"
+		
+		if self.dataServerHost.get_text() == "" or self.dataServerIP.get_text() == "":
+			self.error("Cannot validate input", "You must enter a data server IP/Host !")
+			return
+		
+		newConfiguration += "AT+IPDB=" + self.dataServerIP.get_text() + "\n"
+		newConfiguration += "AT+HOSTDB=" + self.dataServerHost.get_text() + "\n"
 		
 		if self.networkTypeCombo.get_active_text() == None:
 			self.error("Cannot validate input", "You must select a network security !")
