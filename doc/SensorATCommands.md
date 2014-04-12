@@ -33,6 +33,8 @@ onto your database server.
 
  * `AT+ID` : Changes the ID of the sensor to access the website
  * `AT+PW` : Changes it's password
+ * `AT+IPDB` : Changes the IP of the data server
+ * `AT+HOSTDB` : Changes the hostname of the data server
 
 ### Network configuration
  
