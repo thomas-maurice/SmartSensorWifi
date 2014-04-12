@@ -128,3 +128,65 @@
 		\subsubsection{Principales difficultés rencontrées}
 		
 	\subsection{Configurator.py}
+	
+	\subsection{Tentative de substitution par une solution a base de RaspberryPi}
+		Comme la carte WizFi tardait à arriver, nous avons pensés opter pour une solution alternative
+		pour réaliser le capteur, à base d'une RaspberryPi. Certes la solution était un peu surdimensionnée
+		pour ce que l'on voulait en faire, mais comme cela on aurait eu quelque chose de fonctionnel
+		à montrer lors de la soutenance. L'idée était d'utiliser les GPIO de la Raspberry pour
+		l'interfacer avec le monde exterieur.
+		\par
+		Malheureusement la RaspberryPi est un appareil qui ne dispose pas d'entrées analogique,
+		ce qui est assez peu pratique pour lire une température ou une luminosité de la même manière que
+		sur un ATmega. Nous avons donc du recourir à un ADC externe fonctionnant suivant le protocole SPI,
+		ce qui tombait plutôt bien puisque la Raspberry est équipée d'une inetrface SPI lui permettant
+		de contrôler jusqu'à deux esclaves. Pour notre problème nous avons opté pour l'ADC MCP3208 de
+		MicroChip. Pourquoi celui là ? Tout simplement parce qu'il dispose de huit canaux analogiques ce qui
+		permet une grande variété de capteurs, mais également parce qu'il peut fonctionner en 3v3, tension à
+		laquelle fonctionne également la Raspberry, comme ça on évite de la griller.
+		\par
+		J'ai donc réalisé une carte et un PCB pour réaliser cette alternative, mais également
+		la couche logicielle qui va avec. J'ai en effet développé une classe en C++ qui
+		encapsule tout les appels systèmes permettant d'écrire et de lire sur le port SPI
+		de la raspberry, en full duplex. J'ai en réalité réalisé deux classes, une classe
+		SPI qui est la classe mère, comprenant seulement les routines d'initialisation et d'écriture
+		du port SPI, et une SPI\_MCP3208 qui comprend les commandes spécifiées dans la datasheet
+		du composant.
+		\par
+		Pour information, cette classe et le programme d'exemple sont disponibles sur GitHub et la
+		documentation est disponible à l'addresse spécifiée dans le wiki du projet.
+		\par
+		Cela dit, il y a eu un problème, il était que les données renvoyées par l'ADC étaient
+		totalement incohérentes. Le fait est qu'à luminosité égale, si on lançait 10 acquisitions
+		nous pouvions obtenir des écarts de plus de 3000 (sur 4095 d'amplitude) entre
+		deux valeurs, quand bien même la luminosité ne variait pas. Le plus déroutant
+		dans tout ça c'est que le problème n'avait pas l'air de venir de notre logiciel,
+		dans la mesure ou nous étions parfaitement capable, avec la même couche logicielle,
+		de piloter d'autre appareils SPI fonctionnant en esclave (comme un afficheur 4x7
+		segments de chez SparkFun par exemple). La seconde chose la plus dérourante était
+		que les données étaient cohérentes du point de vue du fonctionnement du composant
+		tel que décris dans la datasheet. Je m'explique, une trame classique de communication avec
+		l'ADC se compose comme il suit (schématiquement) :
+		\\
+		\texttt{4 bits de commande | deux bits de sample | 12 bits de résultat MSB first}\\
+
+		Le fait est que d'après la datasheet en continuant à envoyer des coups d'horloge
+		au composant après le dernier bit de donnée, le composant va nous renvoyer le
+		resultat de la conversion mais LSB first. On récupère donc le symétrique des données
+		par rapport au LSB. Après avoir analysé plusieurs séquences nous avons pu constater que
+		l'erreur ne venait pas de comment nous récupérions nos données puisqu'elles étaient
+		correctes du point de vue de la datasheet mais totalement abérantes d'un point de vue physique.
+		\par
+		L'erreur ne venait pas non plus du hardware puisqu'un rapide coup d'oeuil à l'oscilloscope nous a
+		permis de constater que la tension sur la patte de l'ADC évoluait bien comme elle le devait.
+		Le mystère est resté entier puisqu'après nous avons reçus la carte WizFi et nous avons pu commencer
+		à travailler dessus, cette solution a donc été abandonnée. Cela dit, nous avions déjà commencé à
+		réfléchir aux technologies que nous aurions pu mettre en place pour réaliser la solution, qui auraient été :
+		\begin{itemize}
+			\item Un programme de lecture des données appelé par cron à intervalle régulier (un bête script bash
+			qui lit le port SPI et conditionne les données en POST par exemple pour les envoyer au site de Benoît)
+			\item Une application Web similaire à celle de Benoît mais ne concernant que les données locales
+			de l'appareil, qui aurait permis de modifier les paramètres de mises à jour/sécurité tout
+			simplement depuis un navigateur. Nous avions pensés à la réaliser en Python avec CherryPy un
+			excellent framework python très léger, et évidemment Ink pour le design. 
+		\end{itemize}
