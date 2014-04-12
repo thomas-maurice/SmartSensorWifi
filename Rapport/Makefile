@@ -12,4 +12,4 @@ rebuild: nuke all
 	ps2pdf $(shell basename $< .tex).ps
 
 nuke:
-	rm -rf *.pdf *.ps *.dvi *.aux *.log *.tns *.out *.toc
+	rm -rf $(PDF) *.ps *.dvi *.aux *.log *.tns *.out *.toc
