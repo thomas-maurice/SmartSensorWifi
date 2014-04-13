@@ -112,7 +112,7 @@ Ex : DELETE  captors FROM captors WHERE timestamp  <  ?
 	\par
 	La plus grosse partie du site consiste à faire interagir l'utilisateur avec la base de données. Cependant, il existe une page de site (recup.php) qui n'interagit pas avec l'utilisateur mais avec les capteurs. Celle ci reçoit des informations des capteurs (via POST), vérifie si le capteur a le droit de mettre à jour les données et effectue l'insertion dans la base.
 	\par
-	Cette page n'a pas seulement l'utilité de mise à jour, elle s'occupe aussi de la conversion des données de température. On s'est aperçu que les mesures brutes des capteurs n'était pas pertinentes et qu'il fallait multiplier les valeurs par 0,647 pour obtenir une valeur correcte.
+	Cette page n'a pas seulement l'utilité de mise à jour, elle s'occupe aussi de la conversion des données de température. On s'est aperçu que les mesures brutes des capteurs venant de l'adc devait être multipliées par un coefficient (0,647) pour obtenir une valeur cohérente en température. Cette multiplication n'étant pas faite par l'Arduino (pour le soulager un peu), on a choisi  de donner cette tâche à PHP.
 	\par
 	En dernier lieu, cette page se charge de nettoyer la table de données des capteurs en supprimer toute entrée datant de la veille via la fonction \href{http://www.php.net/manual/fr/function.date.php}{Date de PHP.}
 	\subsubsection{Du dynamisme : Javascript} 
