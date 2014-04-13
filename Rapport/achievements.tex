@@ -21,7 +21,23 @@
 	\subsection{Présentation de la partie web}
 		\par
 		La partie Web du projet offre une interface de supervision et de monitoring des capteurs. En effet, nous avons pense qu'il ne suffisait pas de réussir à envoyer des données en Wifi par le biais des capteurs, il fallait aussi pouvoir récupérer et stocker ces informations en vue d'un potentiel traitement. 
-
+		\par
+		On a donc décidé de récupérer ces informations dans une base de données qui serait gérée par une plateforme Web.
+		\subsubsection{La base de données}
+		\par
+		La base de données que nous avons utilisée est celle offerte par Polytech'Lille, comme à chaque étudiant de l'école. Nous avons donc opté pour une base MySQL avec le panneau d'administration PHPMyAdmin. Le choix de MySQL est simplement justifié par une meilleure connaissance et habitude des requêtes et commandes SQL, contrairement à PosgreSQL (bien qu'il y ait peu de différences).
+		\subsubsection{La plateforme Web}
+		\par
+		L'accès à la plateforme se fait via l'url suivante : \href{http://smartsensorwifi.plil.net}{Smart Sensor Wifi.}
+		\\%
+		Le site n'est pas en mode sécurisé (https) pour une raison simple : le shield Wifi ne supporte pas l'https dans le firmware actuel (celui livré de base). C'est donc pour cela que nous avons choisi de le mettre en http simple (bien qu'il puisse être basculé en https très rapidement et simplement sans poser aucun souci de compatibilité).
+		\par
+		Au niveau langage de programmation, le site est en HTML et PHP. Nous avons choisi le PHP, plutôt que le Python ou autre, car le PHP était plus familier et offrait toutes les opérations nécessaires. De plus, une petite partie du site utilise du Javascript afin de rendre plus dynamique et interactif le site.
+		\par
+		Au niveau design, nous avons décidé d'utiliser deux frameworks libres : Ink et Chart.js. Le premier gère le design global du site et le second est utile à la création de graphiques. Nous avons décidé d'utiliser des framework afin de rendre le site plus propre et d'offrir à l'utilisateur un outil visuellement agréable à utiliser.
+		\par
+		Au niveau technique, la plateforme est un simple intermédiaire entre, d'une part les capteurs et la base de données, et d'autre part, les utilisateurs et la base de données. D'un côté, le site récupère les informations que les capteurs lui envoie et stocke ces données dans la base. De l'autre côté,  à travers différents boutons et champs, l'utilisateur peut récupérer les informations qu'il désire.
+		
 	\subsection{Présentation de la partie capteur}
 		\subsubsection{Le hardware}
 		\par
