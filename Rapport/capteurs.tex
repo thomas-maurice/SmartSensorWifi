@@ -1,7 +1,7 @@
 \section{Détail de la conception de la partie microcontrôleur du projet}
 	\subsection{Le capteur}
 		Lors de la réalisation du senseur il a fallu en premier lieu se fixer
-		des objectifs à atteindre, afin d'être sur d'aller dans une direction
+		des objectifs à atteindre, afin d'être sûr d'aller dans une direction
 		cohérente tout au long du projet. De  ce fait nous avons choisi d'opter pour
 		la réalisation d'un prototype fonctionnel et relativement simple au début.
 		Par relativement simple, nous entendions capable de lire un ou deux capteurs
@@ -11,7 +11,7 @@
 		écartant volontairement, par manque de temps, des considérations annexes
 		comme la gestion de l'énergie ou la mise en place immédiate de capteurs
 		très complexes. Le but était réellement de fournir une base saine sur laquelle
-		il serait facile de se baser à l'avenir.
+		il serait facile de s'appuyer à l'avenir.
 		
 		\subsubsection{La partie électronique}
 		
@@ -44,10 +44,10 @@
 		nous avons commencé à les développer une à une, en lançant à chaque fois une
 		série de tests sur ce que nous avions créé, de manière à nous assurer que tout
 		était bien conforme à ce que nous attendions. De cette manière nous pouvions
-		réutiliser sans crainte du code que nous avions précédemment écrit puisqu'il
+		réutiliser sans crainte le code que nous avions précédemment écrit puisqu'il
 		avait été validé par une batterie de tests.
 		\par
-		Une attention toute particulière a été portée à la doc. En effet si nous
+		Une attention toute particulière a été portée à la documentation. En effet si nous
 		souhaitons que le projet puisse être repris les années suivantes il
 		est indispensable de fournir une documentation valable, fiable et complète
 		de manière à ce que n'importe qui ou presque soit en mesure de comprendre
@@ -63,7 +63,7 @@
 		La seconde partie du projet, qui n'est au final même pas utilisée dans le prototype
 		actuel, a été la réalisation d'un driver pour la real time clock de Maxim DS1302.
 		Ce driver a été implémenté en utilisant le protocole de communication 3-Wire décrit dans
-		la datasheet, c'est un protocole similaire au protocole SPI mais suffisemment différent de celui ci
+		la datasheet, c'est un protocole similaire au protocole SPI mais suffisamment différent de celui ci
 		pour ne pas pouvoir utiliser le contrôleur SPI de l'Arduino. Le driver est fonctionnel et
 		permet d'accéder aux registres de temps de la RTC ainsi qu'aux quelques octets de RAM qu'elle
 		nous fourni en plus, ce qui peut être pratique si jamais l'arduino venait à en manquer. Toutes
@@ -77,12 +77,12 @@
 		comme le composant n'était disponible qu'en format SOIC8 et que nous n'avons pas réalisé la carte
 		il nous a été impossible de l'intégrer correctement. Une amélioration possible et très facile à
 		mettre en oeuvre pour le projet serait donc l'intégration de cette flash et l'utilisation
-		de la RTC pour soumettre en différé des données de mesures qui n'aurais pas pu être
+		de la RTC pour soumettre en différé des données de mesures qui n'auraient pas pu être
 		transmises à temps.
 		\par
 		La troisième partie du projet a été consacrée à faire en sorte que la configuration du capteur
 		soit persistante entre les reboots. Durant les phases de développement nous ne nous étions pas
-		vraiment occupé de cela mais dès que le programme est devenu plus compliqué il est devenu
+		vraiment occupés de cela mais dès que le programme est devenu plus compliqué il est devenu
 		essentiel de stocker certains paramètres (d'identifications notamment) autrement qu'en dur
 		dans le code. Il a donc fallu ajouter un module de gestion de l'EEPROM. La structure suivante a donc
 		été choisie pour stocker des données :
@@ -94,7 +94,7 @@
 		
 		Cette solution présente l'avantage d'être très simple à mettre en place d'un point de vue
 		logiciel, ce système souffre cependant d'un gros problème qui est que l'on ne peut
-		pas connaitre de manière dynamique la taille maximale des données que l'on peut ranger
+		pas connaître de manière dynamique la taille maximale des données que l'on peut ranger
 		dans un segment. Ce qui implique que le programmeur fasse très attention aux données qu'il
 		manipule, de manière à ne pas provoquer de débordement sur un autre segment. Ceci dit,
 		ce problème n'est pas vraiment critique puisqu'une simple réécriture de la configuration
@@ -108,7 +108,7 @@
 		ensemble et l'envoyer sur internet. Pour se faire, il a d'abord fallu comprendre comment
 		fonctionnait la carte WiFi. La datasheet n'étant pas toujours très claire, ni très complète
 		il a d'abord fallu passer par une phase \og{} d'exploration \fg{} de la carte via le port
-		série, de manière à comprendre précisément ce qu'elle attendais de nous en terme de commandes.
+		série, de manière à comprendre précisément ce qu'elle attendait de nous en terme de commandes.
 		La carte se configurait finalement par un set de commandes AT via le port série et malgré
 		les quelques imprécisions de la datasheet nous avons finalement été capables de nous identifier
 		sur un réseau spécialement créé pour l'occasion.
@@ -117,7 +117,7 @@
 		A partir de là a été développé une petite bibliothèque qui intègre les fonctions réseau de base,
 		à savoir s'identifier sur un réseau avec des paramètres donnés, soumettre des requêtes HTTP et
 		vérifier le retour des commandes AT de manière à réitérer plusieurs fois une tentative de connexion
-		qui aurait échouée. Cette bibliothèque fonctionne sur le port série via une scrutation, elle n'utilise
+		qui aurait échoué. Cette bibliothèque fonctionne sur le port série via une scrutation, elle n'utilise
 		pas d'interruptions pour avoir plus de contrôle et intercepter tout ce qui circule sur le port série
 		et le conserver au sein du même contexte (il est préférable que le retour d'une commande reste interceptée
 		par la fonction qui l'a émise plutôt que de devoir passer par une interruption globale et deviner
@@ -129,7 +129,7 @@
 		été trop long et gourmand à mettre en place niveau mémoire (les données post doivent avoir
 		une longueur définie et il faut encoder les caractères "{:," qui sont très utilisées dans une
 		chaine JSON ce qui aurait rendu l'envoi des données affreuse). Du coup nous avons opté pour un
-		format d'envoi en post classique. Voici par exemple la requete POST que le capteur "cap1" doté du mot de passe
+		format d'envoi en post classique. Voici par exemple la requête POST que le capteur "cap1" doté du mot de passe
 		"coucoutuveuxvoirmadata" aurait envoyé :
 		
 		\begin{verbatim}
@@ -141,14 +141,14 @@
     temp=140&lum=17&mid=cap1&mpass=coucoutuveuxvoirmadata
 		\end{verbatim}
 		
-		\par Notons que les valeurs envoyées peuvent paraitre étranges, mais elle ne sont que la lecture
+		\par Notons que les valeurs envoyées peuvent paraître étranges, mais elle ne sont que la lecture
 		directe du CAN de l'ATmega, la serveur les traitera pour les transformer en température ou
 		déterminer le seuil de luminosité. Ainsi on décharge le microcontrôleur d'une partie
 		du travail.
 		
 		\subsubsection{Reconfiguration du capteur}
 		Une fois que le projet est capable de communiquer avec l'appli web, de soumettre
-		des données, de se connecter à un réseau et ce genre de chose il ne luimanque pas beaucoup de fonctionnalités.
+		des données, de se connecter à un réseau et ce genre de chose il ne lui manque pas beaucoup de fonctionnalités.
 		Ceci dit une fonctionnalité indispensable s'est vite faite ressentir :
 		le besoin de pouvoir reconfigurer le capteur à distance. En effet, le
 		seul moyen de reconfigurer le capteur était en modifiant en dur dans le code les identifiants et
@@ -180,20 +180,20 @@
 		réalisé en python avec pygtk, glade2 et pyserial.
 	
 	\subsection{Tentative de substitution par une solution a base de RaspberryPi}
-		Comme la carte WizFi tardait à arriver, nous avons pensés opter pour une solution alternative
+		Comme la carte WizFi tardait à arriver, nous avons pensé opter pour une solution alternative
 		pour réaliser le capteur, à base d'une RaspberryPi. Certes la solution était un peu surdimensionnée
 		pour ce que l'on voulait en faire, mais comme cela on aurait eu quelque chose de fonctionnel
 		à montrer lors de la soutenance. L'idée était d'utiliser les GPIO de la Raspberry pour
 		l'interfacer avec le monde exterieur.
 		\par
-		Malheureusement la RaspberryPi est un appareil qui ne dispose pas d'entrées analogique,
+		Malheureusement la RaspberryPi est un appareil qui ne dispose pas d'entrées analogiques,
 		ce qui est assez peu pratique pour lire une température ou une luminosité de la même manière que
-		sur un ATmega. Nous avons donc du recourir à un ADC externe fonctionnant suivant le protocole SPI,
+		sur un ATmega. Nous avons donc dû recourir à un ADC externe fonctionnant suivant le protocole SPI,
 		ce qui tombait plutôt bien puisque la Raspberry est équipée d'une inetrface SPI lui permettant
 		de contrôler jusqu'à deux esclaves. Pour notre problème nous avons opté pour l'ADC MCP3208 de
 		MicroChip. Pourquoi celui là ? Tout simplement parce qu'il dispose de huit canaux analogiques ce qui
 		permet une grande variété de capteurs, mais également parce qu'il peut fonctionner en 3v3, tension à
-		laquelle fonctionne également la Raspberry, comme ça on évite de la griller.
+		laquelle fonctionne également la Raspberry, ainsi on évite de la griller.
 		\par
 		J'ai donc réalisé une carte et un PCB pour réaliser cette alternative, mais également
 		la couche logicielle qui va avec. J'ai en effet développé une classe en C++ qui
@@ -203,33 +203,33 @@
 		du port SPI, et une SPI\_MCP3208 qui comprend les commandes spécifiées dans la datasheet
 		du composant.
 		\par
-		Pour information, cette classe et le programme d'exemple sont disponibles sur GitHub et la
+		Pour information, cette classe et le programme d'exemples sont disponibles sur GitHub et la
 		documentation est disponible à l'addresse spécifiée dans le wiki du projet.
 		\par
 		Cela dit, il y a eu un problème, il était que les données renvoyées par l'ADC étaient
 		totalement incohérentes. Le fait est qu'à luminosité égale, si on lançait 10 acquisitions
 		nous pouvions obtenir des écarts de plus de 3000 (sur 4095 d'amplitude) entre
 		deux valeurs, quand bien même la luminosité ne variait pas. Le plus déroutant
-		dans tout ça c'est que le problème n'avait pas l'air de venir de notre logiciel,
-		dans la mesure ou nous étions parfaitement capable, avec la même couche logicielle,
+		dans tout cela c'est que le problème n'avait pas l'air de venir de notre logiciel,
+		dans la mesure ou nous étions parfaitement capables, avec la même couche logicielle,
 		de piloter d'autre appareils SPI fonctionnant en esclave (comme un afficheur 4x7
 		segments de chez SparkFun par exemple). La seconde chose la plus dérourante était
 		que les données étaient cohérentes du point de vue du fonctionnement du composant
-		tel que décris dans la datasheet. Je m'explique, une trame classique de communication avec
+		tel que décrit dans la datasheet. Je m'explique, une trame classique de communication avec
 		l'ADC se compose comme il suit (schématiquement) :
 		\\
 		\texttt{4 bits de commande | deux bits de sample | 12 bits de résultat MSB first}\\
 
 		Le fait est que d'après la datasheet en continuant à envoyer des coups d'horloge
 		au composant après le dernier bit de donnée, le composant va nous renvoyer le
-		resultat de la conversion mais LSB first. On récupère donc le symétrique des données
+		résultat de la conversion mais LSB first. On récupère donc le symétrique des données
 		par rapport au LSB. Après avoir analysé plusieurs séquences nous avons pu constater que
-		l'erreur ne venait pas de comment nous récupérions nos données puisqu'elles étaient
-		correctes du point de vue de la datasheet mais totalement abérantes d'un point de vue physique.
+		l'erreur ne venait pas de la manière dont nous récupérions nos données puisqu'elles étaient
+		correctes du point de vue de la datasheet mais totalement aberrantes d'un point de vue physique.
 		\par
-		L'erreur ne venait pas non plus du hardware puisqu'un rapide coup d'oeuil à l'oscilloscope nous a
+		L'erreur ne venait pas non plus du hardware puisqu'un rapide coup d'oeil à l'oscilloscope nous a
 		permis de constater que la tension sur la patte de l'ADC évoluait bien comme elle le devait.
-		Le mystère est resté entier puisqu'après nous avons reçus la carte WizFi et nous avons pu commencer
+		Le mystère est resté entier puisqu'après nous avons reçu la carte WizFi et nous avons pu commencer
 		à travailler dessus, cette solution a donc été abandonnée. Cela dit, nous avions déjà commencé à
 		réfléchir aux technologies que nous aurions pu mettre en place pour réaliser la solution, qui auraient été :
 		\begin{itemize}
