@@ -42,7 +42,7 @@ SPI_MCP3208::SPI_MCP3208(std::string spifile, int speed, int mode, int bits_p_wo
  * Returns a value on the given channel
  * 
  * \param [in] single_ended Do we proceed to a single ended or differential conversion ?
- * \param [in] chanel The channel to convert. In differential mode see the datasheet for the values
+ * \param [in] channel The channel to convert. In differential mode see the datasheet for the values
  * 
  * \returns The value returned by the ADC (between 0 and 2^12)
  */

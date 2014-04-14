@@ -35,8 +35,19 @@
  * 
  * It enables you to realize full duplex SPI communications between your
  * program and any SPI device.
+ *
+ * See the mainpage for an exemple of usage
+ */ 
+
+/**
+ * \mainpage
+ *
+ * This project aims to make easy the interafcing of SPI devices with your RaspberryPi
+ * or any SPI-enabled device. It provides a base class (called simply SPI) that
+ * provides basic functionalities and can be inherited from to manipulate some
+ * more complex devices.
  * 
- * So all you need to do is to redefine a new class like it follows :
+ *  So all you need to do is to redefine a new class like it follows :
  * 
  * \code {.cpp}
  * 
@@ -91,7 +102,7 @@
  * \endcode
  * 
  * This is way more easy than doing it the [spidev way](http://lxr.free-electrons.com/source/drivers/spi/spidev.c), isn't it ?
- */ 
+ */
 #ifndef SPI_PORT_H
 #define SPI_PORT_H
 
