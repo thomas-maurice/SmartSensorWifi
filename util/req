@@ -1,0 +1,6 @@
+POST /recup.php HTTP/1.0
+Host: smartsensorwifi.plil.net
+Content-type: application/x-www-form-urlencoded
+Content-length: 20
+
+temp=240&lum=140      
